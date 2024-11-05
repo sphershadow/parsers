@@ -159,22 +159,17 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100vh; /* Full viewport height */
 }
 
 #div_signin_container {
   margin: 0;
   padding: 0;
-  overflow: hidden;
-  min-height: 100vh; /* Minimum height to avoid collapse */
-  height: calc(
-    100vh - env(safe-area-inset-bottom)
-  ); /* Adjust for safe areas, especially on iOS */
+  height: 100vh; /* Set to full height initially */
   width: 100%;
   background-image: url(assets/images/background_images/ctu_argao_banner_600px.jpg);
   background-size: cover;
   background-repeat: no-repeat;
-  background-attachment: fixed;
   background-position: center;
   background-color: #fefefe;
   display: flex;
@@ -182,7 +177,6 @@ body {
   align-items: center;
   flex-direction: column;
 }
-
 #header_signin_container {
   margin: 0;
   padding: 0;
