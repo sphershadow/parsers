@@ -9,7 +9,7 @@ loadHomepage();
 
 function loadHomepage() {
     window.addEventListener("load", function () {
-        document.getElementById("loading_animation_div").style.display = "none";
+        //document.getElementById("loading_animation_div").style.display = "none";
         this.document.body.style.display = "flex";
     });
 }
