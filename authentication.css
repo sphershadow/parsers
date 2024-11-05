@@ -159,6 +159,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }
 
 #div_signin_container {

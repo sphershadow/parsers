@@ -177,7 +177,7 @@ body {
   -ms-overflow-style: none; /* IE and Edge */
 }
 
-body::-webkit-scrollbar {
+*::-webkit-scrollbar {
   display: none; /* Safari and Chrome */
 }
 
