@@ -40,13 +40,13 @@ function showError(message) {
 //   }
 // }
 
-window.addEventListener("resize", () => {
-  // Get the current height of the window
-  const currentHeight = window.innerHeight;
+// Set the custom --app-height variable on load and resize
+function setAppHeight() {
+  document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
+}
 
-  // Set a custom CSS variable with the current height
-  document.documentElement.style.setProperty('--app-height', `${currentHeight}px`);
-});
+window.addEventListener('resize', setAppHeight);
+window.addEventListener('load', setAppHeight);
 
 
 const signin = document.getElementById("signin_btn");
