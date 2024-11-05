@@ -159,17 +159,18 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full viewport height */
 }
 
 #div_signin_container {
   margin: 0;
   padding: 0;
-  height: 100vh; /* Set to full height initially */
-  width: 100%;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vh;
   background-image: url(assets/images/background_images/ctu_argao_banner_600px.jpg);
   background-size: cover;
   background-repeat: no-repeat;
+  background-attachment: fixed;
   background-position: center;
   background-color: #fefefe;
   display: flex;
@@ -177,6 +178,7 @@ body {
   align-items: center;
   flex-direction: column;
 }
+
 #header_signin_container {
   margin: 0;
   padding: 0;

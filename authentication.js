@@ -40,16 +40,6 @@ function showError(message) {
 //   }
 // }
 
-function adjustContainerHeight() {
-  const container = document.getElementById('div_signin_container');
-  container.style.height = `${window.innerHeight}px`;
-}
-
-// Call on load
-adjustContainerHeight();
-
-// Adjust height on resize (keyboard opening/closing)
-window.addEventListener('resize', adjustContainerHeight);
 
 
 const signin = document.getElementById("signin_btn");
