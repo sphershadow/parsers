@@ -17,9 +17,6 @@
   font-family: Inter-Regular;
   font-size: 14px;
   color: #2e3845;
-  overflow: hidden;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
 }
 
 *::-webkit-scrollbar {
