@@ -159,6 +159,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  display: none;
 }
 
 #div_signin_container {
