@@ -23,10 +23,6 @@
   --app-height: 100vh; /* Default value */
 }
 
-body {
-  height: var(--app-height); /* Use the custom variable for responsive height */
-}
-
 /* BUTTONS */
 #signupasuser_btn {
   border: none;
@@ -185,6 +181,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  height: var(--app-height);
 }
 
 #header_signin_container {

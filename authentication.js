@@ -40,20 +40,13 @@ function showError(message) {
 //   }
 // }
 
-function setAppHeight() {
-  const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-  document.documentElement.style.setProperty('--app-height', `${viewportHeight}px`);
-}
+window.addEventListener("resize", () => {
+  // Get the current height of the window
+  const currentHeight = window.innerHeight;
 
-// Set height on load and attach listener for changes
-setAppHeight();
-
-// Listen for visual viewport changes (keyboard pop-up) and resize events
-if (window.visualViewport) {
-  window.visualViewport.addEventListener('resize', setAppHeight);
-} else {
-  window.addEventListener('resize', setAppHeight);
-}
+  // Set a custom CSS variable with the current height
+  document.documentElement.style.setProperty('--app-height', `${currentHeight}px`);
+});
 
 
 const signin = document.getElementById("signin_btn");
