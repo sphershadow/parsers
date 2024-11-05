@@ -173,6 +173,12 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }
 
 #div_signup_container {
