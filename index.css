@@ -2,21 +2,14 @@
   font-family: "Inter-MediumItalic";
   src: url(assets/fonts/Inter-MediumItalic.otf);
 }
-
-* {
-  font-family: Inter-Regular;
-  font-size: 14px;
-  color: #2e3845;
-}
-
 body {
   margin: 0;
   padding: 0;
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: blue;
+  background-color: #fefefe;
 }
 #loading_animation_div {
   height: 95%;
@@ -26,6 +19,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  z-index: 1000;
 }
 #loading_animation_gif {
   height: 15px;
