@@ -40,13 +40,10 @@ function showError(message) {
 //   }
 // }
 
-// Set the custom --app-height variable on load and resize
-function setAppHeight() {
-  document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
-}
-
-window.addEventListener('resize', setAppHeight);
-window.addEventListener('load', setAppHeight);
+window.addEventListener('resize', () => {
+  const divSignInContainer = document.getElementById('div_signin_container');
+  divSignInContainer.style.height = `${window.innerHeight}px`;
+});
 
 
 const signin = document.getElementById("signin_btn");
