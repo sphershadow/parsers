@@ -19,6 +19,14 @@
   color: #2e3845;
 }
 
+:root {
+  --app-height: 100vh; /* Default value */
+}
+
+body {
+  height: var(--app-height); /* Use the custom variable for responsive height */
+}
+
 /* BUTTONS */
 #signupasuser_btn {
   border: none;

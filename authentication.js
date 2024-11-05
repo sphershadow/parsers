@@ -41,12 +41,13 @@ function showError(message) {
 // }
 
 window.addEventListener("resize", () => {
-  // Update your layout or elements based on window.innerHeight here
+  // Get the current height of the window
   const currentHeight = window.innerHeight;
 
-  // Apply styles or adjustments as needed for the new height
-  document.documentElement.style.setProperty('100vh', `${currentHeight}px`);
+  // Set a custom CSS variable with the current height
+  document.documentElement.style.setProperty('--app-height', `${currentHeight}px`);
 });
+
 
 const signin = document.getElementById("signin_btn");
 signin.addEventListener("click", (event) => {
