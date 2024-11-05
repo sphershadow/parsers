@@ -40,7 +40,13 @@ function showError(message) {
 //   }
 // }
 
+window.addEventListener("resize", () => {
+  // Update your layout or elements based on window.innerHeight here
+  const currentHeight = window.innerHeight;
 
+  // Apply styles or adjustments as needed for the new height
+  document.documentElement.style.setProperty('100vh', `${currentHeight}px`);
+});
 
 const signin = document.getElementById("signin_btn");
 signin.addEventListener("click", (event) => {
