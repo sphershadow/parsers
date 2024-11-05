@@ -40,12 +40,22 @@ function showError(message) {
 //   }
 // }
 
-window.addEventListener("resize", () => {
+function setAppHeight() {
   // Get the current height of the window
   const currentHeight = window.innerHeight;
 
-  // Set a custom CSS variable with the current height
+  // Set the custom CSS variable with the current height
   document.documentElement.style.setProperty('--app-height', `${currentHeight}px`);
+}
+
+// Set the height on initial load
+setAppHeight();
+
+// Update the height on resize with a debounce to handle keyboard pop-up correctly
+let resizeTimeout;
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(setAppHeight, 100); // Delay to ensure proper height is set
 });
 
 
