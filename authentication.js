@@ -41,22 +41,19 @@ function showError(message) {
 // }
 
 function setAppHeight() {
-  // Get the current height of the window
-  const currentHeight = window.innerHeight;
-
-  // Set the custom CSS variable with the current height
-  document.documentElement.style.setProperty('--app-height', `${currentHeight}px`);
+  const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+  document.documentElement.style.setProperty('--app-height', `${viewportHeight}px`);
 }
 
-// Set the height on initial load
+// Set height on load and attach listener for changes
 setAppHeight();
 
-// Update the height on resize with a debounce to handle keyboard pop-up correctly
-let resizeTimeout;
-window.addEventListener("resize", () => {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(setAppHeight, 100); // Delay to ensure proper height is set
-});
+// Listen for visual viewport changes (keyboard pop-up) and resize events
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', setAppHeight);
+} else {
+  window.addEventListener('resize', setAppHeight);
+}
 
 
 const signin = document.getElementById("signin_btn");
