@@ -24,7 +24,7 @@ function setScreenSize() {
   document.body.style.width = screenWidth + 'px';
 
 }
-
+setScreenSize();
 
 
 const signin = document.getElementById("signin_btn");
