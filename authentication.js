@@ -16,29 +16,14 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 
-// Get modal elements
-const modal = document.getElementById("errorModal");
-const closeModal = document.getElementById("closeModal");
-const errorMessage = document.getElementById("errorMessage");
 
-// Function to show the error modal
-function showError(message) {
-  errorMessage.textContent = message; // Set the error message
-  modal.style.display = "flex"; // Show the modal
-  modal.style.opacity = "100";
+function setScreenSize() {
+  const screenWidth = window.screen.width;
+  const screenHeight = window.screen.height;
+  document.body.style.height = screenHeight + 'px';
+  document.body.style.width = screenWidth + 'px';
+
 }
-
-// Close the modal when the close button is clicked
-// closeModal.onclick = function () {
-//   modal.style.display = "none";
-// }
-
-// // Close the modal when clicking outside of it
-// window.onclick = function (event) {
-//   if (event.target === modal) {
-//     modal.style.display = "none";
-//   }
-// }
 
 
 
@@ -46,21 +31,6 @@ const signin = document.getElementById("signin_btn");
 signin.addEventListener("click", (event) => {
   var email = document.getElementById("username_txt").value;
   var password = document.getElementById("password_txt").value;
-
-  // if (!password && !email) {
-  //   showError("Please enter your email and password.");
-  //   return;
-  // }
-
-  // if (!email) {
-  //   showError("Please enter your email.");
-  //   return;
-  // }
-  // if (!password) {
-  //   showError("Please enter your password.");
-  //   return;
-  // }
-
 
   const auth = getAuth();
   signInWithEmailAndPassword(auth, email, password)
@@ -70,29 +40,20 @@ signin.addEventListener("click", (event) => {
     })
     .catch((error) => {
       const errorCode = error.code;
-      // let message = ""; // Initialize message variable
-
       if (errorCode === "auth/missing-password") {
-        // message = "Please enter your password.";  // Show missing password error
-        alert('Please enter your password.');
+        alert('auth/missing-password');
       }
 
       if (errorCode === "auth/invalid-email") {
-        // message = "The email address is not valid.";  // Show invalid email error
-        alert('Please enter your email.');
+        alert('auth/invalid-email');
       }
 
       if (errorCode === "auth/wrong-password" || errorCode === "auth/user-not-found") {
-        // message = "The email or password is incorrect.";  // Show credentials mismatch error
+        alert('auth/wrong-password');
       }
 
       if (errorCode === "auth/invalid-credential") {
-        // message = "Invalid credentials provided."; // Show invalid credentials error
-        alert('Invalid credentials provided.');
+        alert('auth/invalid-credential');
       }
-
-      // if (message) {
-      //   showError(message); // Show the error message in the modal
-      // }
     });
 });
