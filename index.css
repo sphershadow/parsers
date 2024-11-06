@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "Inter-Regular";
+  src: url("assets/fonts/Inter-Regular.otf");
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -6,7 +11,10 @@ body {
   align-items: center;
   flex-direction: column;
   background-color: #fefefe;
+  width: 100vw;
+  height: 100vh;
 }
+
 #loading_animation_div {
   height: 95%;
   width: 90%;
@@ -17,21 +25,15 @@ body {
   flex-direction: column;
   z-index: 1000;
 }
+
 #loading_animation_gif {
   height: 50px;
   width: 50px;
 }
+
 #parsing_lbl {
-  font-family: Inter-MediumItalic;
+  font-family: Inter-Regular;
   color: #f30505;
   margin-top: 15px;
   font-size: 12px;
-}
-
-@font-face {
-  font-family: "Inter-MediumItalic";
-  src: url("assets/fonts/Inter-MediumItalic.otf") format("otf");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
 }
