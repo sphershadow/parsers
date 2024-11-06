@@ -6,7 +6,7 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: blue;
+  background-color: #fefefe;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,6 +22,7 @@ body {
   width: 90%;
   height: 100%;
   background-color: transparent;
+  display: none;
 }
 
 #header_login_div {

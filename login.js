@@ -1,10 +1,18 @@
 
 //tasks
-setScreenSize(window.innerWidth, window.innerHeight);
-setLoginBodyHeight(window.innerHeight);
+loadLoginPage();
 
 
 //functions
+function loadLoginPage() {
+    window.addEventListener("load", function () {
+        setScreenSize(window.innerWidth, window.innerHeight);
+        setLoginBodyHeight(window.innerHeight);
+        document.getElementById("login_div").style.display = "block";
+
+    });
+}
+
 function setScreenSize(width, height) {
     document.body.style.width = width + "px";
     document.body.style.height = height + "px";
