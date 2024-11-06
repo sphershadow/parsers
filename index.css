@@ -18,8 +18,8 @@ body {
   z-index: 1000;
 }
 #loading_animation_gif {
-  height: 15px;
-  width: 120px;
+  height: 50px;
+  width: 50px;
 }
 #parsing_lbl {
   font-family: Inter-MediumItalic;
