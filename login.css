@@ -10,7 +10,10 @@
   font-family: "Inter-Light";
   src: url("assets/fonts/Inter-light.otf");
 }
-
+@font-face {
+  font-family: "Inter-Bold";
+  src: url("assets/fonts/Inter-Bold.otf");
+}
 * {
   font-family: Inter-Regular;
   font-size: 14px;
@@ -99,7 +102,7 @@ body {
   color: #fefefe;
   font-size: 14px;
   z-index: 1;
-  font-family: Inter-Regular;
+  font-family: Inter-Bold;
 }
 
 #title_body_login_div {
@@ -135,6 +138,7 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-top: 25px;
+  overflow: hidden;
 }
 #password_container {
   display: flex;
@@ -146,6 +150,7 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-top: 15px;
+  overflow: hidden;
 }
 
 #login_btn {
