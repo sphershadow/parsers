@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "Inter-Regular";
+  src: url("assets/fonts/Inter-Regular.otf");
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -6,18 +11,26 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-image: url(assets/ctu_argao_banner_600px.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
 }
 
 #login_div {
   width: 90%;
   height: 100%;
-  background-color: aqua;
+  background-color: transparent;
 }
 
 #header_login_div {
   width: 100%;
   height: 90px;
-  background-color: brown;
+  background-color: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
 #body_login_div {
@@ -28,5 +41,22 @@ body {
 #footer_login_div {
   height: 120px;
   width: 100%;
-  background-color: yellow;
+  background-color: transparent;
+}
+
+#parseit_icon_img {
+  width: 35px;
+  height: 35px;
+}
+
+#createaccount_btn {
+  border: none;
+  background-color: #007aff;
+  height: 30px;
+  width: 120px;
+  border-radius: 40px;
+  color: #fefefe;
+  font-size: 13px;
+  z-index: 1;
+  font-family: Inter-Regular;
 }
