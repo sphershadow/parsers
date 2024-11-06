@@ -20,6 +20,6 @@ function setScreenSize(width, height) {
 }
 
 function setLoginBodyHeight(height) {
-    const bodyheight = height - 210;
+    const bodyheight = height - 230;
     document.getElementById("body_login_div").style.height = bodyheight + "px";
 }
