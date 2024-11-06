@@ -5,11 +5,12 @@ loadLoginPage();
 
 //functions
 function loadLoginPage() {
+    document.body.style.backgroundImage = "url(assets/ctu_argao_banner_600px.jpg)";
     window.addEventListener("load", function () {
         setScreenSize(window.innerWidth, window.innerHeight);
         setLoginBodyHeight(window.innerHeight);
         document.getElementById("login_div").style.display = "block";
-
+        document.getElementById("loading_animation_div").style.display = "none";
     });
 }
 
