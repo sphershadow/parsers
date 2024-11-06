@@ -102,7 +102,7 @@ body {
   color: #fefefe;
   font-size: 14px;
   z-index: 1;
-  font-family: Inter-Bold;
+  font-family: Inter-Regular;
 }
 
 #title_body_login_div {
@@ -164,6 +164,7 @@ body {
   align-items: center;
   margin-top: 15px;
   color: #fefefe;
+  font-family: Inter-Bold;
 }
 
 #email_txt,
