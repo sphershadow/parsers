@@ -27,7 +27,7 @@ loadLoginPage();
 document.getElementById("login_btn").addEventListener("click", function () {
     const email = document.getElementById("email_txt").value;
     const password = document.getElementById("password_txt").value;
-    loginUser(email, password);
+    //loginUser(email, password);
 
 });
 
