@@ -26,29 +26,46 @@ loadLoginPage();
 //listeners
 document.getElementById("login_btn").addEventListener("click", function () {
     const email = document.getElementById("email_txt").value;
-    const password = document.getElementById("password_txt").value;
+    const password = document.getElementById("password_txt").value
+    const email_border = document.getElementById("email_container");
+    const password_border = document.getElementById("password_container");
 
     if (!email || email.trim() === "") {
-        alert("Please enter your email.");
+        email_border.style.border = "1px solid red";
+        email_border.style.animation = "shake 0.3s ease-in-out";
+
+        password_border.style.border = "1px solid #e0e0e0";
+        password_border.style.animation = "none";
         return;
     }
     if (!password || password.trim() === "") {
-        alert("Please enter your password.");
+        password_border.style.border = "1px solid red";
+        password_border.style.animation = "shake 0.3s ease-in-out";
+
+        email_border.style.border = "1px solid #e0e0e0";
+        email_border.style.animation = "none";
         return;
     }
 
     signInWithEmailAndPassword(auth, email, password).then((userCredentials) => {
-        alert('logged in');
+        window.location.href = "homepage.html";
         return;
 
     }).catch((error) => {
         const errorCode = error.code;
         if (errorCode === "auth/invalid-email") {
-            alert('auth/invalid-email');
+            email_border.style.border = "1px solid red";
+            email_border.style.animation = "shake 0.3s ease-in-out";
+
+            password_border.style.border = "1px solid #e0e0e0";
+            password_border.style.animation = "none";
             return;
         }
-        if (errorCode === "auth/user-not-found") {
-            alert('auth/user-not-found');
+        if (errorCode === "auth/invalid-credential") {
+            email_border.style.border = "1px solid red";
+            email_border.style.animation = "shake 0.3s ease-in-out";
+            password_border.style.border = "1px solid red";
+            password_border.style.animation = "shake 0.3s ease-in-out";
             return;
         }
     });
