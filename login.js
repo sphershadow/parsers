@@ -27,8 +27,31 @@ loadLoginPage();
 document.getElementById("login_btn").addEventListener("click", function () {
     const email = document.getElementById("email_txt").value;
     const password = document.getElementById("password_txt").value;
-    //loginUser(email, password);
 
+    if (!email || email.trim() === "") {
+        alert("Please enter your email.");
+        return;
+    }
+    if (!password || password.trim() === "") {
+        alert("Please enter your password.");
+        return;
+    }
+
+    signInWithEmailAndPassword(auth, email, password).then((userCredentials) => {
+        alert('logged in');
+        return;
+
+    }).catch((error) => {
+        const errorCode = error.code;
+        if (errorCode === "auth/invalid-email") {
+            alert('auth/invalid-email');
+            return;
+        }
+        if (errorCode === "auth/user-not-found") {
+            alert('auth/user-not-found');
+            return;
+        }
+    });
 });
 
 
@@ -54,29 +77,3 @@ function setLoginBodyHeight(height) {
     document.getElementById("body_login_div").style.height = bodyheight + "px";
 }
 
-function loginUser(email, password) {
-    if (!email || email.trim() === "") {
-        alert("Please enter your email.");
-        return;
-    }
-    if (!password || password.trim() === "") {
-        alert("Please enter your password.");
-        return;
-    }
-
-    signInWithEmailAndPassword(auth, email, password).then((userCredentials) => {
-        alert('logged in');
-        return;
-
-    }).catch((error) => {
-        const errorCode = error.code;
-        if (errorCode === "auth/invalid-email") {
-            alert('auth/invalid-email');
-            return;
-        }
-        if (errorCode === "auth/user-not-found") {
-            alert('auth/user-not-found');
-            return;
-        }
-    });
-}
