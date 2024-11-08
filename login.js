@@ -18,14 +18,12 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
 //pre-tasks
-document.body.style.backgroundImage = "url(assets/ctu_argao_banner_600px.jpg)";
 setScreenSize(window.innerWidth, window.innerHeight);
 setLoginBodyHeight(window.innerHeight);
 document.getElementById("login_div").style.display = "block";
-document.getElementById("loading_animation_div").style.display = "none";
+//document.getElementById("loading_animation_div").style.display = "none";
 
 //listeners
-
 
 document.getElementById("login_btn").addEventListener("click", function () {
     const email = document.getElementById("email_txt").value;

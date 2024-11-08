@@ -27,7 +27,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-image: none;
+  background-image: url(assets/ctu_argao_banner_600px.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -35,7 +35,7 @@ body {
   overflow: hidden;
 }
 
-#loading_animation_div {
+/* #loading_animation_div {
   height: 100vh;
   width: 100vw;
   background-color: #fefefe;
@@ -44,7 +44,7 @@ body {
   align-items: center;
   flex-direction: column;
   z-index: 1000;
-}
+} */
 
 #loading_animation_gif {
   height: 50px;
