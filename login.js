@@ -29,10 +29,10 @@ document.getElementById("login_btn").addEventListener("click", async function ()
     const password = document.getElementById("password_txt").value.trim();
     const emailBorder = document.getElementById("email_container");
     const passwordBorder = document.getElementById("password_container");
-    resetStyle(emailBorder);
-    resetStyle(passwordBorder);
+
 
     if (!email) {
+
         applyErrorStyle(emailBorder);
         resetStyle(passwordBorder);
         return;
