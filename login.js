@@ -24,52 +24,43 @@ document.getElementById("login_div").style.display = "block";
 //document.getElementById("loading_animation_div").style.display = "none";
 
 //listeners
+document.getElementById("login_btn").addEventListener("click", async function () {
+    const email = document.getElementById("email_txt").value.trim();
+    const password = document.getElementById("password_txt").value.trim();
+    const emailBorder = document.getElementById("email_container");
+    const passwordBorder = document.getElementById("password_container");
+    resetStyle(emailBorder);
+    resetStyle(passwordBorder);
 
-document.getElementById("login_btn").addEventListener("click", function () {
-    const email = document.getElementById("email_txt").value;
-    const password = document.getElementById("password_txt").value
-    const email_border = document.getElementById("email_container");
-    const password_border = document.getElementById("password_container");
-
-    if (!email || email.trim() === "") {
-        email_border.style.border = "1px solid red";
-        email_border.style.animation = "shake 0.3s ease-in-out";
-
-        password_border.style.border = "1px solid #e0e0e0";
-        password_border.style.animation = "none";
+    if (!email) {
+        applyErrorStyle(emailBorder);
+        resetStyle(passwordBorder);
         return;
-    }
-    if (!password || password.trim() === "") {
-        password_border.style.border = "1px solid red";
-        password_border.style.animation = "shake 0.3s ease-in-out";
-
-        email_border.style.border = "1px solid #e0e0e0";
-        email_border.style.animation = "none";
+    } else if (!password) {
+        applyErrorStyle(passwordBorder);
+        resetStyle(emailBorder);
         return;
     }
 
-    signInWithEmailAndPassword(auth, email, password).then((userCredentials) => {
+    try {
+        const userCredentials = await signInWithEmailAndPassword(auth, email, password);
         localStorage.setItem("user-parser", email);
         window.location.href = "homepage.html";
-
-    }).catch((error) => {
+    } catch (error) {
         const errorCode = error.code;
-        if (errorCode === "auth/invalid-email") {
-            email_border.style.border = "1px solid red";
-            email_border.style.animation = "shake 0.3s ease-in-out";
-
-            password_border.style.border = "1px solid #e0e0e0";
-            password_border.style.animation = "none";
-            return;
+        switch (errorCode) {
+            case "auth/invalid-email":
+                applyErrorStyle(emailBorder);
+                resetStyle(passwordBorder);
+                break;
+            case "auth/invalid-credential":
+                applyErrorStyle(emailBorder);
+                applyErrorStyle(passwordBorder);
+                break;
+            default:
+                console.error("An unexpected error occurred:", error);
         }
-        if (errorCode === "auth/invalid-credential") {
-            email_border.style.border = "1px solid red";
-            email_border.style.animation = "shake 0.3s ease-in-out";
-            password_border.style.border = "1px solid red";
-            password_border.style.animation = "shake 0.3s ease-in-out";
-            return;
-        }
-    });
+    }
 });
 
 
@@ -86,3 +77,12 @@ function setLoginBodyHeight(height) {
     document.getElementById("body_login_div").style.height = bodyheight + "px";
 }
 
+function applyErrorStyle(element) {
+    element.style.border = "1px solid red";
+    element.style.animation = "shake 0.3s ease-in-out";
+}
+
+function resetStyle(element) {
+    element.style.border = "1px solid #e0e0e0";
+    element.style.animation = "none";
+}
