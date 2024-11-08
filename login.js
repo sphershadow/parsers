@@ -22,7 +22,6 @@ const auth = getAuth();
 loadLoginPage();
 
 
-
 //listeners
 document.getElementById("login_btn").addEventListener("click", function () {
     const email = document.getElementById("email_txt").value;
