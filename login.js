@@ -30,9 +30,7 @@ document.getElementById("login_btn").addEventListener("click", async function ()
     const emailBorder = document.getElementById("email_container");
     const passwordBorder = document.getElementById("password_container");
 
-
     if (!email) {
-
         applyErrorStyle(emailBorder);
         resetStyle(passwordBorder);
         return;
