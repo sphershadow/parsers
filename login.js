@@ -47,8 +47,8 @@ document.getElementById("login_btn").addEventListener("click", function () {
     }
 
     signInWithEmailAndPassword(auth, email, password).then((userCredentials) => {
-        //localStorage.setItem("user-parser", email);
-        //window.location.href = "homepage.html";
+        localStorage.setItem("user-parser", email);
+        window.location.href = "homepage.html";
 
 
     }).catch((error) => {
