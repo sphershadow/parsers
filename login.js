@@ -2,7 +2,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/fireba
 import {
     getAuth,
     signInWithEmailAndPassword,
-    fetchSignInMethodsForEmail,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 
 const firebaseConfig = {
@@ -18,11 +17,16 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
-//tasks
-loadLoginPage();
-
+//pre-tasks
+document.body.style.backgroundImage = "url(assets/ctu_argao_banner_600px.jpg)";
+setScreenSize(window.innerWidth, window.innerHeight);
+setLoginBodyHeight(window.innerHeight);
+document.getElementById("login_div").style.display = "block";
+document.getElementById("loading_animation_div").style.display = "none";
 
 //listeners
+
+
 document.getElementById("login_btn").addEventListener("click", function () {
     const email = document.getElementById("email_txt").value;
     const password = document.getElementById("password_txt").value
@@ -73,15 +77,6 @@ document.getElementById("login_btn").addEventListener("click", function () {
 
 
 //functions
-function loadLoginPage() {
-    document.body.style.backgroundImage = "url(assets/ctu_argao_banner_600px.jpg)";
-    window.addEventListener("load", function () {
-        setScreenSize(window.innerWidth, window.innerHeight);
-        setLoginBodyHeight(window.innerHeight);
-        document.getElementById("login_div").style.display = "block";
-        document.getElementById("loading_animation_div").style.display = "none";
-    });
-}
 
 function setScreenSize(width, height) {
     document.body.style.width = width + "px";
