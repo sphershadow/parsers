@@ -50,7 +50,6 @@ document.getElementById("login_btn").addEventListener("click", function () {
         localStorage.setItem("user-parser", email);
         window.location.href = "homepage.html";
 
-
     }).catch((error) => {
         const errorCode = error.code;
         if (errorCode === "auth/invalid-email") {
