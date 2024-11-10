@@ -76,6 +76,7 @@ document.getElementById("login_btn").addEventListener("click", function () {
         }
     }).catch((error) => {
         applyErrorStyle(idBorder);
+        resetStyle(passwordBorder);
     });
 
 });
