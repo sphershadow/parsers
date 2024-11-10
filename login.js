@@ -62,7 +62,13 @@ document.getElementById("login_btn").addEventListener("click", function () {
 
     getParser(id).then(() => {
         if (parser[0].activated === "false") {
-
+            if (parser[0].temporarypass !== password) {
+                applyErrorStyle(passwordBorder);
+                resetStyle(idBorder);
+            }
+            else {
+                window.location.href = "homepage.html";
+            }
         }
         else {
             loginParser(parser[0].email, password);
