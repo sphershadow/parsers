@@ -3,7 +3,12 @@ import {
     getAuth,
     signInWithEmailAndPassword,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-
+import {
+    getDatabase,
+    ref,
+    get,
+    child,
+} from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyCFqgbA_t3EBVO21nW70umJOHX3UdRr9MY",
     authDomain: "parseit-8021e.firebaseapp.com",
@@ -16,49 +21,56 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
+const database = getDatabase(app);
+const dbRef = ref(database);
+
+//parser
+let parser = [{
+    activated: "",
+    email: "",
+    firstname: "",
+    lastname: "",
+    middlename: "",
+    suffix: "",
+    temporarypass: ""
+}];
+
+
 
 //pre-tasks
 setScreenSize(window.innerWidth, window.innerHeight);
 setLoginBodyHeight(window.innerHeight);
 document.getElementById("login_div").style.display = "block";
-//document.getElementById("loading_animation_div").style.display = "none";
+
 
 //listeners
-document.getElementById("login_btn").addEventListener("click", async function () {
-    const email = document.getElementById("email_txt").value.trim();
+document.getElementById("login_btn").addEventListener("click", function () {
+    const id = document.getElementById("id_txt").value.trim();
     const password = document.getElementById("password_txt").value.trim();
-    const emailBorder = document.getElementById("email_container");
+    const idBorder = document.getElementById("id_container");
     const passwordBorder = document.getElementById("password_container");
 
-    if (!email) {
-        applyErrorStyle(emailBorder);
+    if (!id) {
+        applyErrorStyle(idBorder);
         resetStyle(passwordBorder);
         return;
     } else if (!password) {
         applyErrorStyle(passwordBorder);
-        resetStyle(emailBorder);
+        resetStyle(idBorder);
         return;
     }
 
-    try {
-        const userCredentials = await signInWithEmailAndPassword(auth, email, password);
-        localStorage.setItem("user-parser", email);
-        window.location.href = "homepage.html";
-    } catch (error) {
-        const errorCode = error.code;
-        switch (errorCode) {
-            case "auth/invalid-email":
-                applyErrorStyle(emailBorder);
-                resetStyle(passwordBorder);
-                break;
-            case "auth/invalid-credential":
-                applyErrorStyle(emailBorder);
-                applyErrorStyle(passwordBorder);
-                break;
-            default:
-                console.error("An unexpected error occurred:", error);
+    getParser(id).then(() => {
+        if (parser[0].activated === "false") {
+            alert('not activated');
         }
-    }
+        else {
+            loginParser(parser[0].email, password);
+        }
+    }).catch((error) => {
+        console.error("Error occurred:", error);
+    });
+
 });
 
 
@@ -83,4 +95,54 @@ function applyErrorStyle(element) {
 function resetStyle(element) {
     element.style.border = "1px solid #e0e0e0";
     element.style.animation = "none";
+}
+
+function getParser(id) {
+    return new Promise((resolve, reject) => {
+        const dbRef = ref(database);
+        get(child(dbRef, "PARSEIT/administration/students/" + id))
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    parser[0].activated = snapshot.val().activated;
+                    parser[0].email = snapshot.val().email;
+                    parser[0].firstname = snapshot.val().firstname;
+                    parser[0].lastname = snapshot.val().lastname;
+                    parser[0].middlename = snapshot.val().middlename;
+                    parser[0].suffix = snapshot.val().suffix;
+                    parser[0].temporarypass = snapshot.val().temporarypass;
+                    resolve();
+                } else {
+                    alert('No data available');
+                    resolve();
+                }
+            })
+            .catch((error) => {
+                alert('Error getting user info');
+                reject(error);
+            });
+    });
+}
+
+async function loginParser(email, password) {
+    const idBorder = document.getElementById("id_container");
+    const passwordBorder = document.getElementById("password_container");
+    try {
+        const userCredentials = await signInWithEmailAndPassword(auth, email, password);
+        localStorage.setItem("user-parser", email);
+        window.location.href = "homepage.html";
+    } catch (error) {
+        const errorCode = error.code;
+        switch (errorCode) {
+            case "auth/invalid-email":
+                applyErrorStyle(idBorder);
+                resetStyle(passwordBorder);
+                break;
+            case "auth/invalid-credential":
+                applyErrorStyle(idBorder);
+                applyErrorStyle(passwordBorder);
+                break;
+            default:
+                console.error("An unexpected error occurred:", error);
+        }
+    }
 }
