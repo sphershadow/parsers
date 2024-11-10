@@ -62,7 +62,7 @@ document.getElementById("login_btn").addEventListener("click", function () {
 
     getParser(id).then(() => {
         if (parser[0].activated === "false") {
-            alert('not activated');
+            applyErrorStyle(passwordBorder);
         }
         else {
             loginParser(parser[0].email, password);
