@@ -132,11 +132,6 @@ body {
   margin-top: 25px;
   overflow: hidden;
 }
-
-.id_container_error {
-  animation: shake 0.3s ease-in-out;
-}
-
 #password_container {
   display: flex;
   background-color: transparent;
@@ -148,10 +143,6 @@ body {
   align-items: center;
   margin-top: 15px;
   overflow: hidden;
-}
-
-.password_container_error {
-  animation: shake 0.3s ease-in-out;
 }
 
 #login_btn {
