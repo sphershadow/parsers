@@ -35,7 +35,9 @@ let parser = [{
     temporarypass: ""
 }];
 
-
+//global variables
+const idBorder = document.getElementById("id_container");
+const passwordBorder = document.getElementById("password_container");
 
 //pre-tasks
 setScreenSize(window.innerWidth, window.innerHeight);
@@ -47,8 +49,6 @@ document.getElementById("login_div").style.display = "block";
 document.getElementById("login_btn").addEventListener("click", function () {
     const id = document.getElementById("id_txt").value.trim();
     const password = document.getElementById("password_txt").value.trim();
-    const idBorder = document.getElementById("id_container");
-    const passwordBorder = document.getElementById("password_container");
 
     if (!id) {
         applyErrorStyle(idBorder);
@@ -112,7 +112,8 @@ function getParser(id) {
                     parser[0].temporarypass = snapshot.val().temporarypass;
                     resolve();
                 } else {
-                    alert('No data available');
+                    applyErrorStyle(idBorder);
+                    resetStyle(passwordBorder);
                     resolve();
                 }
             })
@@ -124,8 +125,6 @@ function getParser(id) {
 }
 
 async function loginParser(email, password) {
-    const idBorder = document.getElementById("id_container");
-    const passwordBorder = document.getElementById("password_container");
     try {
         const userCredentials = await signInWithEmailAndPassword(auth, email, password);
         localStorage.setItem("user-parser", email);
