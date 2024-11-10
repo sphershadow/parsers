@@ -39,24 +39,25 @@ document.getElementById("login_btn").addEventListener("click", async function ()
         resetStyle(emailBorder);
 
     }
-
-    try {
-        const userCredentials = await signInWithEmailAndPassword(auth, email, password);
-        localStorage.setItem("user-parser", email);
-        window.location.href = "homepage.html";
-    } catch (error) {
-        const errorCode = error.code;
-        switch (errorCode) {
-            case "auth/invalid-email":
-                applyErrorStyle(emailBorder);
-                resetStyle(passwordBorder);
-                break;
-            case "auth/invalid-credential":
-                applyErrorStyle(emailBorder);
-                applyErrorStyle(passwordBorder);
-                break;
-            default:
-                console.error("An unexpected error occurred:", error);
+    else {
+        try {
+            const userCredentials = await signInWithEmailAndPassword(auth, email, password);
+            localStorage.setItem("user-parser", email);
+            window.location.href = "homepage.html";
+        } catch (error) {
+            const errorCode = error.code;
+            switch (errorCode) {
+                case "auth/invalid-email":
+                    applyErrorStyle(emailBorder);
+                    resetStyle(passwordBorder);
+                    break;
+                case "auth/invalid-credential":
+                    applyErrorStyle(emailBorder);
+                    applyErrorStyle(passwordBorder);
+                    break;
+                default:
+                    console.error("An unexpected error occurred:", error);
+            }
         }
     }
 });
