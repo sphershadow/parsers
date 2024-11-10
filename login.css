@@ -35,17 +35,6 @@ body {
   overflow: hidden;
 }
 
-/* #loading_animation_div {
-  height: 100vh;
-  width: 100vw;
-  background-color: #fefefe;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  z-index: 1000;
-} */
-
 #loading_animation_gif {
   height: 50px;
   width: 50px;
@@ -76,16 +65,18 @@ body {
 
 #body_login_div {
   width: 100%;
+  height: 100%;
   background-color: transparent;
 }
 
 #footer_login_div {
-  height: 140px;
   width: 100%;
   background-color: transparent;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
+  background-color: transparent;
+  margin-top: 25px;
 }
 
 #parseit_icon_img {
