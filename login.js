@@ -33,11 +33,11 @@ document.getElementById("login_btn").addEventListener("click", async function ()
     if (!email) {
         applyErrorStyle(emailBorder);
         resetStyle(passwordBorder);
-        return;
+
     } else if (!password) {
         applyErrorStyle(passwordBorder);
         resetStyle(emailBorder);
-        return;
+
     }
 
     try {
