@@ -61,17 +61,18 @@ document.getElementById("login_btn").addEventListener("click", function () {
     }
 
     getParser(id).then(() => {
-        if (parser[0].activated === "false") {
+        if (parser[0].activated === "no") {
             if (parser[0].temporarypass !== password) {
                 applyErrorStyle(passwordBorder);
                 resetStyle(idBorder);
             }
             else {
-                window.location.href = "homepage.html";
+                localStorage.setItem("activate-parser", parser[0].id);
+                window.location.href = "activate.html";
             }
         }
         else {
-            loginParser(parser[0].email, password);
+            loginParser(parser[0].email, password, id);
         }
     }).catch((error) => {
         applyErrorStyle(idBorder);
@@ -118,7 +119,6 @@ function getParser(id) {
                     parser[0].temporarypass = snapshot.val().temporarypass;
                     resolve();
                 } else {
-                    resetStyle(idBorder);
                     applyErrorStyle(idBorder);
                     resetStyle(passwordBorder);
                     resolve();
@@ -131,10 +131,10 @@ function getParser(id) {
     });
 }
 
-async function loginParser(email, password) {
+async function loginParser(email, password, id) {
     try {
         const userCredentials = await signInWithEmailAndPassword(auth, email, password);
-        localStorage.setItem("user-parser", email);
+        localStorage.setItem("user-parser", id);
         window.location.href = "homepage.html";
     } catch (error) {
         const errorCode = error.code;
