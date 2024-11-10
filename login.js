@@ -118,6 +118,7 @@ function getParser(id) {
                     parser[0].temporarypass = snapshot.val().temporarypass;
                     resolve();
                 } else {
+                    resetStyle(idBorder);
                     applyErrorStyle(idBorder);
                     resetStyle(passwordBorder);
                     resolve();
