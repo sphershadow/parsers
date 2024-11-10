@@ -33,31 +33,30 @@ document.getElementById("login_btn").addEventListener("click", async function ()
     if (!email) {
         applyErrorStyle(emailBorder);
         resetStyle(passwordBorder);
-
+        return;
     } else if (!password) {
         applyErrorStyle(passwordBorder);
         resetStyle(emailBorder);
-
+        return;
     }
-    else {
-        try {
-            const userCredentials = await signInWithEmailAndPassword(auth, email, password);
-            localStorage.setItem("user-parser", email);
-            window.location.href = "homepage.html";
-        } catch (error) {
-            const errorCode = error.code;
-            switch (errorCode) {
-                case "auth/invalid-email":
-                    applyErrorStyle(emailBorder);
-                    resetStyle(passwordBorder);
-                    break;
-                case "auth/invalid-credential":
-                    applyErrorStyle(emailBorder);
-                    applyErrorStyle(passwordBorder);
-                    break;
-                default:
-                    console.error("An unexpected error occurred:", error);
-            }
+
+    try {
+        const userCredentials = await signInWithEmailAndPassword(auth, email, password);
+        localStorage.setItem("user-parser", email);
+        window.location.href = "homepage.html";
+    } catch (error) {
+        const errorCode = error.code;
+        switch (errorCode) {
+            case "auth/invalid-email":
+                applyErrorStyle(emailBorder);
+                resetStyle(passwordBorder);
+                break;
+            case "auth/invalid-credential":
+                applyErrorStyle(emailBorder);
+                applyErrorStyle(passwordBorder);
+                break;
+            default:
+                console.error("An unexpected error occurred:", error);
         }
     }
 });
