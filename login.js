@@ -62,13 +62,13 @@ document.getElementById("login_btn").addEventListener("click", function () {
 
     getParser(id).then(() => {
         if (parser[0].activated === "false") {
-            applyErrorStyle(passwordBorder);
+
         }
         else {
             loginParser(parser[0].email, password);
         }
     }).catch((error) => {
-        console.error("Error occurred:", error);
+        applyErrorStyle(idBorder);
     });
 
 });
