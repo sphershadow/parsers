@@ -199,3 +199,10 @@ body {
     transform: translateX(0);
   }
 }
+
+@media screen and (max-width: 1024px) and (min-width: 768px),
+  screen and (max-width: 767px) and (orientation: landscape) {
+  body {
+    display: none;
+  }
+}
