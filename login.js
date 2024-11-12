@@ -67,7 +67,16 @@ document.getElementById("login_btn").addEventListener("click", function () {
                 resetStyle(idBorder);
             }
             else {
-                localStorage.setItem("activate-parser", parser[0].id);
+                let middleinitial = parser[0].middlename[0] + ".";
+                if (parser[0].suffix === "none") {
+                    parser[0].suffix = "";
+                }
+                localStorage.setItem("name-parser", parser[0].firstname + " " + middleinitial + " " + parser[0].lastname + " " + parser[0].suffix);
+                if (parser[0].middlename === "none") {
+                    localStorage.setItem("name-parser", parser[0].firstname + " " + parser[0].lastname + " " + parser[0].suffix);
+                }
+                localStorage.setItem("activate-parser", id);
+                localStorage.setItem("verificationcode-parser", generateUniqueID());
                 window.location.href = "activate.html";
             }
         }
@@ -152,4 +161,8 @@ async function loginParser(email, password, id) {
                 console.error("An unexpected error occurred:", error);
         }
     }
+}
+
+function generateUniqueID() {
+    return Math.random().toString(36).substr(2, 5);
 }
