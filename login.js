@@ -175,9 +175,11 @@ function generateUniqueID() {
 function showpassword() {
     document.getElementById("showpass_btn").style.display = "none";
     document.getElementById("hidepass_btn").style.display = "flex";
+    document.getElementById("password_txt").type = "text";
 }
 
 function hidepassword() {
     document.getElementById("showpass_btn").style.display = "flex";
     document.getElementById("hidepass_btn").style.display = "none";
+    document.getElementById("password_txt").type = "password";
 }
