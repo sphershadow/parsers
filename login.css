@@ -200,6 +200,34 @@ body {
   }
 }
 
+#showpass_btn {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#showpass_img {
+  width: 25px;
+  margin-right: 10px;
+  opacity: 20%;
+}
+
+#hidepass_btn {
+  border: none;
+  background-color: transparent;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+#hidepass_img {
+  width: 22px;
+  margin-right: 12px;
+  opacity: 50%;
+}
+
 /* landscape not available */
 @media screen and (max-width: 1024px) and (min-width: 768px),
   screen and (max-width: 767px) and (orientation: landscape) {

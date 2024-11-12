@@ -90,8 +90,13 @@ document.getElementById("login_btn").addEventListener("click", function () {
 
 });
 
+document.getElementById("showpass_btn").addEventListener("click", function () {
+    showpassword();
+});
 
-
+document.getElementById("hidepass_btn").addEventListener("click", function () {
+    hidepassword();
+});
 //functions
 
 function setScreenSize(width, height) {
@@ -165,4 +170,14 @@ async function loginParser(email, password, id) {
 
 function generateUniqueID() {
     return Math.random().toString(36).substr(2, 5);
+}
+
+function showpassword() {
+    document.getElementById("showpass_btn").style.display = "none";
+    document.getElementById("hidepass_btn").style.display = "flex";
+}
+
+function hidepassword() {
+    document.getElementById("showpass_btn").style.display = "flex";
+    document.getElementById("hidepass_btn").style.display = "none";
 }
