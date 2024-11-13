@@ -10,7 +10,7 @@ const emailparser = localStorage.getItem("email-parser");
 window.addEventListener("load", function () {
     document.getElementById("loading_animation_div").style.display = "none";
     setScreenSize(window.innerWidth, window.innerHeight);
-    sendVerificationCode(email, code);
+    sendVerificationCode(emailparser, generateUniqueID());
 });
 
 //processes
