@@ -35,10 +35,13 @@ const id = localStorage.getItem("activate-parser");
 window.addEventListener("load", function () {
     document.getElementById("loading_animation_div").style.display = "none";
     setScreenSize(window.innerWidth, window.innerHeight);
+    document.getElementById("verificationcode_div").style.display = "flex";
+
 
 });
 
 //processes
+disableResend();
 document.getElementById("userparser_lbl").innerHTML = userparser;
 document.getElementById("email_lbl").innerHTML = censorEmail(emailparser);
 sendVerificationCode(id, emailparser, generateUniqueID());
@@ -64,10 +67,9 @@ function censorEmail(email) {
 }
 
 function countdownVerification() {
-
     document.getElementById("resend_btn").disabled = true;
     document.getElementById("resend_btn").style.opacity = "50%";
-    let countdownNumber = 10;
+    let countdownNumber = 120;
 
     const countdownElement = document.getElementById("resend_btn");
     const countdownInterval = setInterval(() => {
@@ -111,4 +113,11 @@ function updateDBVerification(id, code) {
     update(ref(database, "PARSEIT/administration/students/" + id), {
         verificationcode: code,
     });
+}
+
+function disableResend() {
+    setTimeout(function () {
+        document.getElementById('resend_btn').disabled = false;
+        document.getElementById("resend_btn").style.opacity = "100%";
+    }, 60000);
 }
