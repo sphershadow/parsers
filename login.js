@@ -77,7 +77,7 @@ document.getElementById("login_btn").addEventListener("click", function () {
                     localStorage.setItem("name-parser", parser[0].firstname + " " + parser[0].lastname + " " + parser[0].suffix);
                 }
                 localStorage.setItem("activate-parser", id);
-
+                localStorage.setItem("email-parser", parser[0].email);
                 update(ref(database, "PARSEIT/administration/students/" + id), {
                     verificationcode: generateUniqueID(),
                 }).then((snapshot) => {
