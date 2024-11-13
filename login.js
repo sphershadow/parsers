@@ -8,6 +8,7 @@ import {
     ref,
     get,
     child,
+    update
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyCFqgbA_t3EBVO21nW70umJOHX3UdRr9MY",
@@ -76,8 +77,13 @@ document.getElementById("login_btn").addEventListener("click", function () {
                     localStorage.setItem("name-parser", parser[0].firstname + " " + parser[0].lastname + " " + parser[0].suffix);
                 }
                 localStorage.setItem("activate-parser", id);
-                localStorage.setItem("verificationcode-parser", generateUniqueID());
-                window.location.href = "activate.html";
+
+                update(ref(database, "PARSEIT/administration/students/" + id), {
+                    verificationcode: generateUniqueID(),
+                }).then((snapshot) => {
+                    window.location.href = "activate.html";
+                });;
+
             }
         }
         else {
@@ -182,4 +188,8 @@ function hidepassword() {
     document.getElementById("showpass_btn").style.display = "flex";
     document.getElementById("hidepass_btn").style.display = "none";
     document.getElementById("password_txt").type = "password";
+}
+
+function setVerificationcode(id) {
+
 }
