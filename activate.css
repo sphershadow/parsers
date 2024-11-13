@@ -22,6 +22,11 @@ body {
   background-color: #fefefe;
   width: 100vw;
   height: 100vh;
+  background-image: url(assets/ctu_argao_banner_600px.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
 }
 
 #loading_animation_div {
@@ -149,4 +154,26 @@ body {
   color: #000000;
   outline: none;
   text-decoration: none;
+}
+
+#verify_btn {
+  display: flex;
+  background-color: #f30505;
+  border: none;
+  border-radius: 7px;
+  height: 50px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  color: #fefefe;
+  font-family: Inter-Medium;
+}
+
+#resend_btn {
+  background-color: transparent;
+  border: none;
+  font-size: 10px;
+  margin-right: 3px;
+  color: #000000;
 }
