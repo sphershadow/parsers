@@ -35,12 +35,13 @@ const id = localStorage.getItem("activate-parser");
 window.addEventListener("load", function () {
     document.getElementById("loading_animation_div").style.display = "none";
     setScreenSize(window.innerWidth, window.innerHeight);
-    sendVerificationCode(id, emailparser, generateUniqueID());
+
 });
 
 //processes
 document.getElementById("userparser_lbl").innerHTML = userparser;
 document.getElementById("email_lbl").innerHTML = censorEmail(emailparser);
+sendVerificationCode(id, emailparser, generateUniqueID());
 
 document.getElementById("resend_btn").addEventListener("click", function () {
     countdownVerification();
@@ -99,10 +100,9 @@ function sendVerificationCode(id, email, code) {
 
     }).then((response) => {
         updateDBVerification(id, code);
-    })
-        .catch((error) => {
-            console.log('FAILED...', error);
-        });
+    }).catch((error) => {
+        console.log('FAILED...', error);
+    });
 
 
 }
@@ -110,7 +110,5 @@ function sendVerificationCode(id, email, code) {
 function updateDBVerification(id, code) {
     update(ref(database, "PARSEIT/administration/students/" + id), {
         verificationcode: code,
-    })
-
-    //.then((snapshot) => {});
+    });
 }
