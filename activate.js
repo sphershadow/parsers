@@ -35,8 +35,8 @@ const id = localStorage.getItem("activate-parser");
 window.addEventListener("load", function () {
     document.getElementById("loading_animation_div").style.display = "none";
     setScreenSize(window.innerWidth, window.innerHeight);
-    document.getElementById("verificationcode_div").style.display = "flex";
-
+    document.getElementById("verify_body_div").style.display = "block";
+    sendVerificationCode(id, emailparser, generateUniqueID());
 
 });
 
@@ -44,7 +44,6 @@ window.addEventListener("load", function () {
 disableResend();
 document.getElementById("userparser_lbl").innerHTML = userparser;
 document.getElementById("email_lbl").innerHTML = censorEmail(emailparser);
-sendVerificationCode(id, emailparser, generateUniqueID());
 
 document.getElementById("resend_btn").addEventListener("click", function () {
     countdownVerification();
@@ -99,7 +98,6 @@ function sendVerificationCode(id, email, code) {
     emailjs.send('service_g8cli5d', 'template_b0rhzue', {
         to_name: email,
         message: code,
-
     }).then((response) => {
         updateDBVerification(id, code);
     }).catch((error) => {
@@ -119,5 +117,5 @@ function disableResend() {
     setTimeout(function () {
         document.getElementById('resend_btn').disabled = false;
         document.getElementById("resend_btn").style.opacity = "100%";
-    }, 60000);
+    }, 30000);
 }
