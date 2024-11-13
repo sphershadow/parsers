@@ -78,11 +78,8 @@ document.getElementById("login_btn").addEventListener("click", function () {
                 }
                 localStorage.setItem("activate-parser", id);
                 localStorage.setItem("email-parser", parser[0].email);
-                update(ref(database, "PARSEIT/administration/students/" + id), {
-                    verificationcode: generateUniqueID(),
-                }).then((snapshot) => {
-                    window.location.href = "activate.html";
-                });
+                window.location.href = "activate.html";
+
 
             }
         }
@@ -174,9 +171,6 @@ async function loginParser(email, password, id) {
     }
 }
 
-function generateUniqueID() {
-    return Math.random().toString(36).substr(2, 5);
-}
 
 function showpassword() {
     document.getElementById("showpass_btn").style.display = "none";
