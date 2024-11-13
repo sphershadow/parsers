@@ -49,7 +49,10 @@ document.getElementById("resend_btn").addEventListener("click", function () {
     countdownVerification();
     sendVerificationCode(id, emailparser, generateUniqueID());
 });
-
+document.getElementById("verify_btn").addEventListener("click", function () {
+    const userinput_code = document.getElementById("verificationcode_txt").value;
+    submitVerificationCode(id, userinput_code);
+});
 
 
 //functions
@@ -118,4 +121,22 @@ function disableResend() {
         document.getElementById('resend_btn').disabled = false;
         document.getElementById("resend_btn").style.opacity = "100%";
     }, 30000);
+}
+
+function submitVerificationCode(id, code) {
+    const dbRef = ref(database);
+    get(child(dbRef, "PARSEIT/administration/students/" + id))
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                if (snapshot.val().verificationcode == code) {
+                    document.getElementById("verificationcode_div").style.border = "1px solid green";
+                }
+                else {
+                    document.getElementById("verificationcode_div").style.border = "1px solid red";
+                }
+            }
+        })
+        .catch((error) => {
+
+        });
 }
