@@ -118,7 +118,7 @@ function updateDBVerification(id, code) {
 
 function disableResend() {
 
-    let countdownNumber = 15;
+    let countdownNumber = 30;
     const countdownElement = document.getElementById("resend_btn");
     const countdownInterval = setInterval(() => {
         countdownElement.innerHTML = "Resend Code(" + countdownNumber + ")";
