@@ -22,7 +22,7 @@ body {
   background-color: #fefefe;
   width: 100vw;
   height: 100vh;
-  background-image: url(assets/ctu_argao_banner_600px.jpg);
+  background-image: none;
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -56,6 +56,7 @@ body {
   width: 85%;
   height: 100%;
   background-color: transparent;
+  display: none;
 }
 
 #header_verification_div {
@@ -111,7 +112,6 @@ body {
   background-color: transparent;
   width: 100%;
   margin-top: 30px;
-  display: none;
 }
 
 #email_lbl,

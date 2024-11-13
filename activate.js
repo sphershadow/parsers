@@ -33,11 +33,11 @@ const id = localStorage.getItem("activate-parser");
 
 //pre-tasks
 window.addEventListener("load", function () {
+    sendVerificationCode(id, emailparser, generateUniqueID());
     document.getElementById("loading_animation_div").style.display = "none";
     setScreenSize(window.innerWidth, window.innerHeight);
-    document.getElementById("verify_body_div").style.display = "block";
-    sendVerificationCode(id, emailparser, generateUniqueID());
-
+    document.getElementById("verification_div").style.display = "block";
+    document.body.style.backgroundImage = "url(assets/ctu_argao_banner_600px.jpg)";
 });
 
 //processes
