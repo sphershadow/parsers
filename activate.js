@@ -141,7 +141,7 @@ function submitVerificationCode(id, code) {
                 }
                 else {
                     document.getElementById("verificationcode_div").style.border = "1px solid red";
-                    document.getElementById("verificationcode_div").animation = "shake 0.3s ease-in-out";
+                    document.getElementById("verificationcode_div").style.animation = "shake 0.3s ease-in-out";
                 }
             }
         })
