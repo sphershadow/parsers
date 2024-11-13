@@ -117,7 +117,6 @@ function updateDBVerification(id, code) {
 }
 
 function disableResend() {
-
     let countdownNumber = 30;
     const countdownElement = document.getElementById("resend_btn");
     const countdownInterval = setInterval(() => {
@@ -138,10 +137,11 @@ function submitVerificationCode(id, code) {
         .then((snapshot) => {
             if (snapshot.exists()) {
                 if (snapshot.val().verificationcode == code) {
-                    document.getElementById("verificationcode_div").style.border = "1px solid green";
+
                 }
                 else {
                     document.getElementById("verificationcode_div").style.border = "1px solid red";
+                    document.getElementById("verificationcode_div").animation = "shake 0.3s ease-in-out";
                 }
             }
         })
