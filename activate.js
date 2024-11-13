@@ -117,10 +117,19 @@ function updateDBVerification(id, code) {
 }
 
 function disableResend() {
-    setTimeout(function () {
-        document.getElementById('resend_btn').disabled = false;
-        document.getElementById("resend_btn").style.opacity = "100%";
-    }, 30000);
+
+    let countdownNumber = 15;
+    const countdownElement = document.getElementById("resend_btn");
+    const countdownInterval = setInterval(() => {
+        countdownElement.innerHTML = "Resend Code(" + countdownNumber + ")";
+        countdownNumber--;
+        if (countdownNumber < 0) {
+            clearInterval(countdownInterval);
+            document.getElementById("resend_btn").disabled = false;
+            countdownElement.innerHTML = "Resend Code";
+            document.getElementById("resend_btn").style.opacity = "100%";
+        }
+    }, 1000);
 }
 
 function submitVerificationCode(id, code) {
