@@ -37,3 +37,35 @@ body {
   margin-top: 15px;
   font-size: 12px;
 }
+
+#verification_div {
+  width: 85%;
+  height: 100%;
+  background-color: blue;
+}
+
+#header_verification_div {
+  width: 100%;
+  height: 90px;
+  background-color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+#parseit_icon_img {
+  width: 35px;
+  height: 35px;
+}
+
+#cancel_btn {
+  border: none;
+  background-color: #007aff;
+  height: 30px;
+  width: 70px;
+  border-radius: 40px;
+  color: #fefefe;
+  font-size: 13px;
+  z-index: 1;
+  font-family: Inter-Regular;
+}

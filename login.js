@@ -82,7 +82,7 @@ document.getElementById("login_btn").addEventListener("click", function () {
                     verificationcode: generateUniqueID(),
                 }).then((snapshot) => {
                     window.location.href = "activate.html";
-                });;
+                });
 
             }
         }
@@ -188,8 +188,4 @@ function hidepassword() {
     document.getElementById("showpass_btn").style.display = "flex";
     document.getElementById("hidepass_btn").style.display = "none";
     document.getElementById("password_txt").type = "password";
-}
-
-function setVerificationcode(id) {
-
 }
