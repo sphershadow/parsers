@@ -81,6 +81,12 @@ document.getElementById("step4_btn").addEventListener("click", (event) => {
     hideSection(2, 3, 4, 1);
 });
 
+document.getElementById("step4_circle").addEventListener("click", (event) => {
+    event.preventDefault();
+    openSection(5);
+    hideSection(2, 3, 4, 1);
+});
+
 editdetails_btn.addEventListener("click", (event) => {
     event.preventDefault();
     openSignup();
