@@ -227,6 +227,7 @@ function openSignup() {
     document.body.style.backgroundImage = "none";
     openSection(1);
     hideSection(2, 3, 4, 5);
+    setDatePicker();
 }
 
 function openSection(a) {
@@ -244,4 +245,17 @@ function hideSection(b, c, d, e) {
         stepCircle.style.backgroundColor = "#fefefe";
         stepCircle.style.color = "#007AFF";
     });
+}
+
+function setDatePicker() {
+    var today = new Date();
+    var day = today.getDate();
+    var month = today.getMonth() + 1;
+    var year = today.getFullYear();
+
+    if (month < 10) month = '0' + month;
+    if (day < 10) day = '0' + day;
+    var currentDate = year + '-' + month + '-' + day;
+
+    document.getElementById('date').setAttribute('max', currentDate);
 }

@@ -370,3 +370,8 @@ h4 {
   border: none;
   background-color: transparent;
 }
+
+.datepicker {
+  background-color: #f30505;
+  padding-right: 12px;
+}
