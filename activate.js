@@ -81,11 +81,28 @@ document.getElementById("step4_btn").addEventListener("click", (event) => {
     hideSection(2, 3, 4, 1);
 });
 
+
+document.getElementById("step1_circle").addEventListener("click", (event) => {
+    event.preventDefault();
+    openSection(1);
+    hideSection(2, 3, 4, 5);
+});
+document.getElementById("step2_circle").addEventListener("click", (event) => {
+    event.preventDefault();
+    openSection(2);
+    hideSection(1, 3, 4, 5);
+});
+document.getElementById("step3_circle").addEventListener("click", (event) => {
+    event.preventDefault();
+    openSection(3);
+    hideSection(2, 1, 4, 5);
+});
 document.getElementById("step4_circle").addEventListener("click", (event) => {
     event.preventDefault();
-    openSection(5);
-    hideSection(2, 3, 4, 1);
+    openSection(4);
+    hideSection(2, 3, 5, 1);
 });
+
 
 editdetails_btn.addEventListener("click", (event) => {
     event.preventDefault();
