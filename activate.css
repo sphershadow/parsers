@@ -212,13 +212,13 @@ body {
   align-items: flex-end;
   flex-direction: column;
   width: 100%;
-  height: 100%;
-  margin-top: 60px;
+  height: auto;
+  margin-top: 50px;
 }
 
 #create-account-form {
   width: 100%;
-  height: fit-content;
+  height: auto;
   background-color: transparent;
 }
 
@@ -355,11 +355,18 @@ body {
   font-family: Inter-Medium;
 }
 
-p,
-#editdetails_btn {
+p {
   font-family: Inter-Regular;
 }
 h4 {
   font-family: Inter-Medium;
   margin: 0;
+}
+
+#editdetails_btn {
+  font-family: Inter-Regular;
+  width: 100%;
+  margin-top: 20px;
+  border: none;
+  background-color: transparent;
 }
