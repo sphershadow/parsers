@@ -248,6 +248,10 @@ function hideSection(b, c, d, e) {
 }
 
 function setDatePicker() {
+    flatpickr("#date", {
+        placeholder: "Enter Birthday",
+    });
+
     var today = new Date();
     var day = today.getDate();
     var month = today.getMonth() + 1;
