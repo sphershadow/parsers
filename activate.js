@@ -8,7 +8,8 @@ import {
     ref,
     get,
     child,
-    update
+    update,
+    remove
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyCFqgbA_t3EBVO21nW70umJOHX3UdRr9MY",
@@ -52,6 +53,10 @@ document.getElementById("resend_btn").addEventListener("click", function () {
 document.getElementById("verify_btn").addEventListener("click", function () {
     const userinput_code = document.getElementById("verificationcode_txt").value;
     submitVerificationCode(id, userinput_code);
+});
+
+document.getElementById("cancel_btn").addEventListener("click", function () {
+    removeDBVerification(id);
 });
 
 
@@ -116,6 +121,7 @@ function updateDBVerification(id, code) {
     });
 }
 
+
 function disableResend() {
     let countdownNumber = 30;
     const countdownElement = document.getElementById("resend_btn");
@@ -148,4 +154,14 @@ function submitVerificationCode(id, code) {
         .catch((error) => {
 
         });
+}
+
+
+function removeDBVerification(id) {
+    remove(ref(database, "PARSEIT/administration/students/" + id + "/verificationcode")).then(() => {
+        localStorage.removeItem("activate-parser");
+        localStorage.removeItem("email-parser");
+        localStorage.removeItem("name-parser");
+        window.location.href = "login.html";
+    });
 }
