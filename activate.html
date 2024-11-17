@@ -38,6 +38,143 @@
         </div>
       </div>
     </div>
+
+    <div id="div_fillout_container">
+      <div class="createbox">
+        <div class="header">
+          <h1>Create Account</h1>
+          <div class="steps-container">
+            <div class="steps">
+              <div class="step" id="step1_circle">1</div>
+              <div class="line"></div>
+              <div class="step" id="step2_circle">2</div>
+              <div class="line"></div>
+              <div class="step" id="step3_circle">3</div>
+              <div class="line"></div>
+              <div class="step" id="step4_circle">4</div>
+              <div class="line"></div>
+              <div class="step" id="step5_circle">5</div>
+            </div>
+          </div>
+        </div>
+
+        <form id="create-account-form">
+          <div class="step-container1" id="step1_cont" style="display: none">
+            <div class="input-group">
+              <div class="input-wrapper">
+                <input
+                  id="txtfirstname"
+                  type="text"
+                  placeholder="Enter First Name"
+                />
+              </div>
+              <div class="input-wrapper">
+                <input
+                  id="txtmidname"
+                  type="text"
+                  placeholder="Enter Middle Name"
+                />
+              </div>
+              <div class="input-wrapper">
+                <input
+                  id="txtlastname"
+                  type="text"
+                  placeholder="Enter Last Name"
+                />
+              </div>
+              <div class="input-wrapper">
+                <input
+                  id="txtsuffixname"
+                  type="text"
+                  placeholder="Enter Suffix"
+                />
+              </div>
+            </div>
+            <button id="step1_btn" class="next_btn">→</button>
+          </div>
+          <div class="step-container2" id="step2_cont" style="display: none">
+            <div class="input-group">
+              <div class="input-wrapper">
+                <input
+                  id="txtbirthmonth"
+                  type="text"
+                  placeholder="Enter Birth Month"
+                />
+              </div>
+              <div class="input-wrapper">
+                <input
+                  id="txtbirthday"
+                  type="text"
+                  placeholder="Enter Birth Day"
+                />
+              </div>
+              <div class="input-wrapper">
+                <input
+                  id="txtbirthyear"
+                  type="text"
+                  placeholder="Enter Birth Year"
+                />
+              </div>
+              <div class="input-wrapper">
+                <input
+                  id="txtcontact"
+                  type="text"
+                  placeholder="Enter Contact No."
+                />
+              </div>
+            </div>
+            <button id="step2_btn" class="next_btn">→</button>
+          </div>
+          <div class="step-container3" id="step3_cont">
+            <div class="input-group">
+              <h4>What people should call you?</h4>
+              <div class="input-wrapper">
+                <input
+                  id="txtusername"
+                  type="text"
+                  placeholder="Enter Username"
+                />
+              </div>
+            </div>
+            <button id="step3_btn" class="next_btn">→</button>
+          </div>
+          <div class="step-container4" id="step4_cont">
+            <h4>Confirm Details</h4>
+            <p>ID:<span id="confirm-id"></span></p>
+            <p>Email: <span id="confirm-email"></span></p>
+            <p>Name:<span id="confirm-name"></span></p>
+            <p>Birthday:<span id="confirm-birthday"></span></p>
+            <p>Age: <span id="confirm-age"></span></p>
+            <p>Username: <span id="confirm-username"></span></p>
+
+            <div class="button-group">
+              <button id="step5_btn" class="next_btn">→</button>
+              <button id="editdetails_btn">← Edit Details</button>
+            </div>
+          </div>
+          <div class="step-container5" id="step5_cont">
+            <div class="input-group">
+              <div class="input-wrapper">
+                <input
+                  id="txtpassword"
+                  type="text"
+                  placeholder="Enter Password"
+                />
+              </div>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  placeholder="Confirm Password"
+                  id="txtconfirmpass"
+                />
+              </div>
+            </div>
+            <button id="step4_btn" class="next_btn">→</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <script
       type="text/javascript"
       src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"

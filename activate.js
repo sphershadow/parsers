@@ -54,9 +54,41 @@ document.getElementById("verify_btn").addEventListener("click", function () {
     const userinput_code = document.getElementById("verificationcode_txt").value;
     submitVerificationCode(id, userinput_code);
 });
-
 document.getElementById("cancel_btn").addEventListener("click", function () {
     removeDBVerification(id);
+});
+
+//for activation
+document.getElementById("step1_btn").addEventListener("click", (event) => {
+    event.preventDefault();
+    openSection(2);
+    hideSection(1, 3, 4, 5);
+});
+document.getElementById("step2_btn").addEventListener("click", (event) => {
+    event.preventDefault();
+    openSection(3);
+    hideSection(2, 1, 4, 5);
+});
+document.getElementById("step3_btn").addEventListener("click", (event) => {
+    event.preventDefault();
+    openSection(4);
+    hideSection(2, 3, 1, 5);
+});
+
+document.getElementById("step4_btn").addEventListener("click", (event) => {
+    event.preventDefault();
+    openSection(5);
+    hideSection(2, 3, 4, 1);
+});
+
+editdetails_btn.addEventListener("click", (event) => {
+    event.preventDefault();
+    openSignup();
+});
+
+document.getElementById("step5_btn").addEventListener("click", (event) => {
+
+
 });
 
 
@@ -103,15 +135,16 @@ function sendVerificationCode(id, email, code) {
         });
     })();
 
-    emailjs.send('service_g8cli5d', 'template_b0rhzue', {
-        to_name: email,
-        message: code,
-    }).then((response) => {
-        updateDBVerification(id, code);
-    }).catch((error) => {
-        console.log('FAILED...', error);
-    });
+    updateDBVerification(id, code); //this supposed to go
 
+    // emailjs.send('service_g8cli5d', 'template_b0rhzue', {
+    //     to_name: email,
+    //     message: code,
+    // }).then((response) => {
+    //     updateDBVerification(id, code);
+    // }).catch((error) => {
+    //     console.log('FAILED...', error);
+    // });
 
 }
 
@@ -143,7 +176,7 @@ function submitVerificationCode(id, code) {
         .then((snapshot) => {
             if (snapshot.exists()) {
                 if (snapshot.val().verificationcode == code) {
-
+                    openSignup();
                 }
                 else {
                     document.getElementById("verificationcode_div").style.border = "1px solid red";
@@ -156,12 +189,36 @@ function submitVerificationCode(id, code) {
         });
 }
 
-
 function removeDBVerification(id) {
     remove(ref(database, "PARSEIT/administration/students/" + id + "/verificationcode")).then(() => {
         localStorage.removeItem("activate-parser");
         localStorage.removeItem("email-parser");
         localStorage.removeItem("name-parser");
         window.location.href = "login.html";
+    });
+}
+
+function openSignup() {
+    document.getElementById("verification_div").style.display = "none";
+    document.getElementById("div_fillout_container").style.display = "flex";
+    document.body.style.backgroundImage = "none";
+    openSection(1);
+    hideSection(2, 3, 4, 5);
+}
+
+function openSection(a) {
+    document.getElementById(`step${a}_cont`).style.display = "block";
+    document.getElementById(`step${a}_circle`).style.backgroundColor = "#007AFF";
+    document.getElementById(`step${a}_circle`).style.color = "#fefefe";
+}
+
+function hideSection(b, c, d, e) {
+    const steps = [b, c, d, e];
+    steps.forEach(step => {
+        const stepElement = document.getElementById(`step${step}_cont`);
+        const stepCircle = document.getElementById(`step${step}_circle`);
+        stepElement.style.display = "none";
+        stepCircle.style.backgroundColor = "#fefefe";
+        stepCircle.style.color = "#007AFF";
     });
 }
