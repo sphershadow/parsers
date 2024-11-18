@@ -114,6 +114,15 @@ document.getElementById("step5_btn").addEventListener("click", (event) => {
 
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    flatpickr("#birthday", {
+        dateFormat: "m/d/Y",
+        placeholder: "Enter Birthday",
+        maxDate: "today",
+        clickOpens: true,
+    });
+});
+
 
 //functions
 function setScreenSize(width, height) {
@@ -244,13 +253,5 @@ function hideSection(b, c, d, e) {
         stepElement.style.display = "none";
         stepCircle.style.backgroundColor = "#fefefe";
         stepCircle.style.color = "#007AFF";
-    });
-}
-
-function setDatePicker() {
-    flatpickr("#birthday", {
-        dateFormat: "m/d/Y",  // Custom date format
-        placeholder: "Enter Birthday",  // Placeholder text
-        maxDate: "today",  // Optionally limit the date range
     });
 }
