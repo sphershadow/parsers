@@ -224,6 +224,19 @@ function submitVerificationCode(id, code) {
                     document.getElementById("verificationcode_div").style.animation = "shake 0.3s ease-in-out";
                 }
             }
+            else {
+                get(child(dbRef, "PARSEIT/administration/teachers/" + id)).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        if (snapshot.val().verificationcode == code) {
+                            openSignup();
+                        }
+                        else {
+                            document.getElementById("verificationcode_div").style.border = "1px solid red";
+                            document.getElementById("verificationcode_div").style.animation = "shake 0.3s ease-in-out";
+                        }
+                    }
+                });
+            }
         })
         .catch((error) => {
 
