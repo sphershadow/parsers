@@ -248,18 +248,9 @@ function hideSection(b, c, d, e) {
 }
 
 function setDatePicker() {
-    flatpickr("#date", {
-        placeholder: "Enter Birthday",
+    flatpickr("#birthday", {
+        dateFormat: "m/d/Y",  // Custom date format
+        placeholder: "Enter Birthday",  // Placeholder text
+        maxDate: "today",  // Optionally limit the date range
     });
-
-    var today = new Date();
-    var day = today.getDate();
-    var month = today.getMonth() + 1;
-    var year = today.getFullYear();
-
-    if (month < 10) month = '0' + month;
-    if (day < 10) day = '0' + day;
-    var currentDate = year + '-' + month + '-' + day;
-
-    document.getElementById('date').setAttribute('max', currentDate);
 }
