@@ -33,7 +33,8 @@ let parser = [{
     lastname: "",
     middlename: "",
     suffix: "",
-    temporarypass: ""
+    temporarypass: "",
+    type: "",
 }];
 
 //global variables
@@ -125,27 +126,40 @@ function resetStyle(element) {
 function getParser(id) {
     return new Promise((resolve, reject) => {
         const dbRef = ref(database);
-        get(child(dbRef, "PARSEIT/administration/students/" + id))
-            .then((snapshot) => {
-                if (snapshot.exists()) {
-                    parser[0].activated = snapshot.val().activated;
-                    parser[0].email = snapshot.val().email;
-                    parser[0].firstname = snapshot.val().firstname;
-                    parser[0].lastname = snapshot.val().lastname;
-                    parser[0].middlename = snapshot.val().middlename;
-                    parser[0].suffix = snapshot.val().suffix;
-                    parser[0].temporarypass = snapshot.val().temporarypass;
-                    resolve();
-                } else {
-                    applyErrorStyle(idBorder);
-                    resetStyle(passwordBorder);
-                    resolve();
-                }
-            })
-            .catch((error) => {
-                alert('Error getting user info');
-                reject(error);
-            });
+        get(child(dbRef, "PARSEIT/administration/students/" + id)).then((snapshot) => {
+            if (snapshot.exists()) {
+                parser[0].activated = snapshot.val().activated;
+                parser[0].email = snapshot.val().email;
+                parser[0].firstname = snapshot.val().firstname;
+                parser[0].lastname = snapshot.val().lastname;
+                parser[0].middlename = snapshot.val().middlename;
+                parser[0].suffix = snapshot.val().suffix;
+                parser[0].temporarypass = snapshot.val().temporarypass;
+                localStorage.setItem("type-parser", "student");
+                resolve();
+            } else {
+                get(child(dbRef, "PARSEIT/administration/teachers/" + id)).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        parser[0].activated = snapshot.val().activated;
+                        parser[0].email = snapshot.val().email;
+                        parser[0].firstname = snapshot.val().firstname;
+                        parser[0].lastname = snapshot.val().lastname;
+                        parser[0].middlename = snapshot.val().middlename;
+                        parser[0].suffix = snapshot.val().suffix;
+                        parser[0].temporarypass = snapshot.val().temporarypass;
+                        localStorage.setItem("type-parser", "teacher");
+                        resolve();
+                    } else {
+                        applyErrorStyle(idBorder);
+                        resetStyle(passwordBorder);
+                        resolve();
+                    }
+                });
+            }
+        }).catch((error) => {
+            alert('Error getting user info');
+            reject(error);
+        });
     });
 }
 

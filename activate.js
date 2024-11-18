@@ -30,7 +30,7 @@ const dbRef = ref(database);
 const userparser = localStorage.getItem("name-parser");
 const emailparser = localStorage.getItem("email-parser");
 const id = localStorage.getItem("activate-parser");
-
+let type = localStorage.getItem("type-parser");;
 
 //pre-tasks
 window.addEventListener("load", function () {
@@ -55,7 +55,7 @@ document.getElementById("verify_btn").addEventListener("click", function () {
     submitVerificationCode(id, userinput_code);
 });
 document.getElementById("cancel_btn").addEventListener("click", function () {
-    removeDBVerification(id);
+    removeDBVerification(id, type);
 });
 
 //for activation
@@ -167,7 +167,7 @@ function sendVerificationCode(id, email, code) {
         });
     })();
 
-    updateDBVerification(id, code); //this supposed to go
+    updateDBVerification(id, code, type); //this supposed to go
 
     // emailjs.send('service_g8cli5d', 'template_b0rhzue', {
     //     to_name: email,
@@ -180,10 +180,19 @@ function sendVerificationCode(id, email, code) {
 
 }
 
-function updateDBVerification(id, code) {
-    update(ref(database, "PARSEIT/administration/students/" + id), {
-        verificationcode: code,
-    });
+function updateDBVerification(id, code, type) {
+    if (type === "student") {
+        update(ref(database, "PARSEIT/administration/students/" + id), {
+            verificationcode: code,
+        });
+    }
+    else {
+        update(ref(database, "PARSEIT/administration/teachers/" + id), {
+            verificationcode: code,
+        });
+    }
+
+
 }
 
 
@@ -221,13 +230,25 @@ function submitVerificationCode(id, code) {
         });
 }
 
-function removeDBVerification(id) {
-    remove(ref(database, "PARSEIT/administration/students/" + id + "/verificationcode")).then(() => {
-        localStorage.removeItem("activate-parser");
-        localStorage.removeItem("email-parser");
-        localStorage.removeItem("name-parser");
-        window.location.href = "login.html";
-    });
+function removeDBVerification(id, type) {
+    if (type === "student") {
+        remove(ref(database, "PARSEIT/administration/students/" + id + "/verificationcode")).then(() => {
+            localStorage.removeItem("activate-parser");
+            localStorage.removeItem("email-parser");
+            localStorage.removeItem("name-parser");
+            localStorage.removeItem("type-parser");
+            window.location.href = "login.html";
+        });
+    } else {
+        remove(ref(database, "PARSEIT/administration/teachers/" + id + "/verificationcode")).then(() => {
+            localStorage.removeItem("activate-parser");
+            localStorage.removeItem("email-parser");
+            localStorage.removeItem("name-parser");
+            localStorage.removeItem("type-parser");
+            window.location.href = "login.html";
+        });
+    }
+
 }
 
 function openSignup() {
