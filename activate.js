@@ -114,14 +114,12 @@ document.getElementById("step5_btn").addEventListener("click", (event) => {
 
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    flatpickr("#birthday", {
-        dateFormat: "m/d/Y",
-        placeholder: "Enter Birthday",
-        maxDate: "today",
-        clickOpens: true,
-    });
+document.getElementById('birthday').addEventListener('focus', function () {
+    document.getElementById('dateInput').focus();
 });
+
+
+
 
 
 //functions
@@ -254,4 +252,16 @@ function hideSection(b, c, d, e) {
         stepCircle.style.backgroundColor = "#fefefe";
         stepCircle.style.color = "#007AFF";
     });
+}
+
+function setDatePicker() {
+    var today = new Date();
+    var day = today.getDate();
+    var month = today.getMonth() + 1;
+    var year = today.getFullYear();
+
+    if (month < 10) month = '0' + month;
+    if (day < 10) day = '0' + day;
+    var currentDate = year + '-' + month + '-' + day;
+    document.getElementById('birthday').setAttribute('max', currentDate);
 }
