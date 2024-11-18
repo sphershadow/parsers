@@ -264,6 +264,6 @@ function setDatePicker() {
 
     if (month < 10) month = '0' + month;
     if (day < 10) day = '0' + day;
-    var currentDate = year + '-' + month + '-' + day;
+    var currentDate = month + '-' + day + '-' + year;
     document.getElementById('dateInput').setAttribute('max', currentDate);
 }
