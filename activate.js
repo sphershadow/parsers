@@ -115,7 +115,7 @@ document.getElementById("step5_btn").addEventListener("click", (event) => {
 });
 
 document.getElementById('birthday').addEventListener('focus', function () {
-    document.getElementById('dateInput').focus();
+    document.getElementById('dateInput').click();
 });
 
 
