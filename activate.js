@@ -118,7 +118,9 @@ document.getElementById('birthday').addEventListener('focus', function () {
     document.getElementById('dateInput').click();
 });
 
-
+document.getElementById('dateInput').addEventListener('change', function (event) {
+    document.getElementById('birthday').value = event.target.value;
+});
 
 
 
