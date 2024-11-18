@@ -62,47 +62,17 @@ document.getElementById("cancel_btn").addEventListener("click", function () {
 document.getElementById("step1_btn").addEventListener("click", (event) => {
     event.preventDefault();
     openSection(2);
-    hideSection(1, 3, 4, 5);
+    hideSection(1, 3);
 });
 document.getElementById("step2_btn").addEventListener("click", (event) => {
     event.preventDefault();
     openSection(3);
-    hideSection(2, 1, 4, 5);
+    hideSection(1, 2);
 });
 document.getElementById("step3_btn").addEventListener("click", (event) => {
     event.preventDefault();
-    openSection(4);
-    hideSection(2, 3, 1, 5);
-});
 
-document.getElementById("step4_btn").addEventListener("click", (event) => {
-    event.preventDefault();
-    openSection(5);
-    hideSection(2, 3, 4, 1);
 });
-
-
-document.getElementById("step1_circle").addEventListener("click", (event) => {
-    event.preventDefault();
-    openSection(1);
-    hideSection(2, 3, 4, 5);
-});
-document.getElementById("step2_circle").addEventListener("click", (event) => {
-    event.preventDefault();
-    openSection(2);
-    hideSection(1, 3, 4, 5);
-});
-document.getElementById("step3_circle").addEventListener("click", (event) => {
-    event.preventDefault();
-    openSection(3);
-    hideSection(2, 1, 4, 5);
-});
-document.getElementById("step4_circle").addEventListener("click", (event) => {
-    event.preventDefault();
-    openSection(4);
-    hideSection(2, 3, 5, 1);
-});
-
 
 editdetails_btn.addEventListener("click", (event) => {
     event.preventDefault();
@@ -269,7 +239,7 @@ function openSignup() {
     document.getElementById("div_fillout_container").style.display = "flex";
     document.body.style.backgroundImage = "none";
     openSection(1);
-    hideSection(2, 3, 4, 5);
+    hideSection(2, 3);
     setDatePicker();
 }
 
@@ -279,8 +249,8 @@ function openSection(a) {
     document.getElementById(`step${a}_circle`).style.color = "#fefefe";
 }
 
-function hideSection(b, c, d, e) {
-    const steps = [b, c, d, e];
+function hideSection(b, c) {
+    const steps = [b, c];
     steps.forEach(step => {
         const stepElement = document.getElementById(`step${step}_cont`);
         const stepCircle = document.getElementById(`step${step}_circle`);
