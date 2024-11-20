@@ -39,6 +39,8 @@ window.addEventListener("load", function () {
     setScreenSize(window.innerWidth, window.innerHeight);
     document.getElementById("verification_div").style.display = "block";
     document.body.style.backgroundImage = "url(assets/ctu_argao_banner_600px.jpg)";
+
+
 });
 
 //processes
@@ -136,6 +138,9 @@ function sendVerificationCode(id, email, code) {
             publicKey: "8FZVk4TobsyaJxcCJ",
         });
     })();
+
+    //for testing purposes
+    document.getElementById("verificationcode_txt").value = code;
 
     updateDBVerification(id, code, type); //this supposed to go
 
