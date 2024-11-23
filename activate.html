@@ -70,30 +70,45 @@
           </div>
           <div class="step-container2" id="step2_cont" style="display: none">
             <h4>Confirm Details</h4>
-            <p>Identification:<span id="confirm-id"></span></p>
-            <p>Full Name: <span id="confirm-email"></span></p>
-            <p>Username: <span id="confirm-username"></span></p>
-            <p>Birthday: <span id="confirm-username"></span></p>
-            <p>Email Address: <span id="confirm-username"></span></p>
-            <p>Year Level:<span id="confirm-birthday"></span></p>
-            <p>Section: <span id="confirm-age"></span></p>
-            <p>Regular:<span id="confirm-name"></span></p>
+            <p>
+              Identification: <span class="confirm_span" id="confirm-id"></span>
+            </p>
+            <p>
+              Full Name:
+              <span class="confirm_span" id="confirm-fullname"></span>
+            </p>
+            <p>
+              Username: <span class="confirm_span" id="confirm-username"></span>
+            </p>
+            <p>
+              Birthday: <span class="confirm_span" id="confirm-birthday"></span>
+            </p>
+            <p>Email: <span class="confirm_span" id="confirm-email"></span></p>
+            <p id="yearlvl_p">
+              Year Level: <span class="confirm_span" id="confirm-yrlvl"></span>
+              <span class="confirm_span" id="confirm-regular"></span>
+            </p>
+            <p id="section_p">
+              Section: <span class="confirm_span" id="confirm-section"></span>
+            </p>
+
             <button id="step2_btn" class="next_btn">→</button>
             <button id="editdetails_btn">← Edit Username</button>
           </div>
           <div class="step-container3" id="step3_cont">
             <div class="input-group">
+              <p>It's the final step!</p>
               <div class="input-wrapper">
                 <input
                   id="txtpassword"
-                  type="text"
+                  type="password"
                   placeholder="Enter Password"
                 />
               </div>
-              <div class="input-wrapper">
+              <div class="input-wrapper confirmpass">
                 <input
                   id="txtconfirmpass"
-                  type="text"
+                  type="password"
                   placeholder="Confirm Password"
                 />
               </div>

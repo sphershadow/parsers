@@ -320,6 +320,10 @@ body {
   color: #2e3845;
 }
 
+.confirm_span {
+  opacity: 70%;
+}
+
 .next-step {
   padding: 10px 20px;
   border: none;
@@ -369,9 +373,4 @@ h4 {
   margin-top: 20px;
   border: none;
   background-color: transparent;
-}
-
-.datepicker {
-  background-color: #f30505;
-  padding-right: 12px;
 }
