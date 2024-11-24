@@ -2,6 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/fireba
 import {
     getAuth,
     signInWithEmailAndPassword,
+    sendPasswordResetEmail,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 import {
     getDatabase,
@@ -101,6 +102,12 @@ document.getElementById("showpass_btn").addEventListener("click", function () {
 document.getElementById("hidepass_btn").addEventListener("click", function () {
     hidepassword();
 });
+
+document.getElementById("forgotpass_a").addEventListener("click", function () {
+    const forgot_id = document.getElementById("id_txt").value;
+    sendResetEmail(forgot_id);
+});
+
 //functions
 
 function setScreenSize(width, height) {
@@ -196,4 +203,32 @@ function hidepassword() {
     document.getElementById("showpass_btn").style.display = "flex";
     document.getElementById("hidepass_btn").style.display = "none";
     document.getElementById("password_txt").type = "password";
+}
+
+function sendResetEmail(id) {
+    get(child(dbRef, "PARSEIT/administration/students/" + id)).then((snapshot) => {
+        if (snapshot.exists()) {
+            const email = snapshot.val().email;
+            sendPasswordResetEmail(auth, email).then(() => {
+                alert("sent email");
+            }).catch((error) => {
+
+            });
+        } else {
+            get(child(dbRef, "PARSEIT/administration/teachers/" + id)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const email = snapshot.val().email;
+                    sendPasswordResetEmail(auth, email).then(() => {
+                        alert("sent email");
+                    }).catch((error) => {
+                    });
+                } else {
+                    applyErrorStyle(idBorder);
+                    resetStyle(passwordBorder);
+                }
+            });
+        }
+    }).catch((error) => {
+
+    });
 }
