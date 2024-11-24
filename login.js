@@ -109,8 +109,27 @@ document.getElementById("forgotpass_a").addEventListener("click", function () {
         applyErrorStyle(document.getElementById("id_container"));
     }
     else {
-        sendResetEmail(forgot_id);
-        showMessage("Please check your email, thank you!");
+
+        get(child(dbRef, "PARSEIT/administration/students/" + forgot_id)).then((snapshot) => {
+            if (snapshot.exists()) {
+                //const email = snapshot.val().email;
+                sendResetEmail(forgot_id);
+                showMessage("Please check your email, thank you!");
+            } else {
+                get(child(dbRef, "PARSEIT/administration/teachers/" + forgot_id)).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        //const email = snapshot.val().email;
+                        sendResetEmail(forgot_id);
+                        showMessage("Please check your email, thank you!");
+                    } else {
+                        applyErrorStyle(idBorder);
+                        resetStyle(passwordBorder);
+                    }
+                });
+            }
+        }).catch((error) => {
+
+        });
 
     }
 
