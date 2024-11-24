@@ -110,8 +110,14 @@ document.getElementById("forgotpass_a").addEventListener("click", function () {
     }
     else {
         sendResetEmail(forgot_id);
+        showMessage("Please check your email, thank you!");
+
     }
 
+});
+
+document.getElementById("notifclose_btn").addEventListener("click", function () {
+    document.getElementById("notif_div").style.display = "none";
 });
 
 //functions
@@ -237,3 +243,9 @@ function sendResetEmail(id) {
 
     });
 }
+
+function showMessage(message) {
+    document.getElementById("msg_lbl").innerText = message;
+    document.getElementById("notif_div").style.display = "flex";
+}
+
