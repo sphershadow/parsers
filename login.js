@@ -215,7 +215,7 @@ function sendResetEmail(id) {
         if (snapshot.exists()) {
             const email = snapshot.val().email;
             sendPasswordResetEmail(auth, email).then(() => {
-                alert("sent email");
+                document.getElementById("id_txt").value = "";
             }).catch((error) => {
 
             });
@@ -224,7 +224,7 @@ function sendResetEmail(id) {
                 if (snapshot.exists()) {
                     const email = snapshot.val().email;
                     sendPasswordResetEmail(auth, email).then(() => {
-                        alert("sent email");
+                        document.getElementById("id_txt").value = "";
                     }).catch((error) => {
                     });
                 } else {
