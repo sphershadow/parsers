@@ -105,7 +105,13 @@ document.getElementById("hidepass_btn").addEventListener("click", function () {
 
 document.getElementById("forgotpass_a").addEventListener("click", function () {
     const forgot_id = document.getElementById("id_txt").value;
-    sendResetEmail(forgot_id);
+    if (forgot_id === "") {
+        applyErrorStyle(document.getElementById("id_container"));
+    }
+    else {
+        sendResetEmail(forgot_id);
+    }
+
 });
 
 //functions
@@ -191,7 +197,6 @@ async function loginParser(email, password, id) {
         }
     }
 }
-
 
 function showpassword() {
     document.getElementById("showpass_btn").style.display = "none";
