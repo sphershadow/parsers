@@ -290,7 +290,7 @@ function hideSection(b, c) {
 }
 
 function checkUsername(username) {
-    get(child(dbRef, "PARSEIT/username/" + username)).then((snapshot) => {
+    get(child(dbRef, "PARSEIT/username/" + id)).then((snapshot) => {
         if (snapshot.exists()) {
             document.getElementById("txtusername").style.border = "1px solid red";
             document.getElementById("txtusername").style.animation = "shake 0.3s ease-in-out";
@@ -372,7 +372,7 @@ function updateParser(id, type, username) {
         update(ref(database, "PARSEIT/administration/students/" + id), {
             activated: "yes",
         }).then(() => {
-            set(ref(database, "PARSEIT/username/" + username), id).then(() => {
+            set(ref(database, "PARSEIT/username/" + id), username).then(() => {
                 localStorage.removeItem("email-parser");
                 localStorage.removeItem("name-parser");
                 localStorage.removeItem("activate-parser");
@@ -385,7 +385,7 @@ function updateParser(id, type, username) {
         update(ref(database, "PARSEIT/administration/teachers/" + id), {
             activated: "yes",
         }).then(() => {
-            set(ref(database, "PARSEIT/username/" + username), id).then(() => {
+            set(ref(database, "PARSEIT/username/" + id), username).then(() => {
                 localStorage.removeItem("email-parser");
                 localStorage.removeItem("name-parser");
                 localStorage.removeItem("activate-parser");
