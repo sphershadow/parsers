@@ -58,7 +58,7 @@ document.getElementById("verify_btn").addEventListener("click", function () {
     submitVerificationCode(id, userinput_code);
 });
 document.getElementById("cancel_btn").addEventListener("click", function () {
-    removeDBVerification(id, type);
+    cancelActivation(id, type);
 });
 
 //for activation
@@ -244,6 +244,16 @@ function submitVerificationCode(id, code) {
 
 function removeDBVerification(id, type) {
     if (type === "student") {
+        remove(ref(database, "PARSEIT/administration/students/" + id + "/verificationcode"));
+    } else {
+        remove(ref(database, "PARSEIT/administration/teachers/" + id + "/verificationcode"));
+    }
+
+}
+
+
+function cancelActivation(id, type) {
+    if (type === "student") {
         remove(ref(database, "PARSEIT/administration/students/" + id + "/verificationcode")).then(() => {
             localStorage.removeItem("activate-parser");
             localStorage.removeItem("email-parser");
@@ -290,7 +300,7 @@ function hideSection(b, c) {
 }
 
 function checkUsername(username) {
-    get(child(dbRef, "PARSEIT/username/" + id)).then((snapshot) => {
+    get(child(dbRef, "PARSEIT/username/" + username)).then((snapshot) => {
         if (snapshot.exists()) {
             document.getElementById("txtusername").style.border = "1px solid red";
             document.getElementById("txtusername").style.animation = "shake 0.3s ease-in-out";
@@ -357,7 +367,6 @@ function checkRegular(reg) {
 function createParser(email, password, id, username) {
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            removeDBVerification(id);
             updateParser(id, type, username);
         })
         .catch((error) => {
@@ -372,29 +381,48 @@ function updateParser(id, type, username) {
     if (type === "student") {
         update(ref(database, "PARSEIT/administration/students/" + id), {
             activated: "yes",
-        }).then(() => {
-            set(ref(database, "PARSEIT/username/" + id), username).then(() => {
+        })
+            .then(() => {
+                return removeDBVerification(id, type);
+            })
+            .then(() => {
+                return set(ref(database, "PARSEIT/username/" + username), id);
+            })
+            .then(() => {
                 localStorage.removeItem("email-parser");
                 localStorage.removeItem("name-parser");
                 localStorage.removeItem("activate-parser");
                 localStorage.removeItem("type-parser");
                 localStorage.setItem("user-parser", id);
                 window.location.href = "homepage.html";
+            })
+            .catch((error) => {
+                console.error("Error during activation process:", error);
+                alert("An error occurred. Please try again later.");
             });
-        });
-    } else {
+    }
+    else {
         update(ref(database, "PARSEIT/administration/teachers/" + id), {
             activated: "yes",
-        }).then(() => {
-            set(ref(database, "PARSEIT/username/" + id), username).then(() => {
+        })
+            .then(() => {
+                return removeDBVerification(id, type);
+            })
+            .then(() => {
+                return set(ref(database, "PARSEIT/username/" + username), id);
+            })
+            .then(() => {
                 localStorage.removeItem("email-parser");
                 localStorage.removeItem("name-parser");
                 localStorage.removeItem("activate-parser");
                 localStorage.removeItem("type-parser");
                 localStorage.setItem("user-parser", id);
                 window.location.href = "homepage.html";
+            })
+            .catch((error) => {
+                console.error("Error during activation process:", error);
+                alert("An error occurred. Please try again later.");
             });
-        });
     }
 
 }
