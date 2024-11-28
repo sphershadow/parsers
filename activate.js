@@ -357,6 +357,7 @@ function checkRegular(reg) {
 function createParser(email, password, id, username) {
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
+            removeDBVerification(id);
             updateParser(id, type, username);
         })
         .catch((error) => {
