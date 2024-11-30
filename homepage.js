@@ -63,6 +63,8 @@ window.addEventListener("load", function () {
     selectNavIcon("homelobby_img");
     selectNavLbl("homelobby_lbl");
     changeHomeLbl("lobby_title", "Home");
+    selectNavIcon("homelobby_imgx");
+    selectNavLbl("homelobby_lblx");
 
 });
 
