@@ -50,22 +50,21 @@ setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", function () {
     document.getElementById("loading_animation_div").style.display = "none";
     document.getElementById("homepage_div").style.display = "flex";
-    getUser(user_parser);
-
-    if (parser.type === "student") {
-        document.getElementById("student_nav").style.display = "flex";
-    }
-    else {
-        document.getElementById("teacher_nav").style.display = "flex";
-    }
-
-    showBodyWrapper("home_all_sec");
-    selectNavIcon("homelobby_img");
-    selectNavLbl("homelobby_lbl");
-    changeHomeLbl("lobby_title", "Home");
-    selectNavIcon("homelobby_imgx");
-    selectNavLbl("homelobby_lblx");
-
+    getUser(user_parser).then(() => {
+        if (parser[0].type === "student") {
+            document.getElementById("student_nav").style.display = "flex";
+        }
+        else {
+            document.getElementById("teacher_nav").style.display = "flex";
+        }
+        console.log(parser[0].type);
+        showBodyWrapper("home_all_sec");
+        selectNavIcon("homelobby_img");
+        selectNavLbl("homelobby_lbl");
+        changeHomeLbl("lobby_title", "Home");
+        selectNavIcon("homelobby_imgx");
+        selectNavLbl("homelobby_lblx");
+    });
 });
 
 function setScreenSize(width, height) {
