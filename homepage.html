@@ -3,11 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Homepage</title>
+    <link rel="stylesheet" href="homepage.css" />
   </head>
   <body>
-    <button id="btn" onclick="signout()">Out</button>
-    <label id="username">Username</label>
+    <!-- Loading Animation -->
+    <div id="loading_animation_div">
+      <img id="loading_animation_gif" src="assets/loading_animation.gif" />
+      <h1 id="parsing_lbl">Parsing...</h1>
+    </div>
+
+    <!-- Side Bar -->
+    <div class="sidebar_div" id="sidebar_div">
+      <div class="sidebar_frame" id="sidebar_frame">
+        <nav class="header_nav" id="sidebar_header"></nav>
+        <section class="body_section" id="sidebar_body"></section>
+        <footer class="footer_nav" id="sidebar_footer"></footer>
+      </div>
+    </div>
+
+    <!-- Homepage -->
+    <div class="popupDefault" id="homepage_div">
+      <nav class="header_nav" id="header_nav">
+        <nav class="lobby_nav" id="lobby_nav">
+          <button class="button-img-default" id="sidebar_btn">
+            <img
+              class="top-left-iconimg-default"
+              src="assets/icons/menu-icon-reg.png"
+            />
+            <span class="title-topspan-default" id="lobby_title">Home</span>
+          </button>
+        </nav>
+      </nav>
+      <section class="body_section" id="body_section"></section>
+      <footer class="footer_nav" id="footer_nav"></footer>
+    </div>
+
     <script src="homepage.js"></script>
   </body>
 </html>

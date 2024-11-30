@@ -1,7 +1,169 @@
+@font-face {
+  font-family: "Inter-Regular";
+  src: url("assets/fonts/Inter-Regular.otf");
+}
+
+@font-face {
+  font-family: "Inter-Bold";
+  src: url("assets/fonts/Inter-Bold.otf");
+}
+
 body {
-  background-color: brown;
+  margin: 0;
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: #fefefe;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#loading_animation_div {
+  height: 100%;
+  width: 100%;
+  background-color: #fefefe;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+#loading_animation_gif {
+  height: 50px;
+  width: 50px;
+}
+
+#parsing_lbl {
+  font-family: Inter-Regular;
+  color: #f30505;
+  margin-top: 15px;
+  font-size: 12px;
+}
+
+.popupDefault {
+  background-color: aqua;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: "Inter-Regular";
+  overflow: hidden;
+}
+.top-left-iconimg-default {
+  width: 22px;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+  filter: invert(0%) sepia(1%) saturate(5%) hue-rotate(168deg) brightness(106%)
+    contrast(101%);
+  margin-left: 10px;
+}
+.button-img-default {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+}
+.title-topspan-default {
+  font-family: "Inter-Bold";
+  font-size: 26px;
+  color: #000000;
+  margin-left: 10px;
+}
+
+.header_nav {
+  height: 60px;
+  width: 100%;
+  overflow: hidden;
+}
+.body_section {
+  height: 100%;
+  width: 100%;
+}
+.footer_nav {
+  height: 60px;
+  width: 100%;
+}
+
+.lobby_nav {
+  width: 100%;
+  height: 100%;
+  background-color: #fefefe;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.sidebar_div {
+  position: fixed;
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.sidebar_frame {
+  width: 80%;
+  height: 100%;
+  background-color: yellow;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+#sidebar_header {
+  background-color: palegreen;
+}
+#sidebar_body {
+  background-color: orange;
+}
+#sidebar_footer {
+  background-color: blue;
+}
+
+@keyframes showsidebar {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes hidesidebar {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+@keyframes hidesidebar_div {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+    z-index: 100; /* Ensure it's on top initially */
+  }
+  99% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    z-index: -1; /* Place it behind after it's out of view */
+  }
 }
