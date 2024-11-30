@@ -30,3 +30,10 @@ function hideSidebar() {
         document.getElementById("sidebar_div").style.zIndex = "-1";
     }, 300);
 }
+document.getElementById("logout_btn").addEventListener("click", function () {
+    logout();
+});
+function logout() {
+    localStorage.removeItem("user-parser");
+    window.location.href = "login.html";
+}
