@@ -181,7 +181,10 @@ body {
 }
 
 #body_section {
-  background-color: #f30505;
+  background-color: #fefefe;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #footer_nav {
@@ -189,7 +192,8 @@ body {
   justify-content: center;
   align-items: center;
 }
-#student_nav {
+#student_nav,
+#teacher_nav {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -216,4 +220,30 @@ body {
   font-family: "Inter-Light";
   font-size: 12px;
   color: #808080;
+}
+
+.body-nav-wrapper {
+  background-color: yellow;
+  width: 93%;
+  height: 100%;
+  display: none;
+}
+
+#home_all_sec {
+  background-color: red;
+}
+#game_student_sec {
+  background-color: orange;
+}
+#library_student_sec {
+  background-color: yellow;
+}
+#chatgpt_all_sec {
+  background-color: green;
+}
+#honors_teacher_sec {
+  background-color: blue;
+}
+#share_teacher_sec {
+  background-color: indigo;
 }
