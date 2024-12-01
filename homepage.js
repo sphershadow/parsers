@@ -383,8 +383,8 @@ function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section) {
                                 if (childSnapshot.key === userId) {
                                     let parseclassid = subjectSnapshot.val().name + "_" + childSnapshot.val().section;
                                     let parseimgid = subjectSnapshot.key.replace(/\s+/g, "");
-                                    let parseclass_day = childSnapshot.val().sched_day;
-                                    let parseclass_sched = childSnapshot.val().sched_start + " - " + childSnapshot.val().sched_end;
+                                    let parseclass_day = sectionSnapshot.val().sched_day;
+                                    let parseclass_sched = sectionSnapshot.val().sched_start + " - " + sectionSnapshot.val().sched_end;
 
                                     if (getCurrentDayName() !== parseclass_day) {
                                         parseclass_day = "No Schedule Today";
