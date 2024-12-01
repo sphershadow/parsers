@@ -358,8 +358,13 @@ function getUser(id) {
         });
     });
 }
+
 document.getElementById("game-1").addEventListener("click", function () {
     window.location.href = "https://parseitlearninghub.github.io/game-flipcard/";
+});
+
+document.getElementById("game-2").addEventListener("click", function () {
+    window.location.href = "https://parseitlearninghub.github.io/game-quiznotes/";
 });
 
 
