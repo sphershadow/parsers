@@ -47,15 +47,15 @@ let parser = [{
     yearlvl: ""
 }];
 
+let status = [{
+    current_sem: "",
+    ongoing: "",
+    academicref: ""
+}]
 
 
-setInterval(() => {
-    getVersionID(parser[0].type, "acadref", "yearlvl", "sem")
-    if (localStorage.getItem("parseclass-old-version-id") !== localStorage.getItem("parseclass-current-version-id")) {
-        reloadSubject(parser[0].type, "acadref", "yearlvl", "sem", "id");
-    }
-}, 1000);
 
+getStatus();
 setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", function () {
     document.getElementById("loading_animation_div").style.display = "none";
@@ -63,6 +63,8 @@ window.addEventListener("load", function () {
     getUser(user_parser).then(() => {
         if (parser[0].type === "student") {
             document.getElementById("student_nav").style.display = "flex";
+            loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type)
+
         }
         else {
             document.getElementById("teacher_nav").style.display = "flex";
@@ -74,6 +76,7 @@ window.addEventListener("load", function () {
         changeHomeLbl("lobby_title", "Home");
         selectNavIcon("homelobby_imgx");
         selectNavLbl("homelobby_lblx");
+
 
         //hide
         hideBodyWrapper("game_student_sec");
@@ -360,31 +363,35 @@ document.getElementById("game-1").addEventListener("click", function () {
 
 
 
-function loadStudentSubjects(acadref, yearlvl, sem, id) {
-    const userId = "7210704";
+function loadStudentSubjects(acadref, yearlvl, sem, userId, type) {
+    let sem_final = "first-sem";
+    if (sem === "2") {
+        sem_final = "second-sem";
+    }
     let parseclass_cont = document.getElementById("parseclass-default-div");
-    // Reference to the year-lvl-1 > first-sem path
-    const subjectsRef = child(dbRef, "PARSEIT/administration/parseclass/1733005830896Pt2t8u/year-lvl-1/first-sem");
-    get(subjectsRef).then((snapshot) => {
-        if (snapshot.exists()) {
-            snapshot.forEach((subjectSnapshot) => {
-                const membersRef = child(subjectSnapshot.ref, "members");
-                get(membersRef).then((membersSnapshot) => {
-                    membersSnapshot.forEach((childSnapshot) => {
-                        if (childSnapshot.exists()) {
+    if (type === "student") {
+        const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${acadref}/year-lvl-${yearlvl}/${sem_final}`);
+        console.log();
+        get(subjectsRef).then((snapshot) => {
+            if (snapshot.exists()) {
+                snapshot.forEach((subjectSnapshot) => {
+                    const membersRef = child(subjectSnapshot.ref, "members");
+                    get(membersRef).then((membersSnapshot) => {
+                        membersSnapshot.forEach((childSnapshot) => {
+                            if (childSnapshot.exists()) {
 
-                            if (childSnapshot.key === userId) {
-                                let parseclassid = subjectSnapshot.val().name + "_" + childSnapshot.val().section;
-                                let parseimgid = subjectSnapshot.key.replace(/\s+/g, "");
-                                let parseclass_day = childSnapshot.val().sched_day;
-                                let parseclass_sched = childSnapshot.val().sched_start + " - " + childSnapshot.val().sched_end;
+                                if (childSnapshot.key === userId) {
+                                    let parseclassid = subjectSnapshot.val().name + "_" + childSnapshot.val().section;
+                                    let parseimgid = subjectSnapshot.key.replace(/\s+/g, "");
+                                    let parseclass_day = childSnapshot.val().sched_day;
+                                    let parseclass_sched = childSnapshot.val().sched_start + " - " + childSnapshot.val().sched_end;
 
-                                if (getCurrentDayName() !== parseclass_day) {
-                                    parseclass_day = "No Schedule Today";
-                                    parseclass_sched = "";
-                                }
+                                    if (getCurrentDayName() !== parseclass_day) {
+                                        parseclass_day = "No Schedule Today";
+                                        parseclass_sched = "";
+                                    }
 
-                                let parseClassAppend = `
+                                    let parseClassAppend = `
                                 <div class="parseclass-default-wrapper parseclass" id="${parseimgid}" value ="${parseclassid.replace(/\s+/g, "")}">
                                 <div class="parseclass-default-gradient">
                                 <span class="parsesched-default-span">
@@ -397,22 +404,26 @@ function loadStudentSubjects(acadref, yearlvl, sem, id) {
                                 </span>
                                 </div>
                                 </div>`
-                                parseclass_cont.innerHTML += parseClassAppend;
-                                document.getElementById(`${parseimgid}`).style.backgroundImage = "url(assets/parseclass/" + parseimgid + ".jpg)";
-                                localStorage.setItem("parseclass-old-version-id", snapshot.val().version_id);
+                                    parseclass_cont.innerHTML += parseClassAppend;
+                                    document.getElementById(`${parseimgid}`).style.backgroundImage = "url(assets/parseclass/" + parseimgid + ".jpg)";
+                                    localStorage.setItem("parseclass-old-version-id", snapshot.val().version_id);
+                                }
                             }
-                        }
+                        });
+                    }).catch((error) => {
+                        console.error("Error retrieving members:", error);
                     });
-                }).catch((error) => {
-                    console.error("Error retrieving members:", error);
                 });
-            });
-        } else {
-            console.log("No subjects found");
-        }
-    }).catch((error) => {
-        console.error("Error retrieving subjects:", error);
-    });
+            } else {
+                console.log("No subjects found");
+            }
+        }).catch((error) => {
+            console.error("Error retrieving subjects:", error);
+        });
+    }
+    else {
+
+    }
 
 }
 
@@ -422,43 +433,66 @@ function getCurrentDayName() {
     return weekdays[today.getDay()];
 }
 
-function reloadSubject(type, acadref, yearlvl, sem, id, data) {
+function reloadSubject(acadref, yearlvl, sem, userId, type) {
     let parseclass_cont = document.getElementById("parseclass-default-div");
     parseclass_cont.innerHTML = "";
     if (type === "student") {
-        loadStudentSubjects(parser[0].type, "acadref", "yearlvl", "sem", "id");
+        loadStudentSubjects(acadref, yearlvl, sem, userId, type);
     } else {
-        loadStudentSubjects(parser[0].type, "acadref", "yearlvl", "sem", "id");
+
+    }
+}
+
+function getVersionID(acadref, yearlvl, sem, userId, type) {
+    let sem_final = "first-sem";
+    if (sem === "2") {
+        sem_final = "second-sem";
+    }
+    if (type === "student") {
+        const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${acadref}/year-lvl-${yearlvl}/${sem_final}/`);
+        //console.log(`PARSEIT/administration/parseclass/${acadref}/year-lvl-${yearlvl}/${sem_final}/`);
+        get(subjectsRef).then((snapshot) => {
+            if (snapshot.exists()) {
+                snapshot.forEach((subjectSnapshot) => {
+                    const membersRef = child(subjectSnapshot.ref, "members");
+                    get(membersRef).then((membersSnapshot) => {
+                        membersSnapshot.forEach((childSnapshot) => {
+                            if (childSnapshot.exists()) {
+                                if (childSnapshot.key === userId) {
+                                    localStorage.setItem("parseclass-current-version-id", snapshot.val().version_id);
+                                }
+                            }
+                        });
+                    }).catch((error) => {
+                        console.error("Error retrieving members:", error);
+                    });
+                });
+            } else {
+                console.log("No subjects found");
+            }
+        }).catch((error) => {
+            console.error("Error retrieving subjects:", error);
+        });
+    }
+    else {
+
     }
 
 }
 
-function getVersionID(acadref, yearlvl, sem, id) {
-    const userId = "7210704";
-    let parseclass_cont = document.getElementById("parseclass-default-div");
-    // Reference to the year-lvl-1 > first-sem path
-    const subjectsRef = child(dbRef, "PARSEIT/administration/parseclass/1733005830896Pt2t8u/year-lvl-1/first-sem");
-    get(subjectsRef).then((snapshot) => {
-        if (snapshot.exists()) {
-            snapshot.forEach((subjectSnapshot) => {
-                const membersRef = child(subjectSnapshot.ref, "members");
-                get(membersRef).then((membersSnapshot) => {
-                    membersSnapshot.forEach((childSnapshot) => {
-                        if (childSnapshot.exists()) {
-                            if (childSnapshot.key === userId) {
-                                localStorage.setItem("parseclass-current-version-id", snapshot.val().version_id);
-                            }
-                        }
-                    });
-                }).catch((error) => {
-                    console.error("Error retrieving members:", error);
-                });
-            });
-        } else {
-            console.log("No subjects found");
-        }
-    }).catch((error) => {
-        console.error("Error retrieving subjects:", error);
-    });
+function getStatus() {
+    const ref = child(dbRef, "PARSEIT/administration/academicyear/status/");
+    get(ref).then((snapshot) => {
+        status[0].current_sem = snapshot.val().current_sem;
+        status[0].ongoing = snapshot.val().ongoing;
+        status[0].academicref = snapshot.val().academic_ref;
 
+        setInterval(() => {
+            getVersionID(snapshot.val().academic_ref, parser[0].yearlvl, snapshot.val().current_sem, user_parser, parser[0].type);
+            if (localStorage.getItem("parseclass-old-version-id") !== localStorage.getItem("parseclass-current-version-id")) {
+                reloadSubject(snapshot.val().academic_ref, parser[0].yearlvl, snapshot.val().current_sem, user_parser, parser[0].type)
+            }
+        }, 1000);
+
+    })
 }
