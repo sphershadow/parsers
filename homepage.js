@@ -56,6 +56,7 @@ let status = [{
 
 
 getStatus();
+constantRunning();
 setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", function () {
     document.getElementById("loading_animation_div").style.display = "none";
@@ -358,7 +359,7 @@ function getUser(id) {
     });
 }
 document.getElementById("game-1").addEventListener("click", function () {
-    alert("Game 1");
+    window.location.href = "https://parseitlearninghub.github.io/game-flipcard/";
 });
 
 
@@ -483,16 +484,38 @@ function getVersionID(acadref, yearlvl, sem, userId, type) {
 function getStatus() {
     const ref = child(dbRef, "PARSEIT/administration/academicyear/status/");
     get(ref).then((snapshot) => {
-        status[0].current_sem = snapshot.val().current_sem;
+        status[0].academicref = snapshot.val().current_sem;
         status[0].ongoing = snapshot.val().ongoing;
         status[0].academicref = snapshot.val().academic_ref;
 
-        setInterval(() => {
-            getVersionID(snapshot.val().academic_ref, parser[0].yearlvl, snapshot.val().current_sem, user_parser, parser[0].type);
-            if (localStorage.getItem("parseclass-old-version-id") !== localStorage.getItem("parseclass-current-version-id")) {
-                reloadSubject(snapshot.val().academic_ref, parser[0].yearlvl, snapshot.val().current_sem, user_parser, parser[0].type)
-            }
-        }, 1000);
-
     })
+}
+
+function getAcadStatus() {
+    const ref = child(dbRef, "PARSEIT/administration/academicyear/status/");
+    get(ref).then((snapshot) => {
+        localStorage.setItem("acad-ongoing-current", snapshot.val().ongoing)
+    });
+}
+
+function constantRunning() {
+    setInterval(() => {
+        getVersionID(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
+        if (localStorage.getItem("parseclass-old-version-id") !== localStorage.getItem("parseclass-current-version-id")) {
+            reloadSubject(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
+        }
+
+        getAcadStatus();
+        if (localStorage.getItem("acad-ongoing-current") != localStorage.getItem("acad-ongoing-old")) {
+            if (localStorage.getItem("acad-ongoing-current") === "true") {
+                reloadSubject(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
+                localStorage.setItem("acad-ongoing-old", "true");
+            }
+            else {
+                localStorage.setItem("acad-ongoing-old", "false");
+                document.getElementById("parseclass-default-div").style.display = "none";
+            }
+        }
+
+    }, 1000);
 }
