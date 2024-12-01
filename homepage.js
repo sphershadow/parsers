@@ -532,5 +532,6 @@ async function constantRunning() {
         if (localStorage.getItem("parseclass-old-version-id") !== localStorage.getItem("parseclass-current-version-id")) {
             reloadSubject(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
         }
+        getUser(user_parser);
     }, 1000);
 }
