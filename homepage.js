@@ -515,10 +515,22 @@ function constantRunning() {
             if (localStorage.getItem("acad-ongoing-current") === "true") {
                 reloadSubject(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
                 localStorage.setItem("acad-ongoing-old", "true");
+                document.getElementById("notyetstarted_div").style.display = "none";
             }
             else {
                 localStorage.setItem("acad-ongoing-old", "false");
                 document.getElementById("parseclass-default-div").style.display = "none";
+                document.getElementById("notyetstarted_div").style.display = "flex";
+            }
+        }
+        else {
+            if (localStorage.getItem("acad-ongoing-current") === "true") {
+                document.getElementById("parseclass-default-div").style.display = "flex";
+                document.getElementById("notyetstarted_div").style.display = "none";
+            }
+            else {
+                document.getElementById("parseclass-default-div").style.display = "none";
+                document.getElementById("notyetstarted_div").style.display = "flex";
             }
         }
 

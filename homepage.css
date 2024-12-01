@@ -299,7 +299,7 @@ body {
 
 .game-default-wrapper {
   width: 100%;
-  height: 100px;
+  height: 80px;
   margin-top: 10px;
   border: 0.5px solid #dcdcdc;
   flex-shrink: 0;
@@ -517,4 +517,16 @@ body {
   background-color: transparent;
   display: flex;
   justify-content: flex-start;
+}
+
+#notyetstarted_div {
+  background-color: #fefefe;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  display: none;
+}
+
+.sem-bg-img {
+  width: 100%;
 }
