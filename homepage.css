@@ -230,7 +230,7 @@ body {
 }
 
 #home_all_sec {
-  background-color: red;
+  background-color: transparent;
 }
 #game_student_sec {
   background-color: transparent;
@@ -353,7 +353,8 @@ body {
 #game-3::before,
 #game-4::before,
 #game-5::before,
-#game-6::before {
+#game-6::before,
+#parseclass_id_::before {
   content: "";
   position: absolute;
   top: 0;
@@ -401,4 +402,118 @@ body {
   color: #fefefe;
   font-family: Inter-Light;
   font-size: 14px;
+}
+
+.announcement-div {
+  width: 100%;
+  height: 60px;
+  background-color: red;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  overflow: hidden;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 5px;
+}
+
+.parseclass-default-div {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  overflow-x: scroll;
+  scrollbar-width: none;
+}
+
+.parseclass-default-wrapper {
+  width: 100%;
+  height: 100px;
+  margin-top: 10px;
+  border: 0.5px solid #dcdcdc;
+  flex-shrink: 0;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: #fefefe;
+}
+
+.parseclass-default-gradient {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.3),
+    rgba(255, 255, 255, 0.7)
+  );
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 0px;
+}
+
+.parseclass-default-span {
+  color: #fefefe;
+  font-family: Inter-Bold;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  font-size: 18px;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.parseclass-header-lbl {
+  color: #fefefe;
+  font-family: Inter-Bold;
+  font-size: 18px;
+}
+.parseclass-header-sublbl {
+  color: #fefefe;
+  font-family: Inter-Light;
+  font-size: 14px;
+}
+
+.parseclass {
+  position: relative;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  display: flex;
+  opacity: 1;
+}
+
+.parseclass-day-lbl {
+  color: #fefefe;
+  font-family: Inter-Bold;
+  font-size: 14px;
+  background-color: transparent;
+  margin-top: 10px;
+}
+.parseclass-time-lbl {
+  color: #fefefe;
+  font-family: Inter-Light;
+  font-size: 12px;
+  background-color: transparent;
+  margin-top: 12px;
+  margin-left: 5px;
+}
+
+.parsesched-default-span {
+  color: #fefefe;
+  font-family: Inter-Light;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  font-size: 18px;
+  background-color: transparent;
+  display: flex;
+  justify-content: flex-start;
 }
