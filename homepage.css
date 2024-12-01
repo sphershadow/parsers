@@ -185,6 +185,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 #footer_nav {
@@ -223,7 +224,6 @@ body {
 }
 
 .body-nav-wrapper {
-  background-color: yellow;
   width: 93%;
   height: 100%;
   display: none;
@@ -233,7 +233,7 @@ body {
   background-color: red;
 }
 #game_student_sec {
-  background-color: orange;
+  background-color: transparent;
 }
 #library_student_sec {
   background-color: yellow;
@@ -246,4 +246,159 @@ body {
 }
 #share_teacher_sec {
   background-color: indigo;
+}
+
+.search-default-div {
+  width: 100%;
+  height: 50px;
+  background-color: #fefefe;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  overflow: hidden;
+  border-radius: 5px;
+  border: 0.5px solid #dcdcdc;
+}
+
+.search-default-img {
+  width: 20px;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+  filter: invert(54%) sepia(8%) saturate(27%) hue-rotate(319deg) brightness(91%)
+    contrast(85%);
+  margin-left: 10px;
+  margin-right: -5px;
+}
+
+.search-default-txt {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  font-family: Inter-Regular;
+}
+.search-default-txt:focus {
+  outline: none;
+}
+
+.game-default-div {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  overflow-x: scroll;
+  scrollbar-width: none;
+}
+
+.game-default-wrapper {
+  width: 100%;
+  height: 100px;
+  margin-top: 10px;
+  border: 0.5px solid #dcdcdc;
+  flex-shrink: 0;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background-color: #fefefe;
+}
+
+#game-1 {
+  position: relative;
+  background-image: url(assets/giphy.gif);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  display: flex;
+  opacity: 1;
+}
+#game-2 {
+  position: relative;
+  background-image: url(assets/gipghy.gif);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  display: flex;
+  opacity: 1;
+}
+#game-3 {
+  position: relative;
+  background-image: url(assets/giphy.webp);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  display: flex;
+  opacity: 1;
+}
+#game-4 {
+  position: relative;
+  background-image: url(assets/giphyff.gif);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  display: flex;
+  opacity: 1;
+}
+
+#game-1::before,
+#game-2::before,
+#game-3::before,
+#game-4::before,
+#game-5::before,
+#game-6::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  z-index: -1;
+}
+
+.game-default-gradient {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.3),
+    rgba(255, 255, 255, 0.7)
+  );
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 0px;
+}
+
+.game-default-span {
+  color: #fefefe;
+  font-family: Inter-Bold;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  font-size: 18px;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.game-header-lbl {
+  color: #fefefe;
+  font-family: Inter-Bold;
+  font-size: 18px;
+}
+.game-header-sublbl {
+  color: #fefefe;
+  font-family: Inter-Light;
+  font-size: 14px;
 }

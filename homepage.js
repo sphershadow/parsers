@@ -58,12 +58,39 @@ window.addEventListener("load", function () {
             document.getElementById("teacher_nav").style.display = "flex";
         }
         console.log(parser[0].type);
+        //show
         showBodyWrapper("home_all_sec");
         selectNavIcon("homelobby_img");
         selectNavLbl("homelobby_lbl");
         changeHomeLbl("lobby_title", "Home");
         selectNavIcon("homelobby_imgx");
         selectNavLbl("homelobby_lblx");
+
+        //hide
+        hideBodyWrapper("game_student_sec");
+        hideBodyWrapper("library_student_sec");
+        hideBodyWrapper("honors_teacher_sec");
+        hideBodyWrapper("chatgpt_all_sec");
+        hideBodyWrapper("share_teacher_sec");
+
+        revertNavIcon("homegame_img");
+        revertNavLbl("homegame_lbl");
+
+        revertNavIcon("homelibrary_img");
+        revertNavLbl("homelibrary_lbl");
+
+        revertNavIcon("homehonors_img");
+        revertNavLbl("homehonors_lbl");
+
+        revertNavIcon("homechatbot_img");
+        revertNavLbl("homechatbot_lbl");
+
+        revertNavIcon("homechatbot_imgx");
+        revertNavLbl("homechatbot_lblx");
+
+        revertNavIcon("homeshare_img");
+        revertNavLbl("homeshare_lbl");
+
     });
 });
 
@@ -255,7 +282,7 @@ document.getElementById("homechatbot_btnx").addEventListener("click", function (
 });
 
 function showBodyWrapper(id) {
-    document.getElementById(id).style.display = "flex";
+    document.getElementById(id).style.display = "block";
 }
 function selectNavIcon(id) {
     document.getElementById(id).style.filter = "invert(30%) sepia(59%) saturate(7076%) hue-rotate(350deg) brightness(88%) contrast(120%)";
@@ -318,3 +345,7 @@ function getUser(id) {
         });
     });
 }
+
+document.getElementById("game-1").addEventListener("click", function () {
+    alert("Game 1");
+});
