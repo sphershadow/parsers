@@ -64,7 +64,7 @@ window.addEventListener("load", function () {
         if (parser[0].type === "student") {
             document.getElementById("student_nav").style.display = "flex";
             //console.log(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type);
-            loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type);
+            loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
 
         }
         else {
@@ -365,22 +365,21 @@ document.getElementById("game-2").addEventListener("click", function () {
     window.location.href = "https://parseitlearninghub.github.io/game-quiznotes/";
 });
 
-function loadStudentSubjects(acadref, yearlvl, sem, userId, type) {
+function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section) {
+    let parseclass_cont = document.getElementById("parseclass-default-div");
     let sem_final = "first-sem";
     if (sem === "2") {
         sem_final = "second-sem";
     }
-    let parseclass_cont = document.getElementById("parseclass-default-div");
     if (type === "student") {
         const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${acadref}/year-lvl-${yearlvl}/${sem_final}/`);
         get(subjectsRef).then((snapshot) => {
             if (snapshot.exists()) {
                 snapshot.forEach((subjectSnapshot) => {
-                    const membersRef = child(subjectSnapshot.ref, "members");
-                    get(membersRef).then((membersSnapshot) => {
-                        membersSnapshot.forEach((childSnapshot) => {
+                    const sectionRef = child(subjectSnapshot.ref, `${section}`);
+                    get(sectionRef).then((sectionSnapshot) => {
+                        sectionSnapshot.forEach((childSnapshot) => {
                             if (childSnapshot.exists()) {
-
                                 if (childSnapshot.key === userId) {
                                     let parseclassid = subjectSnapshot.val().name + "_" + childSnapshot.val().section;
                                     let parseimgid = subjectSnapshot.key.replace(/\s+/g, "");
@@ -439,8 +438,7 @@ function reloadSubject(acadref, yearlvl, sem, userId, type) {
     let parseclass_cont = document.getElementById("parseclass-default-div");
     parseclass_cont.innerHTML = "";
     if (type === "student") {
-
-        loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type);
+        loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
     } else {
 
     }
@@ -533,5 +531,16 @@ async function constantRunning() {
             reloadSubject(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
         }
         getUser(user_parser);
+
+        // console.log(parser[0].disabled);
+        // console.log(parser[0].firstname + " " + parser[0].middlename + " " + parser[0].lastname + " " + parser[0].suffix);
+        // console.log(parser[0].regular);
+        // console.log(parser[0].section);
+        // console.log(parser[0].type);
+        // console.log(parser[0].yearlvl);
+
+        // console.log(status[0].current_sem);
+        // console.log(status[0].ongoing);
+        // console.log(status[0].academicref);
     }, 1000);
 }
