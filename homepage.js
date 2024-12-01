@@ -54,8 +54,7 @@ let status = [{
 }]
 
 
-
-getStatus();
+getAcadStatus();
 constantRunning();
 setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", function () {
@@ -64,7 +63,8 @@ window.addEventListener("load", function () {
     getUser(user_parser).then(() => {
         if (parser[0].type === "student") {
             document.getElementById("student_nav").style.display = "flex";
-            loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type)
+            //console.log(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type);
+            loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type);
 
         }
         else {
@@ -315,7 +315,6 @@ function revertNavLbl(id) {
 function changeHomeLbl(id, type) {
     document.getElementById(id).innerText = type;
 }
-
 function getUser(id) {
     return new Promise((resolve, reject) => {
         const dbRef = ref(database);
@@ -358,7 +357,6 @@ function getUser(id) {
         });
     });
 }
-
 document.getElementById("game-1").addEventListener("click", function () {
     window.location.href = "https://parseitlearninghub.github.io/game-flipcard/";
 });
@@ -367,8 +365,6 @@ document.getElementById("game-2").addEventListener("click", function () {
     window.location.href = "https://parseitlearninghub.github.io/game-quiznotes/";
 });
 
-
-
 function loadStudentSubjects(acadref, yearlvl, sem, userId, type) {
     let sem_final = "first-sem";
     if (sem === "2") {
@@ -376,8 +372,7 @@ function loadStudentSubjects(acadref, yearlvl, sem, userId, type) {
     }
     let parseclass_cont = document.getElementById("parseclass-default-div");
     if (type === "student") {
-        const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${acadref}/year-lvl-${yearlvl}/${sem_final}`);
-        console.log();
+        const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${acadref}/year-lvl-${yearlvl}/${sem_final}/`);
         get(subjectsRef).then((snapshot) => {
             if (snapshot.exists()) {
                 snapshot.forEach((subjectSnapshot) => {
@@ -440,24 +435,26 @@ function getCurrentDayName() {
 }
 
 function reloadSubject(acadref, yearlvl, sem, userId, type) {
+    console.log(status[0].academicref);
     let parseclass_cont = document.getElementById("parseclass-default-div");
     parseclass_cont.innerHTML = "";
     if (type === "student") {
-        loadStudentSubjects(acadref, yearlvl, sem, userId, type);
+
+        loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type);
     } else {
 
     }
 }
 
-function getVersionID(acadref, yearlvl, sem, userId, type) {
+async function getVersionID(acadref, yearlvl, sem, userId, type) {
     let sem_final = "first-sem";
-    if (sem === "2") {
+    if (status[0].current_sem === "2") {
         sem_final = "second-sem";
     }
     if (type === "student") {
-        const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${acadref}/year-lvl-${yearlvl}/${sem_final}/`);
+        const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${status[0].academicref}/year-lvl-${parser[0].yearlvl}/${sem_final}/`);
         //console.log(`PARSEIT/administration/parseclass/${acadref}/year-lvl-${yearlvl}/${sem_final}/`);
-        get(subjectsRef).then((snapshot) => {
+        await get(subjectsRef).then((snapshot) => {
             if (snapshot.exists()) {
                 snapshot.forEach((subjectSnapshot) => {
                     const membersRef = child(subjectSnapshot.ref, "members");
@@ -486,30 +483,27 @@ function getVersionID(acadref, yearlvl, sem, userId, type) {
 
 }
 
-function getStatus() {
+// async function getStatus() {
+//     const ref = child(dbRef, "PARSEIT/administration/academicyear/status/");
+//     await get(ref).then((snapshot) => {
+
+
+//     })
+// }
+
+async function getAcadStatus() {
     const ref = child(dbRef, "PARSEIT/administration/academicyear/status/");
-    get(ref).then((snapshot) => {
-        status[0].academicref = snapshot.val().current_sem;
+    await get(ref).then((snapshot) => {
+        localStorage.setItem("acad-ongoing-current", snapshot.val().ongoing)
+        status[0].current_sem = snapshot.val().current_sem;
         status[0].ongoing = snapshot.val().ongoing;
         status[0].academicref = snapshot.val().academic_ref;
-
-    })
-}
-
-function getAcadStatus() {
-    const ref = child(dbRef, "PARSEIT/administration/academicyear/status/");
-    get(ref).then((snapshot) => {
-        localStorage.setItem("acad-ongoing-current", snapshot.val().ongoing)
     });
+
 }
 
-function constantRunning() {
+async function constantRunning() {
     setInterval(() => {
-        getVersionID(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
-        if (localStorage.getItem("parseclass-old-version-id") !== localStorage.getItem("parseclass-current-version-id")) {
-            reloadSubject(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
-        }
-
         getAcadStatus();
         if (localStorage.getItem("acad-ongoing-current") != localStorage.getItem("acad-ongoing-old")) {
             if (localStorage.getItem("acad-ongoing-current") === "true") {
@@ -518,6 +512,7 @@ function constantRunning() {
                 document.getElementById("notyetstarted_div").style.display = "none";
             }
             else {
+
                 localStorage.setItem("acad-ongoing-old", "false");
                 document.getElementById("parseclass-default-div").style.display = "none";
                 document.getElementById("notyetstarted_div").style.display = "flex";
@@ -533,6 +528,9 @@ function constantRunning() {
                 document.getElementById("notyetstarted_div").style.display = "flex";
             }
         }
-
+        getVersionID(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
+        if (localStorage.getItem("parseclass-old-version-id") !== localStorage.getItem("parseclass-current-version-id")) {
+            reloadSubject(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
+        }
     }, 1000);
 }
