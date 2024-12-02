@@ -11,6 +11,10 @@
   font-family: "Inter-Light";
   src: url("assets/fonts/Inter-Light.otf");
 }
+@font-face {
+  font-family: "Inter-Medium";
+  src: url("assets/fonts/Inter-Medium.otf");
+}
 
 body {
   margin: 0;
@@ -132,10 +136,37 @@ body {
     rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
 #sidebar_header {
+  width: 100%;
+  height: 60px;
   background-color: #fefefe;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#parser_profile {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  margin-left: 10px;
+  border: 0.5px solid #dcdcdc;
+}
+
+#parser_username {
+  display: inline-block;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: "Inter-Bold";
+  font-size: 16px;
+  margin-left: 10px;
 }
 #sidebar_body {
   background-color: #fefefe;
+  margin-top: 15px;
 }
 #sidebar_footer {
   background-color: #fefefe;
@@ -536,4 +567,59 @@ body {
 .sem-bg-img {
   width: 100%;
   margin-top: -50%;
+}
+
+.side_options_wrapper {
+  width: 100%;
+  height: 40px;
+  background-color: transparent;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.sidebar_options_lbl {
+  font-family: Inter-Medium;
+  font-size: 18px;
+  margin-left: 15px;
+}
+#myCluster_btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#addCluster {
+  margin-right: 15px;
+  font-size: 14px;
+  font-family: Inter-Medium;
+  border: none;
+  background-color: transparent;
+  border-radius: 50%;
+  color: #323232;
+}
+
+.cluster_div {
+  background-color: #f5f5f5;
+  width: 100%;
+  display: none;
+  align-items: flex-start;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.radio-cluster-wrapper {
+  margin-left: 5%;
+  background-color: transparent;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 4px;
+}
+
+.cluster-radio-default {
+  font-family: "Inter-Regular";
+  font-size: 16px;
+  margin-left: 5px;
 }

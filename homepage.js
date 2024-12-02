@@ -126,9 +126,7 @@ function setScreenSize(width, height) {
 document.getElementById("sidebar_btn").addEventListener("click", function () {
     showSidebar();
 });
-document.getElementById("sidebar_div").addEventListener("click", function () {
-    hideSidebar();
-});
+
 function showSidebar() {
     document.getElementById("sidebar_div").style.zIndex = "100";
     document.getElementById("sidebar_div").style.display = "flex";
@@ -625,3 +623,22 @@ async function findExclusiveStudents(acad_ref, yearlvl, sem) {
     }
 }
 
+let startX = 0;
+let endX = 0;
+document.addEventListener('touchstart', (event) => {
+    startX = event.touches[0].clientX;
+});
+document.addEventListener('touchend', (event) => {
+    endX = event.changedTouches[0].clientX;
+    // if (endX - startX > 50) {
+    //     showSidebar();
+    // }
+    if (startX - endX > 50) {
+        hideSidebar();
+    }
+});
+
+document.getElementById("community_btn").addEventListener('click', (event) => {
+    event.preventDefault();
+    window.location.href = "https://parseitlearninghub.github.io/community/";
+});
