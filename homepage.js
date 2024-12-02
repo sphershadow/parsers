@@ -508,28 +508,33 @@ async function constantRunning() {
                 reloadSubject(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
                 localStorage.setItem("acad-ongoing-old", "true");
                 document.getElementById("notyetstarted_div").style.display = "none";
+                //console.log("here");
             }
             else {
-
                 localStorage.setItem("acad-ongoing-old", "false");
                 document.getElementById("parseclass-default-div").style.display = "none";
                 document.getElementById("notyetstarted_div").style.display = "flex";
+                //console.log("here");
             }
         }
         else {
             if (localStorage.getItem("acad-ongoing-current") === "true") {
                 document.getElementById("parseclass-default-div").style.display = "flex";
                 document.getElementById("notyetstarted_div").style.display = "none";
+                //console.log("here");
             }
-            else {
-                document.getElementById("parseclass-default-div").style.display = "none";
-                document.getElementById("notyetstarted_div").style.display = "flex";
-            }
+
         }
+
         getVersionID(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
-        if (localStorage.getItem("parseclass-old-version-id") !== localStorage.getItem("parseclass-current-version-id")) {
-            reloadSubject(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
+        if (localStorage.getItem("parseclass-old-version-id") != localStorage.getItem("parseclass-current-version-id")) {
+            //reloadSubject(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
         }
+        else {
+            document.getElementById("parseclass-default-div").style.display = "flex";
+            document.getElementById("notyetstarted_div").style.display = "none";
+        }
+
         getUser(user_parser);
 
         // console.log(parser[0].disabled);
