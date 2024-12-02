@@ -64,7 +64,18 @@ window.addEventListener("load", function () {
         if (parser[0].type === "student") {
             document.getElementById("student_nav").style.display = "flex";
             //console.log(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type);
-            loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+            if (status[0].ongoing === "true") {
+                document.getElementById("search-parseclass-div").style.display = "flex";
+                document.getElementById("parseclass-default-div").style.display = "flex";
+                document.getElementById("notyetstarted_div").style.display = "none";
+                loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+            }
+            else {
+                document.getElementById("parseclass-default-div").style.display = "none";
+                document.getElementById("search-parseclass-div").style.display = "none";
+                document.getElementById("notyetstarted_div").style.display = "flex";
+                console.log("here");
+            }
 
         }
         else {
@@ -367,6 +378,8 @@ document.getElementById("game-2").addEventListener("click", function () {
 
 function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section) {
     let parseclass_cont = document.getElementById("parseclass-default-div");
+    document.getElementById("search-parseclass-div").style.display = "flex";
+    document.getElementById("notyetstarted_div").style.display = "none";
     let sem_final = "first-sem";
     if (sem === "2") {
         sem_final = "second-sem";
@@ -433,38 +446,38 @@ function getCurrentDayName() {
     return weekdays[today.getDay()];
 }
 
-function reloadSubject() {
-    console.log(status[0].academicref);
-    if (parser[0].type === "student") {
-        loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
-        console.log(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
-    } else {
+// function reloadSubject() {
+//     console.log(status[0].academicref);
+//     if (parser[0].type === "student") {
+//         loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+//         console.log(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+//     } else {
 
-    }
-}
+//     }
+// }
 
-async function getVersionID() {
-    let sem_final = "first-sem";
-    if (status[0].current_sem === "2") {
-        sem_final = "second-sem";
-    }
-    if (parser[0].type === "student") {
-        const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${status[0].academicref}/year-lvl-${parser[0].yearlvl}/${sem_final}/`);
-        //console.log(`PARSEIT/administration/parseclass/${acadref}/year-lvl-${yearlvl}/${sem_final}/`);
-        await get(subjectsRef).then((snapshot) => {
-            if (snapshot.exists()) {
-                localStorage.setItem("parseclass-current-version-id", snapshot.val().version_id);
+// async function getVersionID() {
+//     let sem_final = "first-sem";
+//     if (status[0].current_sem === "2") {
+//         sem_final = "second-sem";
+//     }
+//     if (parser[0].type === "student") {
+//         const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${status[0].academicref}/year-lvl-${parser[0].yearlvl}/${sem_final}/`);
+//         //console.log(`PARSEIT/administration/parseclass/${acadref}/year-lvl-${yearlvl}/${sem_final}/`);
+//         await get(subjectsRef).then((snapshot) => {
+//             if (snapshot.exists()) {
+//                 localStorage.setItem("parseclass-current-version-id", snapshot.val().version_id);
 
-            } else {
-                console.log("No subjects found");
-            }
+//             } else {
+//                 console.log("No subjects found");
+//             }
 
-        });
-    }
-    else {
+//         });
+//     }
+//     else {
 
-    }
-}
+//     }
+// }
 
 async function getAcadStatus() {
     const ref = child(dbRef, "PARSEIT/administration/academicyear/status/");
@@ -477,24 +490,83 @@ async function getAcadStatus() {
 
 }
 
+async function populateSubjectsForStudent(studentId, yearlvl, sem, acad_ref) {
+    try {
+        // Fetch the student login information
+        const studentSnapshot = await get(child(dbRef, `PARSEIT/users/${studentId}`));
+        if (!studentSnapshot.exists()) {
+            alert("Student login not found.");
+            return;
+        }
+
+        // Fetch the list of subjects the student is enrolled in
+        const subjectSnapshot = await get(child(dbRef, `PARSEIT/administration/parseclass/${acad_ref}/${yearlvl}/${sem}`));
+        const academicyear_cont = document.getElementById('parseclass_list');
+        academicyear_cont.innerHTML = "";
+
+        if (subjectSnapshot.exists()) {
+            const subjects = subjectSnapshot.val();
+            Object.keys(subjects).forEach((key) => {
+                const subject = subjects[key];
+                const members = subject?.members || [];
+
+                // Check if the student is a member of the subject
+                if (members.includes(studentId)) {
+                    const title = subject?.title || key;
+                    const container = document.createElement("div");
+                    container.className = "radio-subject";
+
+                    const radioButton = document.createElement("input");
+                    radioButton.type = "radio";
+                    radioButton.id = `parseclass-${subject.parseclass_id}`;
+                    radioButton.name = "subject-list";
+                    radioButton.className = "radio-subjectlist";
+                    radioButton.value = title;
+
+                    radioButton.addEventListener("click", () => {
+                        subjectparseclass_id = `${subject.parseclass_id}`;
+                        selectedSubject = title;
+                        document.getElementById("parseclass_list").style.border = "0.5px solid #dcdcdc";
+                    });
+
+                    const label = document.createElement("label");
+                    label.htmlFor = `parseclass-${subject.parseclass_id}`;
+                    label.textContent = title;
+                    label.className = "lbl-subjectlist";
+
+                    container.appendChild(radioButton);
+                    container.appendChild(label);
+                    academicyear_cont.appendChild(container);
+                }
+            });
+
+            // If no subjects match, show a "No data found" message
+            if (academicyear_cont.innerHTML === "") {
+                academicyear_cont.innerHTML = "<div class='nodatafound'>No data found.</div>";
+            }
+        } else {
+            academicyear_cont.innerHTML = "<div class='nodatafound'>No data found.</div>";
+        }
+    } catch (error) {
+        alert(error);
+    }
+}
+
+
 async function constantRunning() {
     setInterval(() => {
         getAcadStatus();
         if (localStorage.getItem("acad-ongoing-current") != localStorage.getItem("acad-ongoing-old")) {
             if (localStorage.getItem("acad-ongoing-current") === "true") {
-                reloadSubject(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
+                //reloadSubject(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
                 localStorage.setItem("acad-ongoing-old", "true");
-                document.getElementById("notyetstarted_div").style.display = "none";
                 //console.log("here");
             }
             else {
-                localStorage.setItem("acad-ongoing-old", "false");
+                document.getElementById("search-parseclass-div").style.display = "none";
                 document.getElementById("parseclass-default-div").style.display = "none";
                 document.getElementById("notyetstarted_div").style.display = "flex";
-                if (localStorage.getItem("parseclass-old-version-id") != localStorage.getItem("parseclass-current-version-id")) {
-                    reloadSubject(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
-                    console.log("im here");
-                }
+                localStorage.setItem("acad-ongoing-old", "false");
             }
         }
         else {
@@ -502,9 +574,8 @@ async function constantRunning() {
         }
 
         getUser(user_parser);
-        getVersionID();
 
-
+        //getVersionID();
         // console.log(parser[0].disabled);
         // console.log(parser[0].firstname + " " + parser[0].middlename + " " + parser[0].lastname + " " + parser[0].suffix);
         // console.log(parser[0].regular);
@@ -517,3 +588,40 @@ async function constantRunning() {
         // console.log(status[0].academicref);
     }, 1000);
 }
+
+
+
+// Function to find students only enrolled in one subject
+async function findExclusiveStudents(acad_ref, yearlvl, sem) {
+    const subjectRef = ref(database, `PARSEIT/administration/parseclass/${acad_ref}/${yearlvl}/${sem}`);
+    try {
+        const snapshot = await get(subjectRef);
+        if (snapshot.exists()) {
+            const members = snapshot.val().members;
+            const allMembers = Object.keys(members); // List of student IDs
+            const uniqueStudents = [];
+
+            for (let studentId of allMembers) {
+                const studentRef = ref(db, `path_to_all_classes_and_subjects/${studentId}`);
+                const studentSnapshot = await get(studentRef);
+
+                if (studentSnapshot.exists()) {
+                    const enrolledSubjects = Object.keys(studentSnapshot.val());
+
+                    // Check if the student is only enrolled in one subject
+                    if (enrolledSubjects.length === 1) {
+                        uniqueStudents.push(studentId);
+                    }
+                }
+            }
+
+            console.log("Students enrolled only in this subject:", uniqueStudents);
+            return uniqueStudents;
+        } else {
+            console.log("No data available at the specified path.");
+        }
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+}
+
