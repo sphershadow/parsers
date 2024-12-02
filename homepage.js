@@ -433,61 +433,38 @@ function getCurrentDayName() {
     return weekdays[today.getDay()];
 }
 
-function reloadSubject(acadref, yearlvl, sem, userId, type) {
+function reloadSubject() {
     console.log(status[0].academicref);
-    let parseclass_cont = document.getElementById("parseclass-default-div");
-    parseclass_cont.innerHTML = "";
-    if (type === "student") {
+    if (parser[0].type === "student") {
         loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+        console.log(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
     } else {
 
     }
 }
 
-async function getVersionID(acadref, yearlvl, sem, userId, type) {
+async function getVersionID() {
     let sem_final = "first-sem";
     if (status[0].current_sem === "2") {
         sem_final = "second-sem";
     }
-    if (type === "student") {
+    if (parser[0].type === "student") {
         const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${status[0].academicref}/year-lvl-${parser[0].yearlvl}/${sem_final}/`);
         //console.log(`PARSEIT/administration/parseclass/${acadref}/year-lvl-${yearlvl}/${sem_final}/`);
         await get(subjectsRef).then((snapshot) => {
             if (snapshot.exists()) {
-                snapshot.forEach((subjectSnapshot) => {
-                    const membersRef = child(subjectSnapshot.ref, "members");
-                    get(membersRef).then((membersSnapshot) => {
-                        membersSnapshot.forEach((childSnapshot) => {
-                            if (childSnapshot.exists()) {
-                                if (childSnapshot.key === userId) {
-                                    localStorage.setItem("parseclass-current-version-id", snapshot.val().version_id);
-                                }
-                            }
-                        });
-                    }).catch((error) => {
-                        console.error("Error retrieving members:", error);
-                    });
-                });
+                localStorage.setItem("parseclass-current-version-id", snapshot.val().version_id);
+
             } else {
                 console.log("No subjects found");
             }
-        }).catch((error) => {
-            console.error("Error retrieving subjects:", error);
+
         });
     }
     else {
 
     }
-
 }
-
-// async function getStatus() {
-//     const ref = child(dbRef, "PARSEIT/administration/academicyear/status/");
-//     await get(ref).then((snapshot) => {
-
-
-//     })
-// }
 
 async function getAcadStatus() {
     const ref = child(dbRef, "PARSEIT/administration/academicyear/status/");
@@ -514,28 +491,19 @@ async function constantRunning() {
                 localStorage.setItem("acad-ongoing-old", "false");
                 document.getElementById("parseclass-default-div").style.display = "none";
                 document.getElementById("notyetstarted_div").style.display = "flex";
-                //console.log("here");
+                if (localStorage.getItem("parseclass-old-version-id") != localStorage.getItem("parseclass-current-version-id")) {
+                    reloadSubject(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
+                    console.log("im here");
+                }
             }
         }
         else {
-            if (localStorage.getItem("acad-ongoing-current") === "true") {
-                document.getElementById("parseclass-default-div").style.display = "flex";
-                document.getElementById("notyetstarted_div").style.display = "none";
-                //console.log("here");
-            }
 
-        }
-
-        getVersionID(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
-        if (localStorage.getItem("parseclass-old-version-id") != localStorage.getItem("parseclass-current-version-id")) {
-            //reloadSubject(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
-        }
-        else {
-            document.getElementById("parseclass-default-div").style.display = "flex";
-            document.getElementById("notyetstarted_div").style.display = "none";
         }
 
         getUser(user_parser);
+        getVersionID();
+
 
         // console.log(parser[0].disabled);
         // console.log(parser[0].firstname + " " + parser[0].middlename + " " + parser[0].lastname + " " + parser[0].suffix);
