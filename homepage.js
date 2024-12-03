@@ -54,7 +54,7 @@ let status = [{
 }]
 
 
-getAcadStatus();
+//getAcadStatus();
 constantRunning();
 setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", function () {
@@ -371,6 +371,10 @@ document.getElementById("game-1").addEventListener("click", function () {
 });
 
 document.getElementById("game-2").addEventListener("click", function () {
+    window.location.href = "https://parseitlearninghub.github.io/game-fruitmania/";
+});
+
+document.getElementById("game-3").addEventListener("click", function () {
     window.location.href = "https://parseitlearninghub.github.io/game-quiznotes/";
 });
 
@@ -587,9 +591,6 @@ async function constantRunning() {
     }, 1000);
 }
 
-
-
-// Function to find students only enrolled in one subject
 async function findExclusiveStudents(acad_ref, yearlvl, sem) {
     const subjectRef = ref(database, `PARSEIT/administration/parseclass/${acad_ref}/${yearlvl}/${sem}`);
     try {
@@ -623,6 +624,7 @@ async function findExclusiveStudents(acad_ref, yearlvl, sem) {
     }
 }
 
+//for sidebar
 let startX = 0;
 let endX = 0;
 document.addEventListener('touchstart', (event) => {
