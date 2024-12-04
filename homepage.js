@@ -2,15 +2,12 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import {
     getAuth,
-    signInWithEmailAndPassword,
-    sendPasswordResetEmail,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 import {
     getDatabase,
     ref,
     get,
-    child,
-    update
+    child
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyCFqgbA_t3EBVO21nW70umJOHX3UdRr9MY",
@@ -53,8 +50,6 @@ let status = [{
     academicref: ""
 }]
 
-
-//getAcadStatus();
 constantRunning();
 setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", function () {
@@ -63,7 +58,6 @@ window.addEventListener("load", function () {
     getUser(user_parser).then(() => {
         if (parser[0].type === "student") {
             document.getElementById("student_nav").style.display = "flex";
-            //console.log(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type);
             if (status[0].ongoing === "true") {
                 document.getElementById("search-parseclass-div").style.display = "flex";
                 document.getElementById("parseclass-default-div").style.display = "flex";
@@ -74,9 +68,7 @@ window.addEventListener("load", function () {
                 document.getElementById("parseclass-default-div").style.display = "none";
                 document.getElementById("search-parseclass-div").style.display = "none";
                 document.getElementById("notyetstarted_div").style.display = "flex";
-                console.log("here");
             }
-
         }
         else {
             document.getElementById("teacher_nav").style.display = "flex";
@@ -88,7 +80,6 @@ window.addEventListener("load", function () {
         changeHomeLbl("lobby_title", "Home");
         selectNavIcon("homelobby_imgx");
         selectNavLbl("homelobby_lblx");
-
 
         //hide
         hideBodyWrapper("game_student_sec");
@@ -114,7 +105,6 @@ window.addEventListener("load", function () {
 
         revertNavIcon("homeshare_img");
         revertNavLbl("homeshare_lbl");
-
     });
 });
 
@@ -222,7 +212,6 @@ document.getElementById("homechatbot_btn").addEventListener("click", function ()
     revertNavIcon("homelibrary_img");
     revertNavLbl("homelibrary_lbl");
 });
-
 document.getElementById("homelobby_btnx").addEventListener("click", function () {
     showBodyWrapper("home_all_sec");
     selectNavIcon("homelobby_imgx");
@@ -242,7 +231,6 @@ document.getElementById("homelobby_btnx").addEventListener("click", function () 
     revertNavIcon("homechatbot_imgx");
     revertNavLbl("homechatbot_lblx");
 });
-
 document.getElementById("homehonors_btn").addEventListener("click", function () {
     showBodyWrapper("honors_teacher_sec");
     selectNavIcon("homehonors_img");
@@ -262,7 +250,6 @@ document.getElementById("homehonors_btn").addEventListener("click", function () 
     revertNavIcon("homechatbot_imgx");
     revertNavLbl("homechatbot_lblx");
 });
-
 document.getElementById("homeshare_btn").addEventListener("click", function () {
     showBodyWrapper("share_teacher_sec");
     selectNavIcon("homeshare_img");
@@ -282,7 +269,6 @@ document.getElementById("homeshare_btn").addEventListener("click", function () {
     revertNavIcon("homechatbot_imgx");
     revertNavLbl("homechatbot_lblx");
 });
-
 document.getElementById("homechatbot_btnx").addEventListener("click", function () {
     showBodyWrapper("chatgpt_all_sec");
     selectNavIcon("homechatbot_imgx");
@@ -302,7 +288,6 @@ document.getElementById("homechatbot_btnx").addEventListener("click", function (
     revertNavIcon("homeshare_img");
     revertNavLbl("homeshare_lbl");
 });
-
 function showBodyWrapper(id) {
     document.getElementById(id).style.display = "block";
 }
@@ -323,6 +308,113 @@ function revertNavLbl(id) {
 }
 function changeHomeLbl(id, type) {
     document.getElementById(id).innerText = type;
+}
+document.getElementById("game-1").addEventListener("click", function () {
+    window.location.href = "https://parseitlearninghub.github.io/game-flipcard/";
+});
+document.getElementById("game-2").addEventListener("click", function () {
+    window.location.href = "https://parseitlearninghub.github.io/game-fruitmania/";
+});
+document.getElementById("game-3").addEventListener("click", function () {
+    window.location.href = "https://parseitlearninghub.github.io/game-quiznotes/";
+});
+function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section) {
+    console.log((acadref, yearlvl, sem, userId, type, section));
+    let parseclass_cont = document.getElementById("parseclass-default-div");
+    parseclass_cont.innerHTML = "";
+    let parseClassAppend = "";
+    document.getElementById("search-parseclass-div").style.display = "flex";
+    document.getElementById("notyetstarted_div").style.display = "none";
+    let sem_final = "first-sem";
+    if (sem === "2") {
+        sem_final = "second-sem";
+    }
+    if (type === "student") {
+        const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${acadref}/year-lvl-${yearlvl}/${sem_final}/`);
+        get(subjectsRef).then((snapshot) => {
+            if (snapshot.exists()) {
+                snapshot.forEach((subjectSnapshot) => {
+                    const sectionRef = child(subjectSnapshot.ref, `${section}`);
+                    get(sectionRef).then((sectionSnapshot) => {
+                        sectionSnapshot.forEach((childSnapshot) => {
+                            if (childSnapshot.exists()) {
+                                if (childSnapshot.key === userId) {
+                                    let parseclassid = subjectSnapshot.val().name + "_" + childSnapshot.val().section;
+                                    let parseimgid = subjectSnapshot.key.replace(/\s+/g, "");
+                                    let parseclass_day = sectionSnapshot.val().sched_day;
+                                    let parseclass_sched = sectionSnapshot.val().sched_start + " - " + sectionSnapshot.val().sched_end;
+
+                                    if (getCurrentDayName() !== parseclass_day) {
+                                        parseclass_day = "No Schedule Today";
+                                        parseclass_sched = "";
+                                    }
+
+                                    parseClassAppend = `
+                                    <div class="parseclass-default-wrapper parseclass" id="${parseimgid}" value ="${parseclassid.replace(/\s+/g, "")}">
+                                    <div class="parseclass-default-gradient">
+                                    <span class="parsesched-default-span">
+                                    <label for="" class="parseclass-day-lbl">${parseclass_day}</label>
+                                    <label for="" class="parseclass-time-lbl">${parseclass_sched}</label>
+                                    </span>
+                                    <span class="parseclass-default-span">
+                                    <label for="" class="parseclass-header-lbl">${subjectSnapshot.key}</label>
+                                    <label for="" class="parseclass-header-sublbl">${subjectSnapshot.val().name}</label>
+                                    </span>
+                                    </div>
+                                    </div>`
+                                    parseclass_cont.innerHTML += parseClassAppend;
+                                    document.getElementById(`${parseimgid}`).style.backgroundImage = "url(assets/parseclass/" + parseimgid + ".jpg)";
+                                    localStorage.setItem("parseclass-old-version-id", snapshot.val().version_id);
+                                }
+                            }
+                        });
+                    }).catch((error) => {
+                        console.error("Error retrieving members:", error);
+                    });
+                });
+            } else {
+                console.log("No subjects found");
+            }
+        }).catch((error) => {
+            console.error("Error retrieving subjects:", error);
+        });
+    }
+    else {
+        //for teacher
+    }
+
+}
+function getCurrentDayName() {
+    let today = new Date();
+    let weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    return weekdays[today.getDay()];
+}
+
+
+function constantRunning() {
+    setInterval(() => {
+        getAcadStatus();
+
+        // getVersionID();
+        // console.log(parser[0].disabled);
+        // console.log(parser[0].firstname + " " + parser[0].middlename + " " + parser[0].lastname + " " + parser[0].suffix);
+        // console.log(parser[0].regular);
+        // console.log(parser[0].section);
+        // console.log(parser[0].type);
+        // console.log(parser[0].yearlvl);
+        // console.log(status[0].current_sem);
+        // console.log(status[0].ongoing);
+        // console.log(status[0].academicref);
+    }, 1000);
+}
+async function getAcadStatus() {
+    const ref = child(dbRef, "PARSEIT/administration/academicyear/status/");
+    await get(ref).then((snapshot) => {
+        status[0].current_sem = snapshot.val().current_sem;
+        status[0].ongoing = snapshot.val().ongoing;
+        status[0].academicref = snapshot.val().academic_ref;
+    });
+
 }
 function getUser(id) {
     return new Promise((resolve, reject) => {
@@ -366,230 +458,7 @@ function getUser(id) {
         });
     });
 }
-document.getElementById("game-1").addEventListener("click", function () {
-    window.location.href = "https://parseitlearninghub.github.io/game-flipcard/";
-});
 
-document.getElementById("game-2").addEventListener("click", function () {
-    window.location.href = "https://parseitlearninghub.github.io/game-fruitmania/";
-});
-
-document.getElementById("game-3").addEventListener("click", function () {
-    window.location.href = "https://parseitlearninghub.github.io/game-quiznotes/";
-});
-
-function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section) {
-    let parseclass_cont = document.getElementById("parseclass-default-div");
-    document.getElementById("search-parseclass-div").style.display = "flex";
-    document.getElementById("notyetstarted_div").style.display = "none";
-    let sem_final = "first-sem";
-    if (sem === "2") {
-        sem_final = "second-sem";
-    }
-    if (type === "student") {
-        const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${acadref}/year-lvl-${yearlvl}/${sem_final}/`);
-        get(subjectsRef).then((snapshot) => {
-            if (snapshot.exists()) {
-                snapshot.forEach((subjectSnapshot) => {
-                    const sectionRef = child(subjectSnapshot.ref, `${section}`);
-                    get(sectionRef).then((sectionSnapshot) => {
-                        sectionSnapshot.forEach((childSnapshot) => {
-                            if (childSnapshot.exists()) {
-                                if (childSnapshot.key === userId) {
-                                    let parseclassid = subjectSnapshot.val().name + "_" + childSnapshot.val().section;
-                                    let parseimgid = subjectSnapshot.key.replace(/\s+/g, "");
-                                    let parseclass_day = sectionSnapshot.val().sched_day;
-                                    let parseclass_sched = sectionSnapshot.val().sched_start + " - " + sectionSnapshot.val().sched_end;
-
-                                    if (getCurrentDayName() !== parseclass_day) {
-                                        parseclass_day = "No Schedule Today";
-                                        parseclass_sched = "";
-                                    }
-
-                                    let parseClassAppend = `
-                                <div class="parseclass-default-wrapper parseclass" id="${parseimgid}" value ="${parseclassid.replace(/\s+/g, "")}">
-                                <div class="parseclass-default-gradient">
-                                <span class="parsesched-default-span">
-                                <label for="" class="parseclass-day-lbl">${parseclass_day}</label>
-                                <label for="" class="parseclass-time-lbl">${parseclass_sched}</label>
-                                </span>
-                                <span class="parseclass-default-span">
-                                <label for="" class="parseclass-header-lbl">${subjectSnapshot.key}</label>
-                                <label for="" class="parseclass-header-sublbl">${subjectSnapshot.val().name}</label>
-                                </span>
-                                </div>
-                                </div>`
-                                    parseclass_cont.innerHTML += parseClassAppend;
-                                    document.getElementById(`${parseimgid}`).style.backgroundImage = "url(assets/parseclass/" + parseimgid + ".jpg)";
-                                    localStorage.setItem("parseclass-old-version-id", snapshot.val().version_id);
-                                }
-                            }
-                        });
-                    }).catch((error) => {
-                        console.error("Error retrieving members:", error);
-                    });
-                });
-            } else {
-                console.log("No subjects found");
-            }
-        }).catch((error) => {
-            console.error("Error retrieving subjects:", error);
-        });
-    }
-    else {
-
-    }
-
-}
-
-function getCurrentDayName() {
-    let today = new Date();
-    let weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    return weekdays[today.getDay()];
-}
-
-// function reloadSubject() {
-//     console.log(status[0].academicref);
-//     if (parser[0].type === "student") {
-//         loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
-//         console.log(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
-//     } else {
-
-//     }
-// }
-
-// async function getVersionID() {
-//     let sem_final = "first-sem";
-//     if (status[0].current_sem === "2") {
-//         sem_final = "second-sem";
-//     }
-//     if (parser[0].type === "student") {
-//         const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${status[0].academicref}/year-lvl-${parser[0].yearlvl}/${sem_final}/`);
-//         //console.log(`PARSEIT/administration/parseclass/${acadref}/year-lvl-${yearlvl}/${sem_final}/`);
-//         await get(subjectsRef).then((snapshot) => {
-//             if (snapshot.exists()) {
-//                 localStorage.setItem("parseclass-current-version-id", snapshot.val().version_id);
-
-//             } else {
-//                 console.log("No subjects found");
-//             }
-
-//         });
-//     }
-//     else {
-
-//     }
-// }
-
-async function getAcadStatus() {
-    const ref = child(dbRef, "PARSEIT/administration/academicyear/status/");
-    await get(ref).then((snapshot) => {
-        localStorage.setItem("acad-ongoing-current", snapshot.val().ongoing)
-        status[0].current_sem = snapshot.val().current_sem;
-        status[0].ongoing = snapshot.val().ongoing;
-        status[0].academicref = snapshot.val().academic_ref;
-    });
-
-}
-
-async function populateSubjectsForStudent(studentId, yearlvl, sem, acad_ref) {
-    try {
-        // Fetch the student login information
-        const studentSnapshot = await get(child(dbRef, `PARSEIT/users/${studentId}`));
-        if (!studentSnapshot.exists()) {
-            alert("Student login not found.");
-            return;
-        }
-
-        // Fetch the list of subjects the student is enrolled in
-        const subjectSnapshot = await get(child(dbRef, `PARSEIT/administration/parseclass/${acad_ref}/${yearlvl}/${sem}`));
-        const academicyear_cont = document.getElementById('parseclass_list');
-        academicyear_cont.innerHTML = "";
-
-        if (subjectSnapshot.exists()) {
-            const subjects = subjectSnapshot.val();
-            Object.keys(subjects).forEach((key) => {
-                const subject = subjects[key];
-                const members = subject?.members || [];
-
-                // Check if the student is a member of the subject
-                if (members.includes(studentId)) {
-                    const title = subject?.title || key;
-                    const container = document.createElement("div");
-                    container.className = "radio-subject";
-
-                    const radioButton = document.createElement("input");
-                    radioButton.type = "radio";
-                    radioButton.id = `parseclass-${subject.parseclass_id}`;
-                    radioButton.name = "subject-list";
-                    radioButton.className = "radio-subjectlist";
-                    radioButton.value = title;
-
-                    radioButton.addEventListener("click", () => {
-                        subjectparseclass_id = `${subject.parseclass_id}`;
-                        selectedSubject = title;
-                        document.getElementById("parseclass_list").style.border = "0.5px solid #dcdcdc";
-                    });
-
-                    const label = document.createElement("label");
-                    label.htmlFor = `parseclass-${subject.parseclass_id}`;
-                    label.textContent = title;
-                    label.className = "lbl-subjectlist";
-
-                    container.appendChild(radioButton);
-                    container.appendChild(label);
-                    academicyear_cont.appendChild(container);
-                }
-            });
-
-            // If no subjects match, show a "No data found" message
-            if (academicyear_cont.innerHTML === "") {
-                academicyear_cont.innerHTML = "<div class='nodatafound'>No data found.</div>";
-            }
-        } else {
-            academicyear_cont.innerHTML = "<div class='nodatafound'>No data found.</div>";
-        }
-    } catch (error) {
-        alert(error);
-    }
-}
-
-
-async function constantRunning() {
-    setInterval(() => {
-        getAcadStatus();
-        if (localStorage.getItem("acad-ongoing-current") != localStorage.getItem("acad-ongoing-old")) {
-            if (localStorage.getItem("acad-ongoing-current") === "true") {
-                //reloadSubject(status[0].academicref, parser[0].yearlvl, status[0].academicref, user_parser, parser[0].type);
-                localStorage.setItem("acad-ongoing-old", "true");
-                //console.log("here");
-            }
-            else {
-                document.getElementById("search-parseclass-div").style.display = "none";
-                document.getElementById("parseclass-default-div").style.display = "none";
-                document.getElementById("notyetstarted_div").style.display = "flex";
-                localStorage.setItem("acad-ongoing-old", "false");
-            }
-        }
-        else {
-
-        }
-
-        getUser(user_parser);
-
-        //getVersionID();
-        // console.log(parser[0].disabled);
-        // console.log(parser[0].firstname + " " + parser[0].middlename + " " + parser[0].lastname + " " + parser[0].suffix);
-        // console.log(parser[0].regular);
-        // console.log(parser[0].section);
-        // console.log(parser[0].type);
-        // console.log(parser[0].yearlvl);
-
-        // console.log(status[0].current_sem);
-        // console.log(status[0].ongoing);
-        // console.log(status[0].academicref);
-    }, 1000);
-}
 
 async function findExclusiveStudents(acad_ref, yearlvl, sem) {
     const subjectRef = ref(database, `PARSEIT/administration/parseclass/${acad_ref}/${yearlvl}/${sem}`);
@@ -623,7 +492,6 @@ async function findExclusiveStudents(acad_ref, yearlvl, sem) {
         console.error("Error fetching data:", error);
     }
 }
-
 //for sidebar
 let startX = 0;
 let endX = 0;
