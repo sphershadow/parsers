@@ -1,8 +1,4 @@
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import {
-    getAuth,
-} from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 import {
     getDatabase,
     ref,
@@ -20,7 +16,6 @@ const firebaseConfig = {
     appId: "1:15166597986:web:04b0219b1733780ae61a3b",
 };
 const app = initializeApp(firebaseConfig);
-const auth = getAuth();
 const database = getDatabase(app);
 const dbRef = ref(database)
 
@@ -53,12 +48,13 @@ let status = [{
 let currentsem_running = "";
 let currentacademic_running = "";
 let currentongoing_running = "";
-constantRunning();
+
 setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", async function () {
     document.getElementById("loading_animation_div").style.display = "none";
     document.getElementById("homepage_div").style.display = "flex";
     await getUser(user_parser).then(() => {
+        constantRunning();
         if (parser[0].type === "student") {
             document.getElementById("student_nav").style.display = "flex";
             if (status[0].ongoing === "true") {

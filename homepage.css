@@ -342,7 +342,7 @@ body {
 
 #game-1 {
   position: relative;
-  background-image: url(assets/giphy.gif);
+  background-image: url(assets/);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -362,7 +362,7 @@ body {
 }
 #game-3 {
   position: relative;
-  background-image: url(assets/giphy.webp);
+  background-image: url(assets/);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -372,7 +372,7 @@ body {
 }
 #game-4 {
   position: relative;
-  background-image: url(assets/giphyff.gif);
+  background-image: url(assets/);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
