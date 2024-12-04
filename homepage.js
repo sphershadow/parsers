@@ -50,12 +50,15 @@ let status = [{
     academicref: ""
 }]
 
+let currentsem_running = "";
+let currentacademic_running = "";
+let currentongoing_running = "";
 constantRunning();
 setScreenSize(window.innerWidth, window.innerHeight);
-window.addEventListener("load", function () {
+window.addEventListener("load", async function () {
     document.getElementById("loading_animation_div").style.display = "none";
     document.getElementById("homepage_div").style.display = "flex";
-    getUser(user_parser).then(() => {
+    await getUser(user_parser).then(() => {
         if (parser[0].type === "student") {
             document.getElementById("student_nav").style.display = "flex";
             if (status[0].ongoing === "true") {
@@ -323,8 +326,6 @@ function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section) {
     let parseclass_cont = document.getElementById("parseclass-default-div");
     parseclass_cont.innerHTML = "";
     let parseClassAppend = "";
-    document.getElementById("search-parseclass-div").style.display = "flex";
-    document.getElementById("notyetstarted_div").style.display = "none";
     let sem_final = "first-sem";
     if (sem === "2") {
         sem_final = "second-sem";
@@ -389,6 +390,22 @@ function getCurrentDayName() {
     let weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     return weekdays[today.getDay()];
 }
+document.addEventListener('touchstart', (event) => {
+    startX = event.touches[0].clientX;
+});
+document.addEventListener('touchend', (event) => {
+    endX = event.changedTouches[0].clientX;
+    // if (endX - startX > 50) {
+    //     showSidebar();
+    // }
+    if (startX - endX > 50) {
+        hideSidebar();
+    }
+});
+document.getElementById("community_btn").addEventListener('click', (event) => {
+    event.preventDefault();
+    window.location.href = "https://parseitlearninghub.github.io/community/";
+});
 
 
 function constantRunning() {
@@ -402,9 +419,9 @@ function constantRunning() {
         // console.log(parser[0].section);
         // console.log(parser[0].type);
         // console.log(parser[0].yearlvl);
-        // console.log(status[0].current_sem);
-        // console.log(status[0].ongoing);
-        // console.log(status[0].academicref);
+        console.log(currentacademic_running);
+        console.log(currentsem_running);
+        console.log(currentongoing_running);
     }, 1000);
 }
 async function getAcadStatus() {
@@ -413,6 +430,9 @@ async function getAcadStatus() {
         status[0].current_sem = snapshot.val().current_sem;
         status[0].ongoing = snapshot.val().ongoing;
         status[0].academicref = snapshot.val().academic_ref;
+        currentsem_running = status[0].current_sem;
+        currentacademic_running = status[0].academicref;
+        currentongoing_running = status[0].ongoing;
     });
 
 }
@@ -495,20 +515,3 @@ async function findExclusiveStudents(acad_ref, yearlvl, sem) {
 //for sidebar
 let startX = 0;
 let endX = 0;
-document.addEventListener('touchstart', (event) => {
-    startX = event.touches[0].clientX;
-});
-document.addEventListener('touchend', (event) => {
-    endX = event.changedTouches[0].clientX;
-    // if (endX - startX > 50) {
-    //     showSidebar();
-    // }
-    if (startX - endX > 50) {
-        hideSidebar();
-    }
-});
-
-document.getElementById("community_btn").addEventListener('click', (event) => {
-    event.preventDefault();
-    window.location.href = "https://parseitlearninghub.github.io/community/";
-});
