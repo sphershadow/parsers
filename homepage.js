@@ -115,7 +115,6 @@ document.getElementById("logout_btn").addEventListener("click", function () {
     logout();
 });
 document.getElementById("homelobby_btn").addEventListener("click", function () {
-    console.log("yuep");
     loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
     showBodyWrapper("home_all_sec");
     selectNavIcon("homelobby_img");
@@ -446,36 +445,34 @@ async function changesInOngoing() {
     });
 } changesInOngoing();
 
-// let sem_previousData = null;
-// async function changesInSem() {
+let sem_previousData = null;
+async function changesInSem() {
+    const statusRef = child(dbRef, "PARSEIT/administration/academicyear/status/current_sem");
+    onValue(statusRef, (snapshot) => {
+        if (snapshot.exists()) {
+            const currentData = snapshot.val();
+            if (sem_previousData === null) {
 
-//     const statusRef = child(dbRef, "PARSEIT/administration/academicyear/status/current_sem");
-//     onValue(statusRef, (snapshot) => {
-//         if (snapshot.exists()) {
-//             const currentData = snapshot.val();
-//             if (sem_previousData === null) {
-
-//             } else {
-//                 if (sem_previousData !== currentData) {
-//                     status[0].current_sem = "1";
-//                     if (currentData === "2") {
-//                         status[0].current_sem = "2";
-//                     }
-//                     document.getElementById("search-parseclass-div").style.display = "flex";
-//                     document.getElementById("notyetstarted_div").style.display = "none";
-//                     document.getElementById("parseclass-default-div").style.display = "flex";
-
-//                     loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
-//                 }
-//             }
-//             sem_previousData = currentData;
-//         } else {
-//             console.log('No data available');
-//         }
-//     }, (error) => {
-//         console.error('Error reading data:', error);
-//     });
-// } changesInSem();
+            } else {
+                if (sem_previousData !== currentData) {
+                    status[0].current_sem = "1";
+                    if (currentData === "2") {
+                        status[0].current_sem = "2";
+                    }
+                    document.getElementById("search-parseclass-div").style.display = "flex";
+                    document.getElementById("notyetstarted_div").style.display = "none";
+                    document.getElementById("parseclass-default-div").style.display = "flex";
+                    loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+                }
+            }
+            sem_previousData = currentData;
+        } else {
+            console.log('No data available');
+        }
+    }, (error) => {
+        console.error('Error reading data:', error);
+    });
+} changesInSem();
 
 // let academicref_previousData = null;
 // async function changesInAcademicRef() {
