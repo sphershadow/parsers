@@ -4,7 +4,10 @@ import {
     ref,
     get,
     child,
-    onValue
+    onValue,
+    query,
+    orderByKey,
+    limitToLast
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyCFqgbA_t3EBVO21nW70umJOHX3UdRr9MY",
@@ -53,6 +56,7 @@ window.addEventListener("load", async function () {
     await getUser(user_parser).then(async () => {
         await getAcadStatus().then(() => {
             document.getElementById("homepage_div").style.display = "flex";
+            viewlatestAnnouncement();
             if (parser[0].type === "student") {
                 document.getElementById("student_nav").style.display = "flex";
                 if (status[0].ongoing === "true") {
@@ -614,5 +618,41 @@ function getUser(id) {
             reject(error);
         });
     });
+}
+
+async function viewlatestAnnouncement() {
+    const date_announcement_lbl = document.getElementById("date_announcement_lbl");
+    const announcement_lbl = document.getElementById("announcement_lbl");
+    const time_announcement_lbl = document.getElementById("time_announcement_lbl");
+    const dbRef = ref(database, "PARSEIT/administration/announcement/");
+    const latestAnnouncementQuery = query(dbRef, orderByKey(), limitToLast(1));
+
+    try {
+        const snapshot = await get(latestAnnouncementQuery);
+        if (snapshot.exists()) {
+            let latestAnnouncement = null;
+
+            snapshot.forEach((childSnapshot) => {
+                latestAnnouncement = childSnapshot.val();
+            });
+
+            if (latestAnnouncement) {
+                date_announcement_lbl.innerText = latestAnnouncement.date || "[Date not available]";
+                announcement_lbl.innerText = latestAnnouncement.header || "[Message not available]";
+                time_announcement_lbl.innerText = latestAnnouncement.time || "[Time not available]";
+                document.getElementById("announcement-div").style.backgroundImage = `url(assets/announcement/${latestAnnouncement.background_img || "4.png"})`;
+            }
+        } else {
+
+            console.log("No announcements available.");
+            document.getElementById("announcement-div").style.backgroundImage = "url(assets/announcement/4.png)";
+            date_announcement_lbl.innerText = "There is no announcement";
+            date_announcement_lbl.style.color = "#fefefe";
+            announcement_lbl.innerText = "Seems like you are all caught up!";
+            announcement_lbl.style.color = "#fefefe";
+        }
+    } catch (error) {
+        console.error("Error fetching announcement: ", error);
+    }
 }
 

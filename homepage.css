@@ -264,6 +264,7 @@ body {
 
 #home_all_sec {
   background-color: transparent;
+  box-sizing: border-box;
 }
 #game_student_sec {
   background-color: transparent;
@@ -440,21 +441,6 @@ body {
   color: #fefefe;
   font-family: Inter-Light;
   font-size: 14px;
-}
-
-.announcement-div {
-  width: 100%;
-  height: 60px;
-  background-color: red;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  overflow: hidden;
-  border-radius: 5px;
-  border: none;
-  margin-bottom: 5px;
 }
 
 .parseclass-default-div {
@@ -806,4 +792,73 @@ body {
 .select-bg-head {
   display: flex;
   justify-content: space-between;
+}
+
+.announcement-div {
+  margin: 0;
+  padding: 0;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  /* background-image: url(assets/images/background_images/announcement_bg_600px.png); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left;
+  overflow: hidden;
+  width: 100%;
+  background-color: transparent;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 0.5px solid #e5e5e5;
+  margin-bottom: 5px;
+}
+#date_announcement_lbl {
+  font-size: 14px;
+  font-family: Inter-Bold;
+}
+.xdate {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 3px;
+}
+#time_announcement_lbl {
+  font-size: 12px;
+}
+#announcement_lbl {
+  font-size: 14px;
+  font-family: Inter-Light;
+  position: absolute;
+  animation: scrolltoleft;
+  animation-duration: 20s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  background-color: transparent;
+  transform: translateX(0%);
+  left: 100%;
+}
+
+.xannounce {
+  text-align: left;
+  height: 19px;
+  width: 290px;
+  background-color: transparent;
+  white-space: nowrap;
+  position: relative;
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 1) 20%,
+    rgba(0, 0, 0, 1) 80%,
+    rgba(0, 0, 0, 0)
+  );
+  color: #000000;
+}
+
+@keyframes scrolltoleft {
+  to {
+    transform: translateX(-100%);
+    left: 0%;
+  }
 }
