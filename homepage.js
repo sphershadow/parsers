@@ -58,7 +58,7 @@ window.addEventListener("load", async function () {
                     document.getElementById("search-parseclass-div").style.display = "flex";
                     document.getElementById("notyetstarted_div").style.display = "none";
                     document.getElementById("parseclass-default-div").style.display = "flex";
-                    //loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+                    loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
                 }
                 else {
                     document.getElementById("parseclass-default-div").style.display = "none";
@@ -332,8 +332,8 @@ function revertNavLbl(id) {
 function changeHomeLbl(id, type) {
     document.getElementById(id).innerText = type;
 }
-function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section) {
-    console.log((acadref, yearlvl, sem, userId, type, section));
+async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section) {
+    //console.log(acadref, yearlvl, sem, userId, type, section);
     let parseclass_cont = document.getElementById("parseclass-default-div");
     parseclass_cont.innerHTML = "";
     let parseClassAppend = "";
@@ -348,20 +348,23 @@ function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section) {
                 snapshot.forEach((subjectSnapshot) => {
                     const sectionRef = child(subjectSnapshot.ref, `${section}`);
                     get(sectionRef).then((sectionSnapshot) => {
-                        sectionSnapshot.forEach((childSnapshot) => {
-                            if (childSnapshot.exists()) {
-                                if (childSnapshot.key === userId) {
-                                    let parseclassid = subjectSnapshot.val().name + "_" + childSnapshot.val().section;
-                                    let parseimgid = subjectSnapshot.key.replace(/\s+/g, "");
-                                    let parseclass_day = sectionSnapshot.val().sched_day;
-                                    let parseclass_sched = sectionSnapshot.val().sched_start + " - " + sectionSnapshot.val().sched_end;
+                        //sched, members
+                        if (sectionSnapshot.exists()) {
+                            const memberRef = sectionSnapshot.child("members"); // Access the member reference
+                            if (memberRef.exists()) {
+                                memberRef.forEach((idSnapshot) => {
+                                    if (idSnapshot.key === userId) {
+                                        let parseclassid = subjectSnapshot.val().name + "_" + idSnapshot.val().section;
+                                        let parseimgid = subjectSnapshot.key.replace(/\s+/g, "");
+                                        let parseclass_day = sectionSnapshot.val().sched_day;
+                                        let parseclass_sched = sectionSnapshot.val().sched_start + " - " + sectionSnapshot.val().sched_end;
 
-                                    if (getCurrentDayName() !== parseclass_day) {
-                                        parseclass_day = "No Schedule Today";
-                                        parseclass_sched = "";
-                                    }
+                                        if (getCurrentDayName() !== parseclass_day) {
+                                            parseclass_day = "No Schedule Today";
+                                            parseclass_sched = "";
+                                        }
 
-                                    parseClassAppend = `
+                                        parseClassAppend = `
                                     <div class="parseclass-default-wrapper parseclass" id="${parseimgid}" value ="${parseclassid.replace(/\s+/g, "")}">
                                     <div class="parseclass-default-gradient">
                                     <span class="parsesched-default-span">
@@ -374,26 +377,29 @@ function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section) {
                                     </span>
                                     </div>
                                     </div>`
-                                    parseclass_cont.innerHTML += parseClassAppend;
-                                    document.getElementById(`${parseimgid}`).style.backgroundImage = "url(assets/parseclass/" + parseimgid + ".jpg)";
-                                    localStorage.setItem("parseclass-old-version-id", snapshot.val().version_id);
-                                }
+                                        parseclass_cont.innerHTML += parseClassAppend;
+                                        document.getElementById(`${parseimgid}`).style.backgroundImage = "url(assets/parseclass/" + parseimgid + ".jpg)";
+                                        localStorage.setItem("parseclass-old-version-id", snapshot.val().version_id);
+                                    }
+                                });
                             }
-                        });
+                            else {
+                                console.log('No member found,');
+                            }
+                        } else {
+                            console.log("No members found.");
+                        }
                     }).catch((error) => {
-                        console.error("Error retrieving members:", error);
-                    });
+                        console.log(error);
+                    })
                 });
-            } else {
-                console.log("No subjects found");
             }
-        }).catch((error) => {
-            console.error("Error retrieving subjects:", error);
+            else {
+                console.log("No Data Found.");
+            }
         });
     }
-    else {
-        //for teacher
-    }
+
 
 }
 function getCurrentDayName() {
