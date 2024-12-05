@@ -650,12 +650,17 @@ function viewLatestAnnouncement() {
                 announcement_lbl.innerText = latestAnnouncement.header || "[Message not available]";
                 time_announcement_lbl.innerText = latestAnnouncement.time || "[Time not available]";
                 document.getElementById("announcement-div").style.backgroundImage = `url(assets/announcement/${latestAnnouncement.background_img || "4.png"})`;
+                date_announcement_lbl.style.color = "#323232";
+                announcement_lbl.style.color = "#323232";
+                time_announcement_lbl.style.color = "#323232";
+
                 if (latestAnnouncement.background_img === "4.png") {
 
                     date_announcement_lbl.style.color = "#fefefe";
                     announcement_lbl.style.color = "#fefefe";
                     time_announcement_lbl.style.color = "#fefefe";
                 }
+
             }
         } else {
             console.log("No announcements available.");
