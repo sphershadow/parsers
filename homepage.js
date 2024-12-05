@@ -23,6 +23,7 @@ const dbRef = ref(database)
 
 //vars
 let user_parser = localStorage.getItem("user-parser");
+let parseclass_cont = document.getElementById("parseclass-default-div");
 
 let parser = [{
     activated: "",
@@ -61,6 +62,7 @@ window.addEventListener("load", async function () {
                     loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
                 }
                 else {
+                    loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
                     document.getElementById("parseclass-default-div").style.display = "none";
                     document.getElementById("search-parseclass-div").style.display = "none";
                     document.getElementById("notyetstarted_div").style.display = "flex";
@@ -113,6 +115,8 @@ document.getElementById("logout_btn").addEventListener("click", function () {
     logout();
 });
 document.getElementById("homelobby_btn").addEventListener("click", function () {
+    console.log("yuep");
+    loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
     showBodyWrapper("home_all_sec");
     selectNavIcon("homelobby_img");
     selectNavLbl("homelobby_lbl");
@@ -333,8 +337,6 @@ function changeHomeLbl(id, type) {
     document.getElementById(id).innerText = type;
 }
 async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section) {
-    //console.log(acadref, yearlvl, sem, userId, type, section);
-    let parseclass_cont = document.getElementById("parseclass-default-div");
     parseclass_cont.innerHTML = "";
     let parseClassAppend = "";
     let sem_final = "first-sem";
@@ -379,7 +381,6 @@ async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section)
                                     </div>`
                                         parseclass_cont.innerHTML += parseClassAppend;
                                         document.getElementById(`${parseimgid}`).style.backgroundImage = "url(assets/parseclass/" + parseimgid + ".jpg)";
-                                        localStorage.setItem("parseclass-old-version-id", snapshot.val().version_id);
                                     }
                                 });
                             }
@@ -420,14 +421,19 @@ async function changesInOngoing() {
                 //console.log('Ongoing:', currentData);
                 if (ongoing_previousData !== currentData) {
                     if (currentData === "true") {
+                        status[0].ongoing = "true";
                         document.getElementById("search-parseclass-div").style.display = "flex";
                         document.getElementById("notyetstarted_div").style.display = "none";
                         document.getElementById("parseclass-default-div").style.display = "flex";
+                        loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
                     }
                     else {
+                        status[0].ongoing = "false";
                         document.getElementById("search-parseclass-div").style.display = "none";
                         document.getElementById("notyetstarted_div").style.display = "flex";
                         document.getElementById("parseclass-default-div").style.display = "none";
+                        loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+
                     }
                 }
             }
@@ -440,55 +446,62 @@ async function changesInOngoing() {
     });
 } changesInOngoing();
 
-let sem_previousData = null;
-async function changesInSem() {
-    const statusRef = child(dbRef, "PARSEIT/administration/academicyear/status/current_sem");
-    onValue(statusRef, (snapshot) => {
-        if (snapshot.exists()) {
-            const currentData = snapshot.val();
-            if (sem_previousData === null) {
-                //console.log('Ongoing:', currentData);
-            } else {
-                //console.log('Ongoing:', currentData);
-                if (sem_previousData !== currentData) {
-                    document.getElementById("search-parseclass-div").style.display = "flex";
-                    document.getElementById("notyetstarted_div").style.display = "none";
-                    document.getElementById("parseclass-default-div").style.display = "flex";
-                }
-            }
-            sem_previousData = currentData;
-        } else {
-            console.log('No data available');
-        }
-    }, (error) => {
-        console.error('Error reading data:', error);
-    });
-} changesInSem();
+// let sem_previousData = null;
+// async function changesInSem() {
 
-let academicref_previousData = null;
-async function changesInAcademicRef() {
-    const statusRef = child(dbRef, "PARSEIT/administration/academicyear/status/current_sem");
-    onValue(statusRef, (snapshot) => {
-        if (snapshot.exists()) {
-            const currentData = snapshot.val();
-            if (academicref_previousData === null) {
-                //console.log('Ongoing:', currentData);
-            } else {
-                //console.log('Ongoing:', currentData);
-                if (academicref_previousData !== currentData) {
-                    document.getElementById("search-parseclass-div").style.display = "flex";
-                    document.getElementById("notyetstarted_div").style.display = "none";
-                    document.getElementById("parseclass-default-div").style.display = "flex";
-                }
-            }
-            academicref_previousData = currentData;
-        } else {
-            console.log('No data available');
-        }
-    }, (error) => {
-        console.error('Error reading data:', error);
-    });
-} changesInAcademicRef();
+//     const statusRef = child(dbRef, "PARSEIT/administration/academicyear/status/current_sem");
+//     onValue(statusRef, (snapshot) => {
+//         if (snapshot.exists()) {
+//             const currentData = snapshot.val();
+//             if (sem_previousData === null) {
+
+//             } else {
+//                 if (sem_previousData !== currentData) {
+//                     status[0].current_sem = "1";
+//                     if (currentData === "2") {
+//                         status[0].current_sem = "2";
+//                     }
+//                     document.getElementById("search-parseclass-div").style.display = "flex";
+//                     document.getElementById("notyetstarted_div").style.display = "none";
+//                     document.getElementById("parseclass-default-div").style.display = "flex";
+
+//                     loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+//                 }
+//             }
+//             sem_previousData = currentData;
+//         } else {
+//             console.log('No data available');
+//         }
+//     }, (error) => {
+//         console.error('Error reading data:', error);
+//     });
+// } changesInSem();
+
+// let academicref_previousData = null;
+// async function changesInAcademicRef() {
+//     const statusRef = child(dbRef, "PARSEIT/administration/academicyear/status/current_sem");
+//     onValue(statusRef, (snapshot) => {
+//         if (snapshot.exists()) {
+//             const currentData = snapshot.val();
+//             if (academicref_previousData === null) {
+//                 //console.log('Ongoing:', currentData);
+//             } else {
+//                 //console.log('Ongoing:', currentData);
+//                 if (academicref_previousData !== currentData) {
+//                     document.getElementById("search-parseclass-div").style.display = "flex";
+//                     document.getElementById("notyetstarted_div").style.display = "none";
+//                     document.getElementById("parseclass-default-div").style.display = "flex";
+//                     loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+//                 }
+//             }
+//             academicref_previousData = currentData;
+//         } else {
+//             console.log('No data available');
+//         }
+//     }, (error) => {
+//         console.error('Error reading data:', error);
+//     });
+// } changesInAcademicRef();
 
 
 async function getAcadStatus() {
@@ -542,35 +555,4 @@ function getUser(id) {
         });
     });
 }
-async function findExclusiveStudents(acad_ref, yearlvl, sem) {
-    const subjectRef = ref(database, `PARSEIT/administration/parseclass/${acad_ref}/${yearlvl}/${sem}`);
-    try {
-        const snapshot = await get(subjectRef);
-        if (snapshot.exists()) {
-            const members = snapshot.val().members;
-            const allMembers = Object.keys(members); // List of student IDs
-            const uniqueStudents = [];
 
-            for (let studentId of allMembers) {
-                const studentRef = ref(db, `path_to_all_classes_and_subjects/${studentId}`);
-                const studentSnapshot = await get(studentRef);
-
-                if (studentSnapshot.exists()) {
-                    const enrolledSubjects = Object.keys(studentSnapshot.val());
-
-                    // Check if the student is only enrolled in one subject
-                    if (enrolledSubjects.length === 1) {
-                        uniqueStudents.push(studentId);
-                    }
-                }
-            }
-
-            console.log("Students enrolled only in this subject:", uniqueStudents);
-            return uniqueStudents;
-        } else {
-            console.log("No data available at the specified path.");
-        }
-    } catch (error) {
-        console.error("Error fetching data:", error);
-    }
-}
