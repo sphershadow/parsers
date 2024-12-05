@@ -56,7 +56,7 @@ window.addEventListener("load", async function () {
     await getUser(user_parser).then(async () => {
         await getAcadStatus().then(() => {
             document.getElementById("homepage_div").style.display = "flex";
-            viewlatestAnnouncement();
+            viewLatestAnnouncement();
             if (parser[0].type === "student") {
                 document.getElementById("student_nav").style.display = "flex";
                 if (status[0].ongoing === "true") {
@@ -620,15 +620,14 @@ function getUser(id) {
     });
 }
 
-async function viewlatestAnnouncement() {
+function viewLatestAnnouncement() {
     const date_announcement_lbl = document.getElementById("date_announcement_lbl");
     const announcement_lbl = document.getElementById("announcement_lbl");
     const time_announcement_lbl = document.getElementById("time_announcement_lbl");
     const dbRef = ref(database, "PARSEIT/administration/announcement/");
     const latestAnnouncementQuery = query(dbRef, orderByKey(), limitToLast(1));
 
-    try {
-        const snapshot = await get(latestAnnouncementQuery);
+    onValue(latestAnnouncementQuery, (snapshot) => {
         if (snapshot.exists()) {
             let latestAnnouncement = null;
 
@@ -643,7 +642,6 @@ async function viewlatestAnnouncement() {
                 document.getElementById("announcement-div").style.backgroundImage = `url(assets/announcement/${latestAnnouncement.background_img || "4.png"})`;
             }
         } else {
-
             console.log("No announcements available.");
             document.getElementById("announcement-div").style.backgroundImage = "url(assets/announcement/4.png)";
             date_announcement_lbl.innerText = "There is no announcement";
@@ -651,8 +649,9 @@ async function viewlatestAnnouncement() {
             announcement_lbl.innerText = "Seems like you are all caught up!";
             announcement_lbl.style.color = "#fefefe";
         }
-    } catch (error) {
+    }, (error) => {
         console.error("Error fetching announcement: ", error);
-    }
+    });
 }
+
 
