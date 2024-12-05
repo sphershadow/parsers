@@ -464,6 +464,7 @@ body {
   flex-direction: column;
   overflow-x: scroll;
   scrollbar-width: none;
+  padding-bottom: 50%;
 }
 
 .parseclass-default-wrapper {
