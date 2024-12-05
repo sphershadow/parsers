@@ -7,7 +7,9 @@ import {
     onValue,
     query,
     orderByKey,
-    limitToLast
+    limitToLast,
+    push,
+    set
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyCFqgbA_t3EBVO21nW70umJOHX3UdRr9MY",
@@ -27,6 +29,7 @@ const dbRef = ref(database)
 //vars
 let user_parser = localStorage.getItem("user-parser");
 let parseclass_cont = document.getElementById("parseclass-default-div");
+let backgroundImgInput = "";
 
 let parser = [{
     activated: "",
@@ -316,6 +319,7 @@ document.getElementById("background-1").addEventListener('click', (event) => {
     hideBackground("background-3");
     hideBackground("background-4");
     document.getElementById("select-bg-img").style.display = "block";
+    backgroundImgInput = "4.png";
 });
 
 document.getElementById("background-2").addEventListener('click', (event) => {
@@ -323,6 +327,7 @@ document.getElementById("background-2").addEventListener('click', (event) => {
     hideBackground("background-3");
     hideBackground("background-4");
     document.getElementById("select-bg-img").style.display = "block";
+    backgroundImgInput = "1.png";
 });
 
 document.getElementById("background-3").addEventListener('click', (event) => {
@@ -330,6 +335,7 @@ document.getElementById("background-3").addEventListener('click', (event) => {
     hideBackground("background-2");
     hideBackground("background-4");
     document.getElementById("select-bg-img").style.display = "block";
+    backgroundImgInput = "2.png";
 });
 
 document.getElementById("background-4").addEventListener('click', (event) => {
@@ -337,6 +343,7 @@ document.getElementById("background-4").addEventListener('click', (event) => {
     hideBackground("background-3");
     hideBackground("background-2");
     document.getElementById("select-bg-img").style.display = "block";
+    backgroundImgInput = "3.png";
 });
 
 document.getElementById("select-bg-img").addEventListener('click', (event) => {
@@ -346,6 +353,9 @@ document.getElementById("select-bg-img").addEventListener('click', (event) => {
     showBackground("background-4");
     document.getElementById("share-announcement-btn").style.display = "none";
     document.getElementById("select-bg-img").style.display = "none";
+});
+document.getElementById("share-announcement-btn").addEventListener('click', (event) => {
+    submitAnnouncement();
 });
 
 
@@ -654,4 +664,57 @@ function viewLatestAnnouncement() {
     });
 }
 
+async function submitAnnouncement() {
+    const dateInput = getCurrentDayName();
+    const timeInput = getTimeWithAMPM();
+    const headerInput = document.getElementById("body-share-header").value;
+    const descriptionInput = document.getElementById("body-share-description").value;
+
+    if (!dateInput || !timeInput || !headerInput) {
+
+        return;
+    }
+
+    const newAnnouncement = {
+        date: dateInput,
+        time: timeInput,
+        header: headerInput,
+        description: descriptionInput,
+        background_img: backgroundImgInput,
+        authorid: user_parser,
+    };
+
+    const dbRef = ref(database, "PARSEIT/administration/announcement/");
+    const newAnnouncementRef = push(dbRef);
+
+    try {
+        await set(newAnnouncementRef, newAnnouncement);
+
+
+        document.getElementById("check_animation_div").style.display = "flex";
+        setTimeout(() => {
+            document.getElementById("check_animation_div").style.display = "none";
+            document.getElementById("body-share-header").value = "";
+            document.getElementById("body-share-description").value = "";
+            backgroundImgInput = "";
+            showBackground("background-1");
+            showBackground("background-2");
+            showBackground("background-3");
+            showBackground("background-4");
+        }, 2000);
+
+    } catch (error) {
+        console.error("Error submitting announcement: ", error);
+    }
+}
+function getTimeWithAMPM() {
+    const now = new Date();
+    const options = {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true // To use 12-hour format with AM/PM
+    };
+    const timeString = new Intl.DateTimeFormat('en-US', options).format(now);
+    return timeString;
+}
 
