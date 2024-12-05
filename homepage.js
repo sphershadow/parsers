@@ -650,6 +650,12 @@ function viewLatestAnnouncement() {
                 announcement_lbl.innerText = latestAnnouncement.header || "[Message not available]";
                 time_announcement_lbl.innerText = latestAnnouncement.time || "[Time not available]";
                 document.getElementById("announcement-div").style.backgroundImage = `url(assets/announcement/${latestAnnouncement.background_img || "4.png"})`;
+                if (latestAnnouncement.background_img === "4.png") {
+
+                    date_announcement_lbl.style.color = "#fefefe";
+                    announcement_lbl.style.color = "#fefefe";
+                    time_announcement_lbl.style.color = "#fefefe";
+                }
             }
         } else {
             console.log("No announcements available.");
@@ -658,6 +664,7 @@ function viewLatestAnnouncement() {
             date_announcement_lbl.style.color = "#fefefe";
             announcement_lbl.innerText = "Seems like you are all caught up!";
             announcement_lbl.style.color = "#fefefe";
+            time_announcement_lbl.style.color = "#fefefe";
         }
     }, (error) => {
         console.error("Error fetching announcement: ", error);
