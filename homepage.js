@@ -3,7 +3,8 @@ import {
     getDatabase,
     ref,
     get,
-    child
+    child,
+    onValue
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyCFqgbA_t3EBVO21nW70umJOHX3UdRr9MY",
@@ -45,96 +46,72 @@ let status = [{
     academicref: ""
 }]
 
-let currentsem_running = "";
-let currentacademic_running = "";
-let currentongoing_running = "";
-
 setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", async function () {
-    document.getElementById("loading_animation_div").style.display = "none";
-    document.getElementById("homepage_div").style.display = "flex";
-    await getUser(user_parser).then(() => {
-        constantRunning();
-        if (parser[0].type === "student") {
-            document.getElementById("student_nav").style.display = "flex";
-            if (status[0].ongoing === "true") {
-                document.getElementById("search-parseclass-div").style.display = "flex";
-                document.getElementById("parseclass-default-div").style.display = "flex";
-                document.getElementById("notyetstarted_div").style.display = "none";
-                loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+    document.getElementById("loading_animation_div").style.display = "none"; //remove loading screen
+    await getUser(user_parser).then(async () => {
+        await getAcadStatus().then(() => {
+            document.getElementById("homepage_div").style.display = "flex";
+            if (parser[0].type === "student") {
+                document.getElementById("student_nav").style.display = "flex";
+                if (status[0].ongoing === "true") {
+                    document.getElementById("search-parseclass-div").style.display = "flex";
+                    document.getElementById("notyetstarted_div").style.display = "none";
+                    document.getElementById("parseclass-default-div").style.display = "flex";
+                    //loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+                }
+                else {
+                    document.getElementById("parseclass-default-div").style.display = "none";
+                    document.getElementById("search-parseclass-div").style.display = "none";
+                    document.getElementById("notyetstarted_div").style.display = "flex";
+                }
+                //show
+                showBodyWrapper("home_all_sec");
+                selectNavIcon("homelobby_img");
+                selectNavLbl("homelobby_lbl");
+                changeHomeLbl("lobby_title", "Home");
+                selectNavIcon("homelobby_imgx");
+                selectNavLbl("homelobby_lblx");
+
+                //hide
+                hideBodyWrapper("game_student_sec");
+                hideBodyWrapper("library_student_sec");
+                hideBodyWrapper("honors_teacher_sec");
+                hideBodyWrapper("chatgpt_all_sec");
+                hideBodyWrapper("share_teacher_sec");
+
+                revertNavIcon("homegame_img");
+                revertNavLbl("homegame_lbl");
+
+                revertNavIcon("homelibrary_img");
+                revertNavLbl("homelibrary_lbl");
+
+                revertNavIcon("homehonors_img");
+                revertNavLbl("homehonors_lbl");
+
+                revertNavIcon("homechatbot_img");
+                revertNavLbl("homechatbot_lbl");
+
+                revertNavIcon("homechatbot_imgx");
+                revertNavLbl("homechatbot_lblx");
+
+                revertNavIcon("homeshare_img");
+                revertNavLbl("homeshare_lbl");
             }
             else {
-                document.getElementById("parseclass-default-div").style.display = "none";
-                document.getElementById("search-parseclass-div").style.display = "none";
-                document.getElementById("notyetstarted_div").style.display = "flex";
+                document.getElementById("teacher_nav").style.display = "flex";
             }
-        }
-        else {
-            document.getElementById("teacher_nav").style.display = "flex";
-        }
-        //show
-        showBodyWrapper("home_all_sec");
-        selectNavIcon("homelobby_img");
-        selectNavLbl("homelobby_lbl");
-        changeHomeLbl("lobby_title", "Home");
-        selectNavIcon("homelobby_imgx");
-        selectNavLbl("homelobby_lblx");
-
-        //hide
-        hideBodyWrapper("game_student_sec");
-        hideBodyWrapper("library_student_sec");
-        hideBodyWrapper("honors_teacher_sec");
-        hideBodyWrapper("chatgpt_all_sec");
-        hideBodyWrapper("share_teacher_sec");
-
-        revertNavIcon("homegame_img");
-        revertNavLbl("homegame_lbl");
-
-        revertNavIcon("homelibrary_img");
-        revertNavLbl("homelibrary_lbl");
-
-        revertNavIcon("homehonors_img");
-        revertNavLbl("homehonors_lbl");
-
-        revertNavIcon("homechatbot_img");
-        revertNavLbl("homechatbot_lbl");
-
-        revertNavIcon("homechatbot_imgx");
-        revertNavLbl("homechatbot_lblx");
-
-        revertNavIcon("homeshare_img");
-        revertNavLbl("homeshare_lbl");
+        });
     });
 });
 
-function setScreenSize(width, height) {
-    document.body.style.width = width + "px";
-    document.body.style.height = height + "px";
-}
 
 document.getElementById("sidebar_btn").addEventListener("click", function () {
     showSidebar();
 });
-
-function showSidebar() {
-    document.getElementById("sidebar_div").style.zIndex = "100";
-    document.getElementById("sidebar_div").style.display = "flex";
-    document.getElementById("sidebar_frame").style.animation = "showsidebar 0.3s ease-in-out forwards";
-}
-function hideSidebar() {
-    document.getElementById("sidebar_frame").style.animation = "hidesidebar 0.3s ease-in-out forwards";
-    setTimeout(() => {
-        document.getElementById("sidebar_div").style.zIndex = "-1";
-    }, 300);
-}
 document.getElementById("logout_btn").addEventListener("click", function () {
     logout();
 });
-function logout() {
-    localStorage.removeItem("user-parser");
-    window.location.href = "login.html";
-}
-
 document.getElementById("homelobby_btn").addEventListener("click", function () {
     showBodyWrapper("home_all_sec");
     selectNavIcon("homelobby_img");
@@ -287,6 +264,53 @@ document.getElementById("homechatbot_btnx").addEventListener("click", function (
     revertNavIcon("homeshare_img");
     revertNavLbl("homeshare_lbl");
 });
+document.getElementById("game-1").addEventListener("click", function () {
+    window.location.href = "https://parseitlearninghub.github.io/game-flipcard/";
+});
+document.getElementById("game-2").addEventListener("click", function () {
+    window.location.href = "https://parseitlearninghub.github.io/game-fruitmania/";
+});
+document.getElementById("game-3").addEventListener("click", function () {
+    window.location.href = "https://parseitlearninghub.github.io/game-quiznotes/";
+});
+let startX = 0;
+let endX = 0;
+document.addEventListener('touchstart', (event) => {
+    startX = event.touches[0].clientX;
+});
+document.addEventListener('touchend', (event) => {
+    endX = event.changedTouches[0].clientX;
+    // if (endX - startX > 50) {
+    //     showSidebar();
+    // }
+    if (startX - endX > 50) {
+        hideSidebar();
+    }
+});
+document.getElementById("community_btn").addEventListener('click', (event) => {
+    event.preventDefault();
+    window.location.href = "https://parseitlearninghub.github.io/community/";
+});
+
+function setScreenSize(width, height) {
+    document.body.style.width = width + "px";
+    document.body.style.height = height + "px";
+}
+function showSidebar() {
+    document.getElementById("sidebar_div").style.zIndex = "100";
+    document.getElementById("sidebar_div").style.display = "flex";
+    document.getElementById("sidebar_frame").style.animation = "showsidebar 0.3s ease-in-out forwards";
+}
+function hideSidebar() {
+    document.getElementById("sidebar_frame").style.animation = "hidesidebar 0.3s ease-in-out forwards";
+    setTimeout(() => {
+        document.getElementById("sidebar_div").style.zIndex = "-1";
+    }, 300);
+}
+function logout() {
+    localStorage.removeItem("user-parser");
+    window.location.href = "login.html";
+}
 function showBodyWrapper(id) {
     document.getElementById(id).style.display = "block";
 }
@@ -308,15 +332,6 @@ function revertNavLbl(id) {
 function changeHomeLbl(id, type) {
     document.getElementById(id).innerText = type;
 }
-document.getElementById("game-1").addEventListener("click", function () {
-    window.location.href = "https://parseitlearninghub.github.io/game-flipcard/";
-});
-document.getElementById("game-2").addEventListener("click", function () {
-    window.location.href = "https://parseitlearninghub.github.io/game-fruitmania/";
-});
-document.getElementById("game-3").addEventListener("click", function () {
-    window.location.href = "https://parseitlearninghub.github.io/game-quiznotes/";
-});
 function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section) {
     console.log((acadref, yearlvl, sem, userId, type, section));
     let parseclass_cont = document.getElementById("parseclass-default-div");
@@ -386,49 +401,96 @@ function getCurrentDayName() {
     let weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     return weekdays[today.getDay()];
 }
-document.addEventListener('touchstart', (event) => {
-    startX = event.touches[0].clientX;
-});
-document.addEventListener('touchend', (event) => {
-    endX = event.changedTouches[0].clientX;
-    // if (endX - startX > 50) {
-    //     showSidebar();
-    // }
-    if (startX - endX > 50) {
-        hideSidebar();
-    }
-});
-document.getElementById("community_btn").addEventListener('click', (event) => {
-    event.preventDefault();
-    window.location.href = "https://parseitlearninghub.github.io/community/";
-});
+
+let ongoing_previousData = null;
+async function changesInOngoing() {
+    const statusRef = child(dbRef, "PARSEIT/administration/academicyear/status/ongoing");
+    onValue(statusRef, (snapshot) => {
+        if (snapshot.exists()) {
+            const currentData = snapshot.val();
+            if (ongoing_previousData === null) {
+                //console.log('Ongoing:', currentData);
+            } else {
+                //console.log('Ongoing:', currentData);
+                if (ongoing_previousData !== currentData) {
+                    if (currentData === "true") {
+                        document.getElementById("search-parseclass-div").style.display = "flex";
+                        document.getElementById("notyetstarted_div").style.display = "none";
+                        document.getElementById("parseclass-default-div").style.display = "flex";
+                    }
+                    else {
+                        document.getElementById("search-parseclass-div").style.display = "none";
+                        document.getElementById("notyetstarted_div").style.display = "flex";
+                        document.getElementById("parseclass-default-div").style.display = "none";
+                    }
+                }
+            }
+            ongoing_previousData = currentData;
+        } else {
+            console.log('No data available');
+        }
+    }, (error) => {
+        console.error('Error reading data:', error);
+    });
+} changesInOngoing();
+
+let sem_previousData = null;
+async function changesInSem() {
+    const statusRef = child(dbRef, "PARSEIT/administration/academicyear/status/current_sem");
+    onValue(statusRef, (snapshot) => {
+        if (snapshot.exists()) {
+            const currentData = snapshot.val();
+            if (sem_previousData === null) {
+                //console.log('Ongoing:', currentData);
+            } else {
+                //console.log('Ongoing:', currentData);
+                if (sem_previousData !== currentData) {
+                    document.getElementById("search-parseclass-div").style.display = "flex";
+                    document.getElementById("notyetstarted_div").style.display = "none";
+                    document.getElementById("parseclass-default-div").style.display = "flex";
+                }
+            }
+            sem_previousData = currentData;
+        } else {
+            console.log('No data available');
+        }
+    }, (error) => {
+        console.error('Error reading data:', error);
+    });
+} changesInSem();
+
+let academicref_previousData = null;
+async function changesInAcademicRef() {
+    const statusRef = child(dbRef, "PARSEIT/administration/academicyear/status/current_sem");
+    onValue(statusRef, (snapshot) => {
+        if (snapshot.exists()) {
+            const currentData = snapshot.val();
+            if (academicref_previousData === null) {
+                //console.log('Ongoing:', currentData);
+            } else {
+                //console.log('Ongoing:', currentData);
+                if (academicref_previousData !== currentData) {
+                    document.getElementById("search-parseclass-div").style.display = "flex";
+                    document.getElementById("notyetstarted_div").style.display = "none";
+                    document.getElementById("parseclass-default-div").style.display = "flex";
+                }
+            }
+            academicref_previousData = currentData;
+        } else {
+            console.log('No data available');
+        }
+    }, (error) => {
+        console.error('Error reading data:', error);
+    });
+} changesInAcademicRef();
 
 
-function constantRunning() {
-    setInterval(() => {
-        getAcadStatus();
-
-        // getVersionID();
-        // console.log(parser[0].disabled);
-        // console.log(parser[0].firstname + " " + parser[0].middlename + " " + parser[0].lastname + " " + parser[0].suffix);
-        // console.log(parser[0].regular);
-        // console.log(parser[0].section);
-        // console.log(parser[0].type);
-        // console.log(parser[0].yearlvl);
-        console.log(currentacademic_running);
-        console.log(currentsem_running);
-        console.log(currentongoing_running);
-    }, 1000);
-}
 async function getAcadStatus() {
     const ref = child(dbRef, "PARSEIT/administration/academicyear/status/");
     await get(ref).then((snapshot) => {
         status[0].current_sem = snapshot.val().current_sem;
         status[0].ongoing = snapshot.val().ongoing;
         status[0].academicref = snapshot.val().academic_ref;
-        currentsem_running = status[0].current_sem;
-        currentacademic_running = status[0].academicref;
-        currentongoing_running = status[0].ongoing;
     });
 
 }
@@ -474,8 +536,6 @@ function getUser(id) {
         });
     });
 }
-
-
 async function findExclusiveStudents(acad_ref, yearlvl, sem) {
     const subjectRef = ref(database, `PARSEIT/administration/parseclass/${acad_ref}/${yearlvl}/${sem}`);
     try {
@@ -508,6 +568,3 @@ async function findExclusiveStudents(acad_ref, yearlvl, sem) {
         console.error("Error fetching data:", error);
     }
 }
-//for sidebar
-let startX = 0;
-let endX = 0;
