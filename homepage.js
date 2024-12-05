@@ -231,6 +231,7 @@ document.getElementById("homehonors_btn").addEventListener("click", function () 
 });
 document.getElementById("homeshare_btn").addEventListener("click", function () {
     showBodyWrapper("share_teacher_sec");
+    showBodyWrapper("share_teacher_wrapper");
     selectNavIcon("homeshare_img");
     selectNavLbl("homeshare_lbl");
     changeHomeLbl("lobby_title", "Share");
@@ -278,6 +279,8 @@ document.getElementById("game-3").addEventListener("click", function () {
 });
 let startX = 0;
 let endX = 0;
+// let startY = 0;
+// let endY = 0;
 document.addEventListener('touchstart', (event) => {
     startX = event.touches[0].clientX;
 });
@@ -290,10 +293,67 @@ document.addEventListener('touchend', (event) => {
         hideSidebar();
     }
 });
+// document.addEventListener('touchstart', (event) => {
+//     startY = event.touches[0].clientY;
+// });
+// document.addEventListener('touchend', (event) => {
+//     endY = event.changedTouches[0].clientY;
+//     if (endY - startY > 50) {
+//         window.location.reload();
+//     }
+// });
+
 document.getElementById("community_btn").addEventListener('click', (event) => {
     event.preventDefault();
     window.location.href = "https://parseitlearninghub.github.io/community/";
 });
+document.getElementById("background-1").addEventListener('click', (event) => {
+    hideBackground("background-2");
+    hideBackground("background-3");
+    hideBackground("background-4");
+    document.getElementById("select-bg-img").style.display = "block";
+});
+
+document.getElementById("background-2").addEventListener('click', (event) => {
+    hideBackground("background-1");
+    hideBackground("background-3");
+    hideBackground("background-4");
+    document.getElementById("select-bg-img").style.display = "block";
+});
+
+document.getElementById("background-3").addEventListener('click', (event) => {
+    hideBackground("background-1");
+    hideBackground("background-2");
+    hideBackground("background-4");
+    document.getElementById("select-bg-img").style.display = "block";
+});
+
+document.getElementById("background-4").addEventListener('click', (event) => {
+    hideBackground("background-1");
+    hideBackground("background-3");
+    hideBackground("background-2");
+    document.getElementById("select-bg-img").style.display = "block";
+});
+
+document.getElementById("select-bg-img").addEventListener('click', (event) => {
+    showBackground("background-1");
+    showBackground("background-2");
+    showBackground("background-3");
+    showBackground("background-4");
+    document.getElementById("share-announcement-btn").style.display = "none";
+    document.getElementById("select-bg-img").style.display = "none";
+});
+
+
+function hideBackground(element) {
+    document.getElementById(element).style.display = "none";
+    document.getElementById("share-announcement-btn").style.display = "flex";
+}
+
+function showBackground(element) {
+    document.getElementById(element).style.display = "block";
+
+}
 
 function setScreenSize(width, height) {
     document.body.style.width = width + "px";
@@ -387,6 +447,9 @@ async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section)
                                 console.log('No member found,');
                             }
                         } else {
+                            document.getElementById("parseclass-default-div").style.display = "none";
+                            document.getElementById("search-parseclass-div").style.display = "none";
+                            document.getElementById("notyetstarted_div").style.display = "flex";
                             console.log("No members found.");
                         }
                     }).catch((error) => {

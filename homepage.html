@@ -169,7 +169,51 @@
         </section>
         <section class="body-nav-wrapper" id="chatgpt_all_sec"></section>
         <section class="body-nav-wrapper" id="honors_teacher_sec"></section>
-        <section class="body-nav-wrapper" id="share_teacher_sec"></section>
+
+        <section class="body-nav-wrapper" id="share_teacher_sec">
+          <div class="share_teacher_wrapper" id="share_teacher_wrapper">
+            <section class="header-share">
+              <span class="lbl-share">Share an Announcement.</span>
+              <span class="lbl-subshare"
+                >Announcments will be available to all students.</span
+              >
+            </section>
+            <section class="body-share">
+              <section class="body-share-wrapper">
+                <span class="body-share-header">Header</span>
+                <input
+                  class="share-txt"
+                  type="textarea"
+                  id="body-share-header"
+                  placeholder="Please wear your departmental shirt tomorrow"
+                />
+              </section>
+              <section class="body-share-wrapper-description">
+                <span class="body-share-description">Description</span>
+                <textarea
+                  row="0"
+                  oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px';"
+                  id="body-share-description"
+                  placeholder="Enter details here..."
+                ></textarea>
+              </section>
+              <section class="body-share-wrapper-description select-bg">
+                <span class="body-share-description select-bg-head"
+                  >Select Background
+                  <img
+                    class="select-bg-img"
+                    id="select-bg-img"
+                    src="assets/icons/arrow-rotate-left-solid.svg"
+                /></span>
+                <button id="background-1"></button>
+                <button id="background-2"></button>
+                <button id="background-3"></button>
+                <button id="background-4"></button>
+              </section>
+              <button id="share-announcement-btn">Share</button>
+            </section>
+          </div>
+        </section>
       </section>
 
       <footer class="footer_nav" id="footer_nav">
