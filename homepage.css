@@ -1005,7 +1005,7 @@ align-items: flex-end;
 }
 
 .allheader{
-  background-color: blue;
+  background-color: transparent;
   padding: 8px;
   font-family: Inter-Regular;
   font-size: 12px;
@@ -1013,7 +1013,7 @@ align-items: flex-end;
 }
 
 .alldescription{
-  background-color: pink;
+  background-color: transparent;
   padding: 8px;
   font-family: Inter-Light;
   font-size: 11px;
