@@ -171,9 +171,19 @@ body {
 #sidebar_footer {
   background-color: #fefefe;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   box-shadow: none;
+}
+
+.reloadpage{
+  font-family: Inter-Regular;
+  display: flex ;
+  justify-content: center;
+  align-items: center;
+  color: #dcdcdc;
+  font-size: 12px;
+  margin-left: 15px;
 }
 
 @keyframes showsidebar {

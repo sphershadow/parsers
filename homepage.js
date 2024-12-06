@@ -364,17 +364,21 @@ document.getElementById("share-announcement-btn").addEventListener('click', (eve
     submitAnnouncement();
 });
 
+document.getElementById("reloadpage").addEventListener('click', (event) => {
+    window.location.reload();
+});
+
+
+
 
 function hideBackground(element) {
     document.getElementById(element).style.display = "none";
     document.getElementById("share-announcement-btn").style.display = "flex";
 }
-
 function showBackground(element) {
     document.getElementById(element).style.display = "block";
 
 }
-
 function setScreenSize(width, height) {
     document.body.style.width = width + "px";
     document.body.style.height = height + "px";
@@ -583,7 +587,6 @@ async function changesInSem() {
 //     });
 // } changesInAcademicRef();
 
-
 async function getAcadStatus() {
     const ref = child(dbRef, "PARSEIT/administration/academicyear/status/");
     await get(ref).then((snapshot) => {
@@ -669,7 +672,6 @@ function viewLatestAnnouncement() {
 
             }
         } else {
-            console.log("No announcements available.");
             document.getElementById("announcement-div").style.backgroundImage = "url(assets/announcement/4.png)";
             date_announcement_lbl.innerText = "There is no announcement";
             date_announcement_lbl.style.color = "#fefefe";
@@ -700,6 +702,7 @@ async function submitAnnouncement() {
         description: descriptionInput,
         background_img: backgroundImgInput,
         authorid: user_parser,
+        month: formatDate(new Date())
     };
 
     const dbRef = ref(database, "PARSEIT/administration/announcement/");
@@ -735,4 +738,55 @@ function getTimeWithAMPM() {
     const timeString = new Intl.DateTimeFormat('en-US', options).format(now);
     return timeString;
 }
+viewAllAnnouncement();
+function viewAllAnnouncement() {
+    
+    const dbRef = ref(database, "PARSEIT/administration/announcement/");
+    const latestAnnouncementQuery = query(dbRef, orderByKey());
 
+    onValue(latestAnnouncementQuery, (snapshot) => {
+        if (snapshot.exists()) {
+            let announcementcont = document.getElementById("allannouncement-body");
+    announcementcont.innerHTML = "";
+    
+    let appendAnnouncementHTML = "";
+            const snapshotData = snapshot.val();
+            const reversedsnapshot = Object.entries(snapshotData).reverse();
+
+            reversedsnapshot.forEach(([key, value]) => {
+                
+            appendAnnouncementHTML += `
+            <div class="allannouncement-wrapper">
+            <div class="alldate">
+            <span class="announcemonth">${value.month}</span>
+            <span class="announceday">${value.date}</span>
+            <span class="announcetime">${value.time}</span>
+            </div>
+            <div class="allheader">${value.header}</div>
+            <div class="alldescription" >${value.description}</div>
+            </div>`;
+            });
+            announcementcont.innerHTML = appendAnnouncementHTML;
+        } else {
+            document.getElementById("announcement-div").style.backgroundImage = "url(assets/announcement/4.png)";
+            date_announcement_lbl.innerText = "There is no announcement";
+            date_announcement_lbl.style.color = "#fefefe";
+            announcement_lbl.innerText = "Seems like you are all caught up!";
+            announcement_lbl.style.color = "#fefefe";
+            time_announcement_lbl.style.color = "#fefefe";
+        }
+    }, (error) => {
+        console.error("Error fetching announcement: ", error);
+    });
+}
+function formatDate(date) {
+    const months = [
+        "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+    ];
+
+    const month = months[date.getMonth()]; // Get the month name
+    const day = date.getDate(); // Get the day of the month
+    const year = date.getFullYear(); // Get the year
+
+    return `${month} ${day}, ${year}`;
+}
