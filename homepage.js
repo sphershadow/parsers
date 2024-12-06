@@ -747,9 +747,9 @@ function viewAllAnnouncement() {
     onValue(latestAnnouncementQuery, (snapshot) => {
         if (snapshot.exists()) {
             let announcementcont = document.getElementById("allannouncement-body");
-    announcementcont.innerHTML = "";
+            announcementcont.innerHTML = "";
     
-    let appendAnnouncementHTML = "";
+            let appendAnnouncementHTML = "";
             const snapshotData = snapshot.val();
             const reversedsnapshot = Object.entries(snapshotData).reverse();
 
