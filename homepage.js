@@ -286,8 +286,8 @@ document.getElementById("game-3").addEventListener("click", function () {
 });
 let startX = 0;
 let endX = 0;
-// let startY = 0;
-// let endY = 0;
+let startY = 0;
+let endY = 0;
 document.addEventListener('touchstart', (event) => {
     startX = event.touches[0].clientX;
 });
@@ -300,15 +300,21 @@ document.addEventListener('touchend', (event) => {
         hideSidebar();
     }
 });
-// document.addEventListener('touchstart', (event) => {
-//     startY = event.touches[0].clientY;
-// });
-// document.addEventListener('touchend', (event) => {
-//     endY = event.changedTouches[0].clientY;
-//     if (endY - startY > 50) {
-//         window.location.reload();
-//     }
-// });
+document.addEventListener('touchstart', (event) => {
+    startY = event.touches[0].clientY;
+});
+document.addEventListener('touchend', (event) => {
+    endY = event.changedTouches[0].clientY;
+    if (endY - startY > 300) {
+        document.getElementById("allannouncement-div").style.animation= "fadeScaleDown 0.25s ease-in-out forwards";
+    }
+});
+document.getElementById("announcement-div").addEventListener('click', (event) => {
+    document.getElementById("allannouncement-div").style.display = "flex";
+    document.getElementById("allannouncement-div").style.animation = "fadeScaleUp 0.25s ease-in-out forwards";
+});
+
+
 
 document.getElementById("community_btn").addEventListener('click', (event) => {
     event.preventDefault();
