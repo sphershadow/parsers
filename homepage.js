@@ -113,8 +113,6 @@ window.addEventListener("load", async function () {
         });
     });
 });
-
-
 document.getElementById("sidebar_btn").addEventListener("click", function () {
     showSidebar();
 });
@@ -313,9 +311,6 @@ document.getElementById("announcement-div").addEventListener('click', (event) =>
     document.getElementById("allannouncement-div").style.display = "flex";
     document.getElementById("allannouncement-div").style.animation = "fadeScaleUp 0.25s ease-in-out forwards";
 });
-
-
-
 document.getElementById("community_btn").addEventListener('click', (event) => {
     event.preventDefault();
     window.location.href = "https://parseitlearninghub.github.io/community/";
@@ -327,7 +322,6 @@ document.getElementById("background-1").addEventListener('click', (event) => {
     document.getElementById("select-bg-img").style.display = "block";
     backgroundImgInput = "4.png";
 });
-
 document.getElementById("background-2").addEventListener('click', (event) => {
     hideBackground("background-1");
     hideBackground("background-3");
@@ -335,7 +329,6 @@ document.getElementById("background-2").addEventListener('click', (event) => {
     document.getElementById("select-bg-img").style.display = "block";
     backgroundImgInput = "1.png";
 });
-
 document.getElementById("background-3").addEventListener('click', (event) => {
     hideBackground("background-1");
     hideBackground("background-2");
@@ -343,7 +336,6 @@ document.getElementById("background-3").addEventListener('click', (event) => {
     document.getElementById("select-bg-img").style.display = "block";
     backgroundImgInput = "2.png";
 });
-
 document.getElementById("background-4").addEventListener('click', (event) => {
     hideBackground("background-1");
     hideBackground("background-3");
@@ -351,7 +343,6 @@ document.getElementById("background-4").addEventListener('click', (event) => {
     document.getElementById("select-bg-img").style.display = "block";
     backgroundImgInput = "3.png";
 });
-
 document.getElementById("select-bg-img").addEventListener('click', (event) => {
     showBackground("background-1");
     showBackground("background-2");
@@ -363,14 +354,12 @@ document.getElementById("select-bg-img").addEventListener('click', (event) => {
 document.getElementById("share-announcement-btn").addEventListener('click', (event) => {
     submitAnnouncement();
 });
-
 document.getElementById("reloadpage").addEventListener('click', (event) => {
     window.location.reload();
 });
 
 
-
-
+//functions
 function hideBackground(element) {
     document.getElementById(element).style.display = "none";
     document.getElementById("share-announcement-btn").style.display = "flex";
@@ -435,36 +424,39 @@ async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section)
                     get(sectionRef).then((sectionSnapshot) => {
                         //sched, members
                         if (sectionSnapshot.exists()) {
-                            const memberRef = sectionSnapshot.child("members"); // Access the member reference
+                            const memberRef = sectionSnapshot.child("members");
                             if (memberRef.exists()) {
                                 memberRef.forEach((idSnapshot) => {
                                     if (idSnapshot.key === userId) {
-                                        let parseclassid = subjectSnapshot.val().name + "_" + idSnapshot.val().section;
+                                        let parseclass_id = subjectSnapshot.val().name + "_" + sectionSnapshot.key;
                                         let parseimgid = subjectSnapshot.key.replace(/\s+/g, "");
-                                        let parseclass_day = sectionSnapshot.val().sched_day;
-                                        let parseclass_sched = sectionSnapshot.val().sched_start + " - " + sectionSnapshot.val().sched_end;
+                                        let parseclass_day = sectionSnapshot.val().schedule.sched_day;
+                                        let parseclass_sched = sectionSnapshot.val().schedule.sched_start + " - " + sectionSnapshot.val().schedule.sched_end;
 
-                                        
                                         if (getCurrentDayName() !== parseclass_day) {
                                             parseclass_day = "No Schedule Today";
                                             parseclass_sched = "";
                                         }
+                                        else{
+                                            console.log("No Schedule Assigned");
+                                        }
 
                                         parseClassAppend += `
-                                    <div class="parseclass-default-wrapper parseclass" id="${parseimgid}" style="background-image: url('assets/parseclass/${parseimgid.toUpperCase()}.jpg');" value ="${parseclassid.replace(/\s+/g, "")}">
-                                    <div class="parseclass-default-gradient">
-                                    <span class="parsesched-default-span">
-                                    <label for="" class="parseclass-day-lbl">${parseclass_day}</label>
-                                    <label for="" class="parseclass-time-lbl">${parseclass_sched}</label>
-                                    </span>
-                                    <span class="parseclass-default-span">
-                                    <label for="" class="parseclass-header-lbl">${subjectSnapshot.key}</label>
-                                    <label for="" class="parseclass-header-sublbl">${subjectSnapshot.val().name}</label>
-                                    </span>
-                                    </div>
-                                    </div>`
+                                        <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-parseRoom', '${parseclass_id.replace(/\s+/g, "")}');window.location.href = 'parseroom.html';" id="${parseimgid}" style="background-image: url('assets/parseclass/${parseimgid.toUpperCase()}.jpg');" value ="${parseclass_id.replace(/\s+/g, "")}">
+                                        <div class="parseclass-default-gradient">
+                                        <span class="parsesched-default-span">
+                                        <label for="" class="parseclass-day-lbl">${parseclass_day}</label>
+                                        <label for="" class="parseclass-time-lbl">${parseclass_sched}</label>
+                                        </span>
+                                        <span class="parseclass-default-span">
+                                        <label for="" class="parseclass-header-lbl">${subjectSnapshot.key}</label>
+                                        <label for="" class="parseclass-header-sublbl">${subjectSnapshot.val().name}</label>
+                                        </span>
+                                        </div>
+                                        </div>`
                                         parseclass_cont.innerHTML = parseClassAppend;
                                     }
+                                    
                                 });
                             }
                             else {
@@ -558,7 +550,6 @@ async function changesInSem() {
         console.error('Error reading data:', error);
     });
 } changesInSem();
-
 let academicref_previousData = null;
 async function changesInAcademicRef() {
     const statusRef = child(dbRef, "PARSEIT/administration/academicyear/status/academic_ref");
@@ -584,7 +575,6 @@ async function changesInAcademicRef() {
         console.error('Error reading data:', error);
     });
 } changesInAcademicRef();
-
 async function getAcadStatus() {
     const ref = child(dbRef, "PARSEIT/administration/academicyear/status/");
     await get(ref).then((snapshot) => {
@@ -636,7 +626,6 @@ function getUser(id) {
         });
     });
 }
-
 function viewLatestAnnouncement() {
     const date_announcement_lbl = document.getElementById("date_announcement_lbl");
     const announcement_lbl = document.getElementById("announcement_lbl");
@@ -681,7 +670,6 @@ function viewLatestAnnouncement() {
         console.error("Error fetching announcement: ", error);
     });
 }
-
 async function submitAnnouncement() {
     const dateInput = getCurrentDayName();
     const timeInput = getTimeWithAMPM();
@@ -787,4 +775,8 @@ function formatDate(date) {
     const year = date.getFullYear(); // Get the year
 
     return `${month} ${day}, ${year}`;
+}
+
+function redirectParseRoom(){
+    window.location.href = "https://parseitlearninghub.github.io/parseroom/";
 }
