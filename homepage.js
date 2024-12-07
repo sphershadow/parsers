@@ -561,19 +561,19 @@ async function changesInSem() {
 
 let academicref_previousData = null;
 async function changesInAcademicRef() {
-    const statusRef = child(dbRef, "PARSEIT/administration/academicyear/status/current_sem");
+    const statusRef = child(dbRef, "PARSEIT/administration/academicyear/status/academic_ref");
     onValue(statusRef, (snapshot) => {
         if (snapshot.exists()) {
             const currentData = snapshot.val();
             if (academicref_previousData === null) {
-                //console.log('Ongoing:', currentData);
+                // console.log('Ongoing:', currentData);
             } else {
-                //console.log('Ongoing:', currentData);
+                // console.log('Ongoing:', currentData);
                 if (academicref_previousData !== currentData) {
                     document.getElementById("search-parseclass-div").style.display = "flex";
                     document.getElementById("notyetstarted_div").style.display = "none";
                     document.getElementById("parseclass-default-div").style.display = "flex";
-                    loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+                    loadStudentSubjects(currentData, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
                 }
             }
             academicref_previousData = currentData;
