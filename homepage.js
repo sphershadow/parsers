@@ -428,7 +428,7 @@ async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section)
                             if (memberRef.exists()) {
                                 memberRef.forEach((idSnapshot) => {
                                     if (idSnapshot.key === userId) {
-                                        let parseclass_id = subjectSnapshot.val().name + "_" + sectionSnapshot.key;
+                                        let parseclass_id = sectionSnapshot.val().parseclass_id;
                                         let parseimgid = subjectSnapshot.key.replace(/\s+/g, "");
                                         let parseclass_day = sectionSnapshot.val().schedule.sched_day;
                                         let parseclass_sched = sectionSnapshot.val().schedule.sched_start + " - " + sectionSnapshot.val().schedule.sched_end;
@@ -442,7 +442,7 @@ async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section)
                                         }
 
                                         parseClassAppend += `
-                                        <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-parseRoom', '${parseclass_id.replace(/\s+/g, "")}');window.location.href = 'parseroom.html';" id="${parseimgid}" style="background-image: url('assets/parseclass/${parseimgid.toUpperCase()}.jpg');" value ="${parseclass_id.replace(/\s+/g, "")}">
+                                        <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-parseroom', '${parseclass_id.replace(/\s+/g, "")}');window.location.href = 'parseroom.html';" id="${parseimgid}" style="background-image: url('assets/parseclass/${parseimgid.toUpperCase()}.jpg');" value ="${parseclass_id.replace(/\s+/g, "")}">
                                         <div class="parseclass-default-gradient">
                                         <span class="parsesched-default-span">
                                         <label for="" class="parseclass-day-lbl">${parseclass_day}</label>
@@ -777,6 +777,3 @@ function formatDate(date) {
     return `${month} ${day}, ${year}`;
 }
 
-function redirectParseRoom(){
-    window.location.href = "https://parseitlearninghub.github.io/parseroom/";
-}
