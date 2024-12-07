@@ -444,13 +444,14 @@ async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section)
                                         let parseclass_day = sectionSnapshot.val().sched_day;
                                         let parseclass_sched = sectionSnapshot.val().sched_start + " - " + sectionSnapshot.val().sched_end;
 
+                                        
                                         if (getCurrentDayName() !== parseclass_day) {
                                             parseclass_day = "No Schedule Today";
                                             parseclass_sched = "";
                                         }
 
                                         parseClassAppend += `
-                                    <div class="parseclass-default-wrapper parseclass" id="${parseimgid}" style="background-image: url('assets/parseclass/${parseimgid}.jpg');" value ="${parseclassid.replace(/\s+/g, "")}">
+                                    <div class="parseclass-default-wrapper parseclass" id="${parseimgid}" style="background-image: url('assets/parseclass/${parseimgid.toUpperCase()}.jpg');" value ="${parseclassid.replace(/\s+/g, "")}">
                                     <div class="parseclass-default-gradient">
                                     <span class="parsesched-default-span">
                                     <label for="" class="parseclass-day-lbl">${parseclass_day}</label>
