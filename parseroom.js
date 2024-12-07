@@ -173,7 +173,7 @@ async function submitMessage(){
         description: messageInput,
         from: user_parser,
         to: "everyone",
-        to_username: "x",
+        to_username: "everyone",
         time: getMessageTime(),
         from_username: username,
     };
@@ -185,6 +185,7 @@ async function submitMessage(){
         await set(newAnnouncementRef, newAnnouncement);
         document.getElementById("parsermessage-txt").value = "";
         getParseroomMessages();
+        scrollToBottom();
         
     } catch (error) {
         console.error("Error submitting announcement: ", error);
@@ -222,6 +223,18 @@ async function getparser_username(id) {
         return null;
     }
 }
+async function getparser_id(username) {
+    const usernameRef = child(dbRef, `PARSEIT/username/${username}`);
+    const snapshot = await get(usernameRef);
+    if (snapshot.exists()) {
+        console.log(snapshot.val());
+        
+    } else {
+        console.log("No data available");
+        return null;
+    }
+}
+
 let holdTimeout;
 const holdDetectElement = document.getElementById("sendmessage-btn");
 function startHoldWhisper() {
@@ -245,10 +258,12 @@ function showParseroomDetails(){
 }
 function extractUsername(text) {
     const match = text.match(/@(\S+)/);
+    const messageInput = document.getElementById("parsermessage-txt").value;
+    const whisperInput = removeUsername(messageInput);
     if (match) {
         return match[1]; 
     }
-    return null; 
+    return getparser_id(whisperInput); 
 }
 function removeUsername(text) {
     const match = text.match(/@\S+/);
@@ -289,7 +304,7 @@ async function submitWhisperMessage(){
         document.getElementById("parsermessage-txt").style.border = "0.4px solid #dcdcdc";
         document.getElementById("sendmessage-btn").style.display = "block";
         document.getElementById("whispermessage-btn").style.display = "none";
-        
+        scrollToBottom();
     } catch (error) {
         console.error("Error submitting announcement: ", error);
     }
