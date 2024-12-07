@@ -30,25 +30,12 @@ let user_parser = localStorage.getItem("user-parser");
 let parseroom_id = localStorage.getItem("parser-parseroom");
 let parseroom_username = localStorage.getItem("parser-username");
 //listeners
-setScreenSize(window.innerWidth, window.innerHeight);
+await setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", async function () {
     document.getElementById("loading_animation_div").style.display = "none";
     getParseroomMessages();
+});
 
-});
-let startX = 0;
-let endX = 0;
-document.addEventListener('touchstart', (event) => {
-    startX = event.touches[0].clientX;
-});
-document.addEventListener('touchend', (event) => {
-    endX = event.changedTouches[0].clientX;
-    
-    if (startX - endX > 50) {
-        document.getElementById("body-parseroom-div").style.animation= "parseroom-slideIn 0.6s ease-out forwards";
-        document.getElementById("details-parseroom-div").style.animation= "parseroom-slideIn 0.6s ease-out forwards";
-    }
-});
 document.getElementById("details-btn").addEventListener('click', (event) => {
     document.getElementById("body-parseroom-div").style.animation= "parseroom-slideOut 0.6s ease-out forwards";
     document.getElementById("details-parseroom-div").style.animation= "parseroom-slideOut 0.6s ease-out forwards";
@@ -69,21 +56,26 @@ function scrollToBottom() {
 document.addEventListener("DOMContentLoaded", () => {
     scrollToBottom();
 });
-
+document.getElementById("closeparseroom-btn").addEventListener('click', (event) => {
+    window.location.href = "homepage.html";
+});
+ document.getElementById("info-btn").addEventListener('click', (event) => {
+    document.getElementById("body-parseroom-div").style.animation= "parseroom-slideIn 0.6s ease-out forwards";
+    document.getElementById("details-parseroom-div").style.animation= "parseroom-slideIn 0.6s ease-out forwards";
+});
+document.getElementById("whispermessage-btn").addEventListener('click', (event) => {
+   submitWhisperMessage();
+});
 
 //functions
-function setScreenSize(width, height) {
+async function setScreenSize(width, height) {
     document.body.style.width = width + "px";
     document.body.style.height = height + "px";
 }
-
 function adjustChatbox() {
     const container = document.querySelector('.body-parseroom-div');
     container.style.height = `${window.innerHeight}px`;
 }
-
-
-
 function getParseroomMessages(){
     const dbRef = ref(database, `PARSEIT/administration/parseroom/${parseroom_id}/messages/`);
     const latestMessageQuery = query(dbRef, orderByKey());
@@ -132,7 +124,10 @@ function getParseroomMessages(){
                         </section>
                         <section class="p-message">
                         <section class="p-username">@${message.from_username}</section>
-                        <section class="p-description">${message.description}</section>
+                        <section class="p-description" onclick="localStorage.setItem('active-whisper-username', '${message.from}');
+                        document.getElementById('parsermessage-txt').innerText = '@${message.from_username} '";
+                        document.getElementById('parsermessage-txt').focus()";
+                        >${message.description}</section>
                         </section>
                         </div>`
                     }
@@ -145,7 +140,11 @@ function getParseroomMessages(){
                         </section>
                         <section class="p-message">
                         <section class="p-username">@${message.from_username}</section>
-                        <section class="p-description p-description-whisper">${message.description}</section>
+                        <section class="p-description p-description-whisper" onclick="
+                        localStorage.setItem('active-whisper-username', '${message.from}');
+                        document.getElementById('parsermessage-txt').innerText = '@${message.from_username} '";
+                        document.getElementById('parsermessage-txt').focus()";
+                        >${message.description}</section>
                         </section>
                         </div>`
                         }
@@ -207,7 +206,6 @@ function getMessageTime() {
     hours = hours % 12 || 12;
     return `${month} ${day}, ${year} ${weekday} ${hours}:${minutes} ${period}`;
 }
-
 async function getparser_username(id) {
     const usernameRef = child(dbRef, `PARSEIT/username/`);
     const snapshot = await get(usernameRef);
@@ -224,10 +222,8 @@ async function getparser_username(id) {
         return null;
     }
 }
-
-
 let holdTimeout;
-const holdDetectElement = document.getElementById("parsermessage-txt");
+const holdDetectElement = document.getElementById("sendmessage-btn");
 function startHoldWhisper() {
     holdTimeout = setTimeout(() => {
         document.getElementById("parsermessage-txt").style.backgroundColor = "#ede6ff";
@@ -242,3 +238,59 @@ function cancelHold() {
 holdDetectElement.addEventListener("touchstart", startHoldWhisper);
 holdDetectElement.addEventListener("touchend", cancelHold);
 holdDetectElement.addEventListener("touchcancel", cancelHold);
+showParseroomDetails();
+function showParseroomDetails(){
+    document.getElementById("parsecode").innerHTML = localStorage.getItem("parseroom-code");
+    document.getElementById("parsename").innerHTML = localStorage.getItem("parseroom-name");
+}
+function extractUsername(text) {
+    const match = text.match(/@(\S+)/);
+    if (match) {
+        return match[1]; 
+    }
+    return null; 
+}
+function removeUsername(text) {
+    const match = text.match(/@\S+/);
+    let newText = text;
+    if (match) {
+        newText = text.replace(match[0], '').trim();
+        return newText;
+    }
+}
+async function submitWhisperMessage(){
+    const messageInput = document.getElementById("parsermessage-txt").value;
+    const whisperInput = removeUsername(messageInput);
+    const whisperTo_username = extractUsername(messageInput);
+    const whisperTo = localStorage.getItem("active-whisper-username");
+    const username = await getparser_username(user_parser);
+
+    if (!messageInput || whisperTo_username === null) {
+        return;
+    }
+
+    const newAnnouncement = {
+        description: whisperInput,
+        from: user_parser,
+        to: whisperTo,
+        to_username: whisperTo_username,
+        time: getMessageTime(),
+        from_username: username,
+    };
+
+    const dbRef = ref(database, `PARSEIT/administration/parseroom/${parseroom_id}/messages/`);
+    const newAnnouncementRef = push(dbRef);
+
+    try {
+        await set(newAnnouncementRef, newAnnouncement);
+        document.getElementById("parsermessage-txt").value = "";
+        getParseroomMessages();
+        document.getElementById("parsermessage-txt").style.backgroundColor = "#f1f1f1d8";
+        document.getElementById("parsermessage-txt").style.border = "0.4px solid #dcdcdc";
+        document.getElementById("sendmessage-btn").style.display = "block";
+        document.getElementById("whispermessage-btn").style.display = "none";
+        
+    } catch (error) {
+        console.error("Error submitting announcement: ", error);
+    }
+}

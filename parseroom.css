@@ -38,6 +38,7 @@
     align-items: center;
     flex-direction: column;
     z-index: 1000;
+    position: fixed;
   }
   
   #loading_animation_gif {
@@ -109,6 +110,60 @@
     background-color: #fefefe;
     z-index: 100;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+  }
+
+  .closeparseroom-btn{
+    width: 15px;
+    margin-left: 15px;
+    
+  }
+
+  .header-left{
+    display: flex;
+    justify-content: space-between;
+    background-color: transparent;
+  }
+
+  .info-btn{
+    width: 20px;
+    margin-right: 15px;
+    filter: brightness(0) saturate(100%) invert(32%) sepia(88%) saturate(6334%) hue-rotate(352deg) brightness(89%) contrast(117%);
+  
+  }
+
+  .parseroomName{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    background-color: transparent;
+    margin-left: 15px;
+    width: 170px;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .parsecode{
+    display: inline-block;
+    font-family: Inter-Bold;
+    font-size: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+
+  .parsename{
+    font-family: Inter-Light;
+    font-size: 14px;
+    height: fit-content;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
   }
 
   .parseroom-body{
@@ -141,7 +196,8 @@
     padding-left: 0px;
     padding-right: 15px;
     filter: brightness(0) saturate(100%) invert(32%) sepia(88%) saturate(6334%) hue-rotate(352deg) brightness(89%) contrast(117%);
-  }
+
+}
 
   .whispermessage-btn{
     display: none;

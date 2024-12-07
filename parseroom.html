@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title></title>
     <link rel="stylesheet" href="parseroom.css" />
 </head>
@@ -13,10 +13,21 @@
         <h1 id="parsing_lbl">Parsing...</h1>
     </div>
 
-    <!-- Loading Animation -->
+    <!-- ParseRoom -->
      <div class="home-parseroom-div">
         <div class="body-parseroom-div" id="body-parseroom-div">
-            <div class="parseroom-header"></div>
+            <div class="parseroom-header">
+                <section class="header-left">
+                    <img id="closeparseroom-btn" class="closeparseroom-btn" src="assets/icons/arrow-left-solid.svg" alt="" />
+                    <section class="parseroomName">
+                        <span class="parsecode" id="parsecode"></span>
+                        <span class="parsename" id="parsename"></span>
+                    </section>
+                </section>
+                
+                    <img id="info-btn" class="info-btn" src="assets/icons/circle-info-solid.svg" alt="" />
+                
+            </div>
             <div class="parseroom-body">
                 <div class="parseroom-body-wrapper" id="parseroom-body-wrapper">
                     <div class="filler-message"></div>

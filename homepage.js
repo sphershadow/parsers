@@ -444,7 +444,13 @@ async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section)
                                         }
 
                                         parseClassAppend += `
-                                        <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(/\s+/g, "")}');localStorage.setItem('parser-parseroom', '${parseclass_id.replace(/\s+/g, "")}');window.location.href = 'parseroom.html';" id="${parseimgid}" style="background-image: url('assets/parseclass/${parseimgid.toUpperCase()}.jpg');" value ="${parseclass_id.replace(/\s+/g, "")}">
+                                        <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(/\s+/g, "")}');
+                                            localStorage.setItem('parser-parseroom', '${parseclass_id.replace(/\s+/g, "")}');
+                                            localStorage.setItem('parseroom-code', '${subjectSnapshot.key}');
+                                            localStorage.setItem('parseroom-name', '${subjectSnapshot.val().name}');
+                                            window.location.href = 'parseroom.html';" id="${parseimgid}"
+                                            style="background-image: url('assets/parseclass/${parseimgid.toUpperCase()}.jpg');"
+                                            value ="${parseclass_id.replace(/\s+/g, "")}">
                                         <div class="parseclass-default-gradient">
                                         <span class="parsesched-default-span">
                                         <label for="" class="parseclass-day-lbl">${parseclass_day}</label>
