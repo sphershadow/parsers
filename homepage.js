@@ -450,7 +450,7 @@ async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section)
                                         }
 
                                         parseClassAppend += `
-                                    <div class="parseclass-default-wrapper parseclass" id="${parseimgid}" value ="${parseclassid.replace(/\s+/g, "")}">
+                                    <div class="parseclass-default-wrapper parseclass" id="${parseimgid}" style="background-image: url('assets/parseclass/${parseimgid}.jpg');" value ="${parseclassid.replace(/\s+/g, "")}">
                                     <div class="parseclass-default-gradient">
                                     <span class="parsesched-default-span">
                                     <label for="" class="parseclass-day-lbl">${parseclass_day}</label>
@@ -463,7 +463,6 @@ async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section)
                                     </div>
                                     </div>`
                                         parseclass_cont.innerHTML = parseClassAppend;
-                                        document.getElementById(`${parseimgid}`).style.backgroundImage = "url(assets/parseclass/" + parseimgid + ".jpg)";
                                     }
                                 });
                             }
