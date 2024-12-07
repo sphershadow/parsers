@@ -166,19 +166,141 @@
     scrollbar-width: none;
   }
 
-  .parseroom-body-wrapper{
-    background-color: blueviolet;
-    width: 90%;
-    height: calc(100% - 130px);
-    overflow-x: scroll;
-    padding-top: 15px;
-    margin-bottom: 10px;
-  }
-
-  .parseroom-message{
+.parseroom-body-wrapper {
+  background-color: transparent;
+  width: 95%;
+  height: calc(100% - 130px); 
+  overflow-y: auto; 
+  overflow-x: hidden;
+  padding-top: 15px;
+  margin-bottom: 10px;
+  scrollbar-width: none; 
+  display: flex;
+  flex-direction: column;
+  
+}
+.parseroom-message{
     width: 100%;
-    height: 150px;
+    background-color: transparent;
+    margin-top: 10px;
+    flex-shrink: 0;
+    display: flex;
+}
+
+.filler-message{
+    height: 10px;
+    width: 100%;
+    background-color: transparent;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+.p-profile{
+    width: 40px;
+    height: 100%;
+    background-color: transparent;
+    display: flex;
+    justify-content:flex-start;
+    align-items: flex-start;
+}
+
+.p-message{
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+}
+
+.p-username{
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    padding-bottom: 5px;
+    font-family: Inter-Light;
+    font-size: 11px;
+}
+
+.p-description{
+    max-width: 88%;
+    width: fit-content;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: Inter-Regular;
+    font-size: 13px;
+}
+
+.p-description1{
+    max-width: 88%;
+    width: fit-content;
+    background-color: #6029ec;
+    padding: 10px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: Inter-Regular;
+    font-size: 13px;
+    color: #fefefe
+}
+
+
+.parser-profile{
     background-color: aqua;
-    margin-top: 15px;
-    border-radius: 10px;
-  }
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    margin-top: 20px;
+}
+
+
+
+.p-username-me{
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    padding-bottom: 5px;
+    font-family: Inter-Light;
+    font-size: 11px;
+    text-align: right;
+}
+
+.p-description-me{
+    max-width: 88%;
+    width: fit-content;
+    background-color: #166fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: Inter-Regular;
+    font-size: 13px;
+    color: #fefefe;
+}
+
+.parser-profile-me{
+    background-color: aqua;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    margin-top: 20px;
+}
+
+.p-profile-me{
+    width: 40px;
+    height: 100%;
+    background-color: transparent;
+    display: flex;
+    justify-content:flex-end;
+    align-items: flex-start;
+}
+
+.p-message-me{
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}

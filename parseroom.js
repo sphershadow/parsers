@@ -39,3 +39,9 @@ function adjustChatbox() {
     const container = document.querySelector('.body-parseroom-div');
     container.style.height = `${window.innerHeight}px`;
 }
+
+function scrollToBottom() {
+    const container = document.querySelector('.parseroom-body-wrapper');
+    container.scrollTop = container.scrollHeight;
+}
+scrollToBottom();
