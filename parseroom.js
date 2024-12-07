@@ -34,6 +34,7 @@ setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", async function () {
     document.getElementById("loading_animation_div").style.display = "none";
     getParseroomMessages();
+
 });
 let startX = 0;
 let endX = 0;
@@ -53,10 +54,22 @@ document.getElementById("details-btn").addEventListener('click', (event) => {
     document.getElementById("details-parseroom-div").style.animation= "parseroom-slideOut 0.6s ease-out forwards";
 });
 window.addEventListener("resize", adjustChatbox);adjustChatbox();
-window.addEventListener("resize", scrollToBottom);scrollToBottom();
-
 document.getElementById("sendmessage-btn").addEventListener('click', (event) => {
    submitMessage();
+   getParseroomMessages();
+   scrollToBottom();
+});
+
+function scrollToBottom() {
+    const element = document.getElementById("parseroom-body-wrapper");
+    if (element) {
+        element.scrollTop = element.scrollHeight; // Scroll to the bottom
+    }
+}
+
+// Example: Automatically scroll to the bottom when the page loads or content updates
+document.addEventListener("DOMContentLoaded", () => {
+    scrollToBottom();
 });
 
 
@@ -71,10 +84,6 @@ function adjustChatbox() {
     container.style.height = `${window.innerHeight}px`;
 }
 
-function scrollToBottom() {
-    const container = document.querySelector('.parseroom-body-wrapper');
-    container.scrollTop = container.scrollHeight;
-}
 
 
 function getParseroomMessages(){
@@ -94,12 +103,12 @@ function getParseroomMessages(){
                     if(message.to === "everyone"){
                         appendMessageHTML += `
                         <div class="parseroom-message">
-                        <section class="p-message-me">
-                        <section class="p-username-me">${message.from_username}</section>
-                        <section class="p-description-me"> ${message.description}</section>
+                        <section class="p-message p-message-me">
+                        <section class="p-username p-username-me">${message.from_username}</section>
+                        <section class="p-description p-description-me"> ${message.description}</section>
                         </section>
-                        <section class="p-profile-me">
-                        <img id="parser-profile-me" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
+                        <section class="p-profile p-profile-me">
+                        <img id="parser-profile parser-profile-me" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
                         </section>
                         </div>`;
                     }
@@ -124,6 +133,7 @@ function getParseroomMessages(){
                 }
             });
             messagecont.innerHTML = appendMessageHTML;
+            scrollToBottom();
         } else {
             
         }
