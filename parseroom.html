@@ -21,8 +21,9 @@
                 <div class="parseroom-body-content">test</div>
             </div>
             <div class="parseroom-footer">
-                <input type="text" class="sendmessage">
-                <button class="sendmessage-btn">Send Message</button>
+                <textarea class="parsermessage-txt" id="parsermessage-txt" placeholder="Send Message"
+                oninput="this.style.height = ''; this.style.height = this.scrollHeight +'px';"></textarea>
+                <img id="sendmessage-btn" class="sendmessage-btn" src="assets/icons/paper-plane-solid.svg" alt="" />
             </div>
         </div>
         <div class="details-parseroom-div" id="details-parseroom-div">
