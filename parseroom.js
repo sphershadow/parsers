@@ -304,8 +304,24 @@ async function submitWhisperMessage(){
         document.getElementById("parsermessage-txt").style.border = "0.4px solid #dcdcdc";
         document.getElementById("sendmessage-btn").style.display = "block";
         document.getElementById("whispermessage-btn").style.display = "none";
+        localStorage.removeItem("active-whisper-username");
         scrollToBottom();
     } catch (error) {
         console.error("Error submitting announcement: ", error);
     }
 }
+
+let startY = 0;
+let endY = 0;
+document.addEventListener('touchstart', (event) => {
+    startY = event.touches[0].clientY;
+});
+document.addEventListener('touchend', (event) => {
+    endY = event.changedTouches[0].clientY;
+    if (startY - endY > 400) {
+        document.getElementById("parsermessage-txt").style.backgroundColor = "#ede6ff";
+        document.getElementById("parsermessage-txt").style.border = "0.4px solid #6029ec";
+        document.getElementById("sendmessage-btn").style.display = "none";
+        document.getElementById("whispermessage-btn").style.display = "block";
+    }
+});
