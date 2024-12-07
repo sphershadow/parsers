@@ -219,6 +219,7 @@
     padding-bottom: 5px;
     font-family: Inter-Light;
     font-size: 11px;
+    opacity: 0.5;
 }
 
 .p-description{
@@ -232,7 +233,7 @@
     font-size: 13px;
 }
 
-.p-description1{
+.p-description-whisper{
     max-width: 88%;
     width: fit-content;
     background-color: #6029ec;
@@ -264,6 +265,7 @@
     font-family: Inter-Light;
     font-size: 11px;
     text-align: right;
+    opacity: 0.5;
 }
 
 .p-description-me{
