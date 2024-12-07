@@ -28,7 +28,7 @@ const dbRef = ref(database)
 //variables
 let user_parser = localStorage.getItem("user-parser");
 let parseroom_id = localStorage.getItem("parser-parseroom");
-console.log(parseroom_id);
+let parseroom_username = localStorage.getItem("parser-username");
 //listeners
 setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", async function () {
@@ -54,20 +54,18 @@ document.getElementById("details-btn").addEventListener('click', (event) => {
     document.getElementById("details-parseroom-div").style.animation= "parseroom-slideOut 0.6s ease-out forwards";
 });
 window.addEventListener("resize", adjustChatbox);adjustChatbox();
+window.addEventListener("resize", scrollToBottom);scrollToBottom();
 document.getElementById("sendmessage-btn").addEventListener('click', (event) => {
    submitMessage();
    getParseroomMessages();
    scrollToBottom();
 });
-
 function scrollToBottom() {
     const element = document.getElementById("parseroom-body-wrapper");
     if (element) {
         element.scrollTop = element.scrollHeight; // Scroll to the bottom
     }
 }
-
-// Example: Automatically scroll to the bottom when the page loads or content updates
 document.addEventListener("DOMContentLoaded", () => {
     scrollToBottom();
 });
@@ -104,8 +102,20 @@ function getParseroomMessages(){
                         appendMessageHTML += `
                         <div class="parseroom-message">
                         <section class="p-message p-message-me">
-                        <section class="p-username p-username-me">${message.from_username}</section>
+                        <section class="p-username p-username-me">@${message.from_username}</section>
                         <section class="p-description p-description-me"> ${message.description}</section>
+                        </section>
+                        <section class="p-profile p-profile-me">
+                        <img id="parser-profile parser-profile-me" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
+                        </section>
+                        </div>`;
+                    }
+                    else{
+                        appendMessageHTML += `
+                        <div class="parseroom-message">
+                        <section class="p-message p-message-me">
+                        <section class="p-username p-username-me">@${message.from_username}</section>
+                        <section class="p-description p-description-me-whisper">@${message.to_username} ${message.description}</section>
                         </section>
                         <section class="p-profile p-profile-me">
                         <img id="parser-profile parser-profile-me" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
@@ -121,13 +131,24 @@ function getParseroomMessages(){
                         <img id="parser-profile" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
                         </section>
                         <section class="p-message">
-                        <section class="p-username">${message.from_username}</section>
+                        <section class="p-username">@${message.from_username}</section>
                         <section class="p-description">${message.description}</section>
                         </section>
                         </div>`
                     }
                     else{
-
+                        if(message.to_username === parseroom_username){
+                            appendMessageHTML += `
+                        <div class="parseroom-message">
+                        <section class="p-profile">
+                        <img id="parser-profile" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
+                        </section>
+                        <section class="p-message">
+                        <section class="p-username">@${message.from_username}</section>
+                        <section class="p-description p-description-whisper">${message.description}</section>
+                        </section>
+                        </div>`
+                        }
                     }
                     
                 }
@@ -141,10 +162,9 @@ function getParseroomMessages(){
         console.error("Error fetching announcement: ", error);
     });
 }
-
 async function submitMessage(){
     const messageInput = document.getElementById("parsermessage-txt").value;
-
+    const username = await getparser_username(user_parser);
     if (!messageInput) {
 
         return;
@@ -153,9 +173,10 @@ async function submitMessage(){
     const newAnnouncement = {
         description: messageInput,
         from: user_parser,
-        from_username: user_parser,
         to: "everyone",
+        to_username: "x",
         time: getMessageTime(),
+        from_username: username,
     };
 
     const dbRef = ref(database, `PARSEIT/administration/parseroom/${parseroom_id}/messages/`);
@@ -187,3 +208,37 @@ function getMessageTime() {
     return `${month} ${day}, ${year} ${weekday} ${hours}:${minutes} ${period}`;
 }
 
+async function getparser_username(id) {
+    const usernameRef = child(dbRef, `PARSEIT/username/`);
+    const snapshot = await get(usernameRef);
+    if (snapshot.exists()) {
+        const currentData = snapshot.val();
+        for (const username of Object.keys(currentData)) {
+            if (currentData[username] === id) {
+                return username;
+            }
+        }
+        return null; 
+    } else {
+        console.log("No data available");
+        return null;
+    }
+}
+
+
+let holdTimeout;
+const holdDetectElement = document.getElementById("parsermessage-txt");
+function startHoldWhisper() {
+    holdTimeout = setTimeout(() => {
+        document.getElementById("parsermessage-txt").style.backgroundColor = "#ede6ff";
+        document.getElementById("parsermessage-txt").style.border = "0.4px solid #6029ec";
+        document.getElementById("sendmessage-btn").style.display = "none";
+        document.getElementById("whispermessage-btn").style.display = "block";
+    }, 500);
+}
+function cancelHold() {
+    clearTimeout(holdTimeout);
+}
+holdDetectElement.addEventListener("touchstart", startHoldWhisper);
+holdDetectElement.addEventListener("touchend", cancelHold);
+holdDetectElement.addEventListener("touchcancel", cancelHold);

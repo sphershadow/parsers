@@ -30,6 +30,7 @@ const dbRef = ref(database)
 let user_parser = localStorage.getItem("user-parser");
 let parseclass_cont = document.getElementById("parseclass-default-div");
 let backgroundImgInput = "";
+let username = "";
 
 let parser = [{
     activated: "",
@@ -55,7 +56,8 @@ let status = [{
 
 setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", async function () {
-    document.getElementById("loading_animation_div").style.display = "none"; //remove loading screen
+    document.getElementById("loading_animation_div").style.display = "none";
+    username= await getparser_username(user_parser);
     await getUser(user_parser).then(async () => {
         await getAcadStatus().then(() => {
             document.getElementById("homepage_div").style.display = "flex";
@@ -442,7 +444,7 @@ async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section)
                                         }
 
                                         parseClassAppend += `
-                                        <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-parseroom', '${parseclass_id.replace(/\s+/g, "")}');window.location.href = 'parseroom.html';" id="${parseimgid}" style="background-image: url('assets/parseclass/${parseimgid.toUpperCase()}.jpg');" value ="${parseclass_id.replace(/\s+/g, "")}">
+                                        <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(/\s+/g, "")}');localStorage.setItem('parser-parseroom', '${parseclass_id.replace(/\s+/g, "")}');window.location.href = 'parseroom.html';" id="${parseimgid}" style="background-image: url('assets/parseclass/${parseimgid.toUpperCase()}.jpg');" value ="${parseclass_id.replace(/\s+/g, "")}">
                                         <div class="parseclass-default-gradient">
                                         <span class="parsesched-default-span">
                                         <label for="" class="parseclass-day-lbl">${parseclass_day}</label>
@@ -777,3 +779,19 @@ function formatDate(date) {
     return `${month} ${day}, ${year}`;
 }
 
+async function getparser_username(id) {
+    const usernameRef = child(dbRef, `PARSEIT/username/`);
+    const snapshot = await get(usernameRef);
+    if (snapshot.exists()) {
+        const currentData = snapshot.val();
+        for (const username of Object.keys(currentData)) {
+            if (currentData[username] === id) {
+                return username;
+            }
+        }
+        return null; 
+    } else {
+        console.log("No data available");
+        return null;
+    }
+}

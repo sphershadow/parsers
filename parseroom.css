@@ -134,6 +134,7 @@
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   }
   .sendmessage-btn{
+    display: block;
     width: 20px;
     height: 20px;
     padding: 10px;
@@ -141,6 +142,16 @@
     padding-right: 15px;
     filter: brightness(0) saturate(100%) invert(32%) sepia(88%) saturate(6334%) hue-rotate(352deg) brightness(89%) contrast(117%);
   }
+
+  .whispermessage-btn{
+    display: none;
+    width: 20px;
+    height: 20px;
+    padding: 10px;
+    padding-left: 0px;
+    padding-right: 15px;
+    filter: brightness(0) saturate(100%) invert(16%) sepia(73%) saturate(5333%) hue-rotate(257deg) brightness(93%) contrast(100%);
+}
   .parsermessage-txt{
     width: 100%;
     margin: 10px;
@@ -234,6 +245,18 @@
     font-size: 13px;
 }
 
+
+.p-description-whisper{
+    max-width: 88%;
+    width: fit-content;
+    background-color: #6029ec;
+    padding: 10px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: Inter-Regular;
+    font-size: 13px;
+}
+
 .p-description-whisper{
     max-width: 88%;
     width: fit-content;
@@ -272,7 +295,19 @@
 .p-description-me{
     max-width: 88%;
     width: fit-content;
-    background-color: #166fff;
+    background-color: #f30505;
+    padding: 10px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: Inter-Regular;
+    font-size: 13px;
+    color: #fefefe;
+}
+
+.p-description-me-whisper{
+    max-width: 88%;
+    width: fit-content;
+    background-color: #6029ec;
     padding: 10px;
     border-radius: 5px;
     box-sizing: border-box;
