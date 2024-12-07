@@ -420,8 +420,6 @@ function changeHomeLbl(id, type) {
     document.getElementById(id).innerText = type;
 }
 async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section) {
-    parseclass_cont.innerHTML = "";
-    let parseClassAppend = "";
     let sem_final = "first-sem";
     if (sem === "2") {
         sem_final = "second-sem";
@@ -430,6 +428,8 @@ async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section)
         const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${acadref}/year-lvl-${yearlvl}/${sem_final}/`);
         get(subjectsRef).then((snapshot) => {
             if (snapshot.exists()) {
+                parseclass_cont.innerHTML = "";
+                let parseClassAppend = "";
                 snapshot.forEach((subjectSnapshot) => {
                     const sectionRef = child(subjectSnapshot.ref, `${section}`);
                     get(sectionRef).then((sectionSnapshot) => {
@@ -494,7 +494,6 @@ function getCurrentDayName() {
     let weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     return weekdays[today.getDay()];
 }
-
 let ongoing_previousData = null;
 async function changesInOngoing() {
     const statusRef = child(dbRef, "PARSEIT/administration/academicyear/status/ongoing");
@@ -531,7 +530,6 @@ async function changesInOngoing() {
         console.error('Error reading data:', error);
     });
 } changesInOngoing();
-
 let sem_previousData = null;
 async function changesInSem() {
     const statusRef = child(dbRef, "PARSEIT/administration/academicyear/status/current_sem");
@@ -561,31 +559,31 @@ async function changesInSem() {
     });
 } changesInSem();
 
-// let academicref_previousData = null;
-// async function changesInAcademicRef() {
-//     const statusRef = child(dbRef, "PARSEIT/administration/academicyear/status/current_sem");
-//     onValue(statusRef, (snapshot) => {
-//         if (snapshot.exists()) {
-//             const currentData = snapshot.val();
-//             if (academicref_previousData === null) {
-//                 //console.log('Ongoing:', currentData);
-//             } else {
-//                 //console.log('Ongoing:', currentData);
-//                 if (academicref_previousData !== currentData) {
-//                     document.getElementById("search-parseclass-div").style.display = "flex";
-//                     document.getElementById("notyetstarted_div").style.display = "none";
-//                     document.getElementById("parseclass-default-div").style.display = "flex";
-//                     loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
-//                 }
-//             }
-//             academicref_previousData = currentData;
-//         } else {
-//             console.log('No data available');
-//         }
-//     }, (error) => {
-//         console.error('Error reading data:', error);
-//     });
-// } changesInAcademicRef();
+let academicref_previousData = null;
+async function changesInAcademicRef() {
+    const statusRef = child(dbRef, "PARSEIT/administration/academicyear/status/current_sem");
+    onValue(statusRef, (snapshot) => {
+        if (snapshot.exists()) {
+            const currentData = snapshot.val();
+            if (academicref_previousData === null) {
+                //console.log('Ongoing:', currentData);
+            } else {
+                //console.log('Ongoing:', currentData);
+                if (academicref_previousData !== currentData) {
+                    document.getElementById("search-parseclass-div").style.display = "flex";
+                    document.getElementById("notyetstarted_div").style.display = "none";
+                    document.getElementById("parseclass-default-div").style.display = "flex";
+                    loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+                }
+            }
+            academicref_previousData = currentData;
+        } else {
+            console.log('No data available');
+        }
+    }, (error) => {
+        console.error('Error reading data:', error);
+    });
+} changesInAcademicRef();
 
 async function getAcadStatus() {
     const ref = child(dbRef, "PARSEIT/administration/academicyear/status/");
