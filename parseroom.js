@@ -34,6 +34,7 @@ await setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", async function () {
     document.getElementById("loading_animation_div").style.display = "none";
     getParseroomMessages();
+    scrollToBottom();
 });
 
 document.getElementById("details-btn").addEventListener('click', (event) => {
@@ -70,6 +71,7 @@ document.getElementById("whispermessage-btn").addEventListener('click', (event) 
 
 document.getElementById("header-left").addEventListener('click', (event) => {
     getParseroomMessages();
+    scrollToBottom();
     hideWhisperTheme(); 
     localStorage.removeItem("active-whisper-id");
 
@@ -154,21 +156,6 @@ function getParseroomMessages(){
                         >@${message.from_username} whispered to you</section>
                         </section>
                         </div>`
-                        }
-                        else{
-                            appendMessageHTML += `
-                            <div class="parseroom-message">
-                            <section class="p-profile">
-                            <img id="parser-profile" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
-                            </section>
-                            <section class="p-message">
-                            <section class="p-username">@${message.from_username}</section>
-                            <section class="p-description" onclick="
-                            document.getElementById('parsermessage-txt').value += ' @${message.from_username} ';
-                            "
-                            >${message.description}</section>
-                            </section>
-                            </div>`
                         }
                     }
                 }
@@ -379,10 +366,12 @@ document.addEventListener('touchend', async (event) => {
             }
             else{
                 getParseroomMessages();
+
                 errorWhisperTheme();
             }
         }
     }
+    scrollToBottom();
 });
 function showWhisperTheme(){
     document.getElementById('parseroom-body').style.backgroundColor = '#000000';
