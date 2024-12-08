@@ -117,7 +117,7 @@ function getParseroomMessages(){
                         <div class="parseroom-message">
                         <section class="p-message p-message-me" style="display: flex; align-items: center; justify-content: center;">
                         <section class="p-username p-username-me" style="display: none;">@${message.from_username}</section>
-                        <section class="p-description p-description-me ping-whisper-me">You whispered back to @${message.to_username}</section>
+                        <section class="p-description p-description-me ping-whisper-me">You whispered to @${message.to_username}</section>
                         </section>
                         <section class="p-profile p-profile-me" style="display: none;">
                         <img id="parser-profile parser-profile-me" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
@@ -305,7 +305,7 @@ async function submitWhisperMessage(){
         }
         else{
             const newAnnouncement = {
-                description: messageInput || whisperInput,
+                description:  whisperInput ||messageInput,
                 from: user_parser,
                 to: whisperTo,
                 to_username: whisperTo_username,
@@ -410,8 +410,8 @@ function showPrivateMessages(){
                     if(message.to !== "everyone" && message.to === localStorage.getItem('active-whisper-id')){
                     appendMessageHTML += `
                         <div class="parseroom-message">
-                        <section class="p-message p-message-me">
-                        <section class="p-username p-username-me">@${message.from_username}</section>
+                        <section class="p-message p-message-me" >
+                        <section class="p-username p-username-me" style="color: #fefefe; opacity: 0.5;">@${message.from_username}</section>
                         <section class="p-description p-description-me-whisper">${message.description}</section>
                         </section>
                         <section class="p-profile p-profile-me">
@@ -428,7 +428,7 @@ function showPrivateMessages(){
                         <img id="parser-profile" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
                         </section>
                         <section class="p-message">
-                        <section class="p-username">@${message.from_username}</section>
+                        <section class="p-username" style="color: #fefefe; opacity: 0.5;">@${message.from_username}</section>
                         <section class="p-description p-description-whisper" onclick="
                         localStorage.setItem('active-whisper-id', '${message.from}');
                         document.getElementById('parsermessage-txt').value += ' @${message.from_username} ';
