@@ -343,7 +343,7 @@ async function submitWhisperMessage(){
         }
         else{
             const newAnnouncement = {
-                description: messageInput ||whisperInput,
+                description: messageInput || whisperInput,
                 from: user_parser,
                 to: whisperTo,
                 to_username: whisperTo_username,
