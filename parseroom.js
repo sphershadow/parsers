@@ -110,18 +110,6 @@ function getParseroomMessages(){
                         </section>
                         </div>`;
                     }
-                    else{
-                        appendMessageHTML += `
-                        <div class="parseroom-message">
-                        <section class="p-message p-message-me">
-                        <section class="p-username p-username-me">@${message.from_username}</section>
-                        <section class="p-description p-description-me-whisper">@${message.to_username} ${message.description}</section>
-                        </section>
-                        <section class="p-profile p-profile-me">
-                        <img id="parser-profile parser-profile-me" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
-                        </section>
-                        </div>`;
-                    }
                 }
                 else{
                     if(message.to === "everyone"){
@@ -132,70 +120,13 @@ function getParseroomMessages(){
                         </section>
                         <section class="p-message">
                         <section class="p-username">@${message.from_username}</section>
-                        <section class="p-description" onclick="localStorage.setItem('active-whisper-id', '${message.from}');
+                        <section class="p-description" onclick="
                         document.getElementById('parsermessage-txt').value += ' @${message.from_username} ';
-                        document.getElementById('parseroom-body').style.backgroundColor = '#000000';
-                        document.getElementById('parseroom-header').style.backgroundColor = '#000000';
-                        document.getElementById('parsecode').style.backgroundColor = '#000000';
-                        document.getElementById('parsename').style.backgroundColor = '#000000';
-                        document.getElementById('parsecode').style.color = '#fefefe';
-                        document.getElementById('parsename').style.color = '#fefefe';
-                        document.getElementById('closeparseroom-btn').style.filter = 'brightness(0) saturate(100%) invert(97%) sepia(6%) saturate(462%) hue-rotate(239deg) brightness(119%) contrast(99%)';
-                        document.getElementById('info-btn').style.filter = 'brightness(0) saturate(100%) invert(97%) sepia(6%) saturate(462%) hue-rotate(239deg) brightness(119%) contrast(99%)';
-                        document.getElementById('parseroom-header').style.boxShadow = 'rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px';
-                        document.getElementById('parseroom-footer').style.boxShadow = 'rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px';
-                        document.getElementById('parseroom-footer').style.backgroundColor = '#000000';
-                        document.getElementById('parsermessage-txt').style.backgroundColor = '#2f2f2f';
-                        document.getElementById('parsermessage-txt').style.color = '#fefefe';
-                        document.getElementById('parsermessage-txt').style.border = '0.4px solid #dcdcdc';
-                        document.getElementById('sendmessage-btn').style.display = 'none';
-                        document.getElementById('whispermessage-btn').style.display = 'block';
-                        document.querySelectorAll('.p-username').forEach(element => {
-                            element.style.color = '#fefefe';
-                        });
                         "
                         >${message.description}</section>
                         </section>
                         </div>`
                     }
-                    else{
-                        if(message.to_username === parseroom_username){
-                            appendMessageHTML += `
-                        <div class="parseroom-message">
-                        <section class="p-profile">
-                        <img id="parser-profile" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
-                        </section>
-                        <section class="p-message">
-                        <section class="p-username">@${message.from_username}</section>
-                        <section class="p-description p-description-whisper" onclick="
-                        localStorage.setItem('active-whisper-id', '${message.from}');
-                        document.getElementById('parsermessage-txt').value += ' @${message.from_username} ';
-                        document.getElementById('parseroom-body').style.backgroundColor = '#000000';
-                        document.getElementById('parseroom-header').style.backgroundColor = '#000000';
-                        document.getElementById('parsecode').style.backgroundColor = '#000000';
-                        document.getElementById('parsename').style.backgroundColor = '#000000';
-                        document.getElementById('parsecode').style.color = '#fefefe';
-                        document.getElementById('parsename').style.color = '#fefefe';
-                        document.getElementById('closeparseroom-btn').style.filter = 'brightness(0) saturate(100%) invert(97%) sepia(6%) saturate(462%) hue-rotate(239deg) brightness(119%) contrast(99%)';
-                        document.getElementById('info-btn').style.filter = 'brightness(0) saturate(100%) invert(97%) sepia(6%) saturate(462%) hue-rotate(239deg) brightness(119%) contrast(99%)';
-                        document.getElementById('parseroom-header').style.boxShadow = 'rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px';
-                        document.getElementById('parseroom-footer').style.boxShadow = 'rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px';
-                        document.getElementById('parseroom-footer').style.backgroundColor = '#000000';
-                        document.getElementById('parsermessage-txt').style.backgroundColor = '#2f2f2f';
-                        document.getElementById('parsermessage-txt').style.color = '#fefefe';
-                        document.getElementById('parsermessage-txt').style.border = '0.4px solid #dcdcdc';
-                        document.getElementById('sendmessage-btn').style.display = 'none';
-                        document.getElementById('whispermessage-btn').style.display = 'block';
-                        document.querySelectorAll('.p-username').forEach(element => {
-                            element.style.color = '#fefefe';
-                        });
-                        "
-                        >${message.description}</section>
-                        </section>
-                        </div>`
-                        }
-                    }
-                    
                 }
             });
             messagecont.innerHTML = appendMessageHTML;
@@ -383,7 +314,8 @@ document.addEventListener('touchend', async (event) => {
         document.getElementById("parsermessage-txt").focus();
         
         if(messageInput === ''){
-            errorWhisperTheme();
+            getParseroomMessages();
+            hideWhisperTheme();
         }
         else{
             if(messageInput.includes('@')){
