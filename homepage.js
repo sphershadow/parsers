@@ -57,7 +57,7 @@ let status = [{
 setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", async function () {
     document.getElementById("loading_animation_div").style.display = "none";
-    username= await getparser_username(user_parser);
+    username = await getparser_username(user_parser);
     await getUser(user_parser).then(async () => {
         await getAcadStatus().then(() => {
             document.getElementById("homepage_div").style.display = "flex";
@@ -111,6 +111,49 @@ window.addEventListener("load", async function () {
             }
             else {
                 document.getElementById("teacher_nav").style.display = "flex";
+                if (status[0].ongoing === "true") {
+                    document.getElementById("search-parseclass-div").style.display = "flex";
+                    document.getElementById("notyetstarted_div").style.display = "none";
+                    document.getElementById("parseclass-default-div").style.display = "flex";
+                    //loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+                }
+                else {
+                    document.getElementById("parseclass-default-div").style.display = "none";
+                    document.getElementById("search-parseclass-div").style.display = "none";
+                    document.getElementById("notyetstarted_div").style.display = "flex";
+                }
+                //show
+                showBodyWrapper("home_all_sec");
+                selectNavIcon("homelobby_img");
+                selectNavLbl("homelobby_lbl");
+                changeHomeLbl("lobby_title", "Home");
+                selectNavIcon("homelobby_imgx");
+                selectNavLbl("homelobby_lblx");
+
+                //hide
+                hideBodyWrapper("game_student_sec");
+                hideBodyWrapper("library_student_sec");
+                hideBodyWrapper("honors_teacher_sec");
+                hideBodyWrapper("chatgpt_all_sec");
+                hideBodyWrapper("share_teacher_sec");
+
+                revertNavIcon("homegame_img");
+                revertNavLbl("homegame_lbl");
+
+                revertNavIcon("homelibrary_img");
+                revertNavLbl("homelibrary_lbl");
+
+                revertNavIcon("homehonors_img");
+                revertNavLbl("homehonors_lbl");
+
+                revertNavIcon("homechatbot_img");
+                revertNavLbl("homechatbot_lbl");
+
+                revertNavIcon("homechatbot_imgx");
+                revertNavLbl("homechatbot_lblx");
+
+                revertNavIcon("homeshare_img");
+                revertNavLbl("homeshare_lbl");
             }
         });
     });
@@ -800,4 +843,82 @@ async function getparser_username(id) {
         console.log("No data available");
         return null;
     }
+}
+
+async function loadTeacherSubjects(acadref, yearlvl, sem, userId, type, section) {
+    let sem_final = "first-sem";
+    if (sem === "2") {
+        sem_final = "second-sem";
+    }
+    if (type === "student") {
+        const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${acadref}/year-lvl-${yearlvl}/${sem_final}/`);
+        get(subjectsRef).then((snapshot) => {
+            if (snapshot.exists()) {
+                parseclass_cont.innerHTML = "";
+                let parseClassAppend = "";
+                snapshot.forEach((subjectSnapshot) => {
+                    const sectionRef = child(subjectSnapshot.ref, `${section}`);
+                    get(sectionRef).then((sectionSnapshot) => {
+                        //sched, members
+                        if (sectionSnapshot.exists()) {
+                            const memberRef = sectionSnapshot.child("members");
+                            if (memberRef.exists()) {
+                                // if (idSnapshot.key === userId) {
+                                //     let parseclass_id = sectionSnapshot.val().parseclass_id;
+                                //     let parseimgid = subjectSnapshot.key.replace(/\s+/g, "");
+                                //     let parseclass_day = sectionSnapshot.val().schedule.sched_day;
+                                //     let parseclass_sched = sectionSnapshot.val().schedule.sched_start + " - " + sectionSnapshot.val().schedule.sched_end;
+
+                                //     if (getCurrentDayName() !== parseclass_day) {
+                                //         parseclass_day = "No Schedule Today";
+                                //         parseclass_sched = "";
+                                //     }
+                                //     else{
+                                //         console.log("No Schedule Assigned");
+                                //     }
+
+                                //     parseClassAppend += `
+                                //     <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(/\s+/g, "")}');
+                                //         localStorage.setItem('parser-parseroom', '${parseclass_id.replace(/\s+/g, "")}');
+                                //         localStorage.setItem('parseroom-code', '${subjectSnapshot.key}');
+                                //         localStorage.setItem('parseroom-name', '${subjectSnapshot.val().name}');
+                                //         window.location.href = 'parseroom.html';" id="${parseimgid}"
+                                //         style="background-image: url('assets/parseclass/${parseimgid.toUpperCase()}.jpg');"
+                                //         value ="${parseclass_id.replace(/\s+/g, "")}">
+                                //     <div class="parseclass-default-gradient">
+                                //     <span class="parsesched-default-span">
+                                //     <label for="" class="parseclass-day-lbl">${parseclass_day}</label>
+                                //     <label for="" class="parseclass-time-lbl">${parseclass_sched}</label>
+                                //     </span>
+                                //     <span class="parseclass-default-span">
+                                //     <label for="" class="parseclass-header-lbl">${subjectSnapshot.key}</label>
+                                //     <label for="" class="parseclass-header-sublbl">${subjectSnapshot.val().name}</label>
+                                //     </span>
+                                //     </div>
+                                //     </div>`
+                                //     parseclass_cont.innerHTML = parseClassAppend;
+                                // }
+                                console.log(memberRef.val());
+                            }
+                            else {
+                                console.log('No member found,');
+                            }
+                        } else {
+                            document.getElementById("parseclass-default-div").style.display = "none";
+                            document.getElementById("search-parseclass-div").style.display = "none";
+                            document.getElementById("notyetstarted_div").style.display = "flex";
+                            console.log("No members found.");
+                        }
+                    }).catch((error) => {
+                        console.log(error);
+                    })
+                });
+            }
+            else {
+                console.log("No Data Found.");
+            }
+        });
+    }
+
+
 }
