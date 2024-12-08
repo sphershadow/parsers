@@ -273,7 +273,6 @@ async function getparser_id(username) {
     const usernameRef = child(dbRef, `PARSEIT/username/${username}`);
     const snapshot = await get(usernameRef);
     if (snapshot.exists()) {
-        console.log(snapshot.val());
         return snapshot.val();   
     } else {
         console.log("No data available");
@@ -326,10 +325,18 @@ async function submitWhisperMessage(){
     const messageInput = document.getElementById("parsermessage-txt").value;
     const whisperInput = removeUsername(messageInput);
     let whisperTo_username = extractUsername(messageInput);
-    let whisperTo = localStorage.getItem("active-whisper-username");
-    const username = await getparser_username(user_parser);
+    let whisperTo = getparser_id(whisperTo_username);
+    const username = localStorage.getItem("parser-username");
 
-    if (!messageInput || messageInput === '' || whisperTo_username === null || whisperTo === null || username === null || whisperInput === null) {
+   
+
+    console.log(whisperInput);
+    console.log(whisperTo_username);
+    console.log(whisperTo);
+    console.log(username);
+
+
+    if (whisperTo_username === null || whisperTo === null || username === null || whisperInput === '') {
         document.getElementById("parsermessage-txt").style.border = "0.4px solid red";
         return;
     }
@@ -341,6 +348,8 @@ async function submitWhisperMessage(){
         time: getMessageTime(),
         from_username: username,
     };
+    
+    
 
     const dbRef = ref(database, `PARSEIT/administration/parseroom/${parseroom_id}/messages/`);
     const newAnnouncementRef = push(dbRef);
@@ -355,7 +364,7 @@ async function submitWhisperMessage(){
         scrollToBottom();
         showWhisperTheme();
         showPrivateMessages();
-        
+        localStorage.removeItem("active-whisper-username");
     } catch (error) {
         console.error("Error submitting announcement: ", error);
     }
