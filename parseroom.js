@@ -87,7 +87,7 @@ function adjustChatbox() {
 function getParseroomMessages(){
     const dbRef = ref(database, `PARSEIT/administration/parseroom/${parseroom_id}/messages/`);
     const latestMessageQuery = query(dbRef, orderByKey());
-
+    let ping_whisper = "";
     onValue(latestMessageQuery, (snapshot) => {
         if (snapshot.exists()) {
             let messagecont = document.getElementById("parseroom-body-wrapper");
@@ -98,6 +98,7 @@ function getParseroomMessages(){
             const reversedsnapshot = Object.entries(snapshotData);
             reversedsnapshot.forEach(([key, message]) => {
                 if(message.from === user_parser){
+                    
                     if(message.to === "everyone"){
                         appendMessageHTML += `
                         <div class="parseroom-message">
@@ -112,6 +113,10 @@ function getParseroomMessages(){
                     }
                 }
                 else{
+                    if(message.ping === user_parser){
+                        ping_whisper += message.ping;
+                        console.log("ping");
+                    }
                     if(message.to === "everyone"){
                         appendMessageHTML += `
                         <div class="parseroom-message">
@@ -120,7 +125,7 @@ function getParseroomMessages(){
                         </section>
                         <section class="p-message">
                         <section class="p-username">@${message.from_username}</section>
-                        <section class="p-description" onclick="
+                        <section id="ping" class="p-description " onclick="
                         document.getElementById('parsermessage-txt').value += ' @${message.from_username} ';
                         "
                         >${message.description}</section>
@@ -130,6 +135,12 @@ function getParseroomMessages(){
                 }
             });
             messagecont.innerHTML = appendMessageHTML;
+            if(ping_whisper !== ""){
+                document.getElementById('ping').classList.add('ping-whisper');
+            }
+            else{
+                document.getElementById('ping').classList.remove('ping-whisper');
+            }
             scrollToBottom();
         } else {
             
@@ -280,6 +291,7 @@ async function submitWhisperMessage(){
                 to_username: whisperTo_username,
                 time: getMessageTime(),
                 from_username: username,
+                ping: whisperTo,
             };
             
             const dbRef = ref(database, `PARSEIT/administration/parseroom/${parseroom_id}/messages/`);
@@ -396,7 +408,7 @@ function showPrivateMessages(){
                         </section>
                         <section class="p-message">
                         <section class="p-username">@${message.from_username}</section>
-                        <section class="p-description p-description-whisper" onclick="
+                        <section class="p-description p-description-whisper ping-whisper" onclick="
                         localStorage.setItem('active-whisper-id', '${message.from}');
                         document.getElementById('parsermessage-txt').value += ' @${message.from_username} ';
                         document.getElementById('parseroom-body').style.backgroundColor = '#000000';
