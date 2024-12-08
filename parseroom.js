@@ -110,6 +110,18 @@ function getParseroomMessages(){
                         </section>
                         </div>`;
                     }
+                    else{
+                        appendMessageHTML += `
+                        <div class="parseroom-message">
+                        <section class="p-message p-message-me" style="display: flex; align-items: center; justify-content: center;">
+                        <section class="p-username p-username-me" style="display: none;">@${message.from_username}</section>
+                        <section class="p-description p-description-me ping-whisper-me">You whispered back to @${message.to_username}</section>
+                        </section>
+                        <section class="p-profile p-profile-me" style="display: none;">
+                        <img id="parser-profile parser-profile-me" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
+                        </section>
+                        </div>`;
+                    }
                 }
                 else{
                     if(message.to === "everyone"){
@@ -126,6 +138,38 @@ function getParseroomMessages(){
                         >${message.description}</section>
                         </section>
                         </div>`
+                    }
+                    else{
+                        if(message.to === user_parser){
+                            appendMessageHTML += `
+                        <div class="parseroom-message" style="display: flex; align-items: center; justify-content: center;">
+                        <section class="p-profile" style="display: none;">
+                        <img id="parser-profile" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
+                        </section>
+                        <section class="p-message" style="display: flex; align-items: center; justify-content: center;">
+                        <section class="p-username" style="display: none;">@${message.from_username}</section>
+                        <section class="p-description ping-whisper" style="width: 100%;" onclick="
+                        document.getElementById('parsermessage-txt').value += ' @${message.from_username} ';
+                        "
+                        >@${message.from_username} whispered to you</section>
+                        </section>
+                        </div>`
+                        }
+                        else{
+                            appendMessageHTML += `
+                            <div class="parseroom-message">
+                            <section class="p-profile">
+                            <img id="parser-profile" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
+                            </section>
+                            <section class="p-message">
+                            <section class="p-username">@${message.from_username}</section>
+                            <section class="p-description" onclick="
+                            document.getElementById('parsermessage-txt').value += ' @${message.from_username} ';
+                            "
+                            >${message.description}</section>
+                            </section>
+                            </div>`
+                        }
                     }
                 }
             });

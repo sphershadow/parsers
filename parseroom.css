@@ -404,53 +404,29 @@
 
 
 .ping-whisper {
+  opacity: 0.5;
   position: relative;
   cursor: pointer;
-  
-  &:hover {
-      filter: contrast(1.1);
-  }
-  
-  &:active {
-      filter: contrast(0.9);
-  }
-  
-  &::before,
-  &::after {
-      content: "";
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      right: 0px;
-      bottom: 0px;
-      border: 0.5px solid #6029ec;
-      transition: all .5s;
-      animation: clippath 3s infinite linear;
-      border-radius: 7px;
-  }
-  
-  &::after {
-      animation: clippath 3s infinite -1.5s linear;
-  }
+  background-color: transparent;
+  color: #6029ec;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+
 }
 
-@keyframes clippath {
-  0%,
-  100% {
-      clip-path: inset(0 0 98% 0);
-  }
-  
-  25% {
-      clip-path: inset(0 98% 0 0);
-  }
-  50% {
-      clip-path: inset(98% 0 0 0);
-  }
-  75% {
-      clip-path: inset(0 0 0 98%);
-  }
+.ping-whisper-me {
+  opacity: 0.5;
+  position: relative;
+  cursor: pointer;
+  background-color: transparent;
+  color: #f30505;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+
 }
 
-.bg::before {
-  background: rgba(255, 215, 0, .5);
-}
+
