@@ -125,8 +125,12 @@ function getParseroomMessages(){
                         <section class="p-message">
                         <section class="p-username">@${message.from_username}</section>
                         <section class="p-description" onclick="localStorage.setItem('active-whisper-username', '${message.from}');
-                        document.getElementById('parsermessage-txt').innerText = '@${message.from_username} '";
-                        document.getElementById('parsermessage-txt').focus()";
+                        document.getElementById('parsermessage-txt').value += ' @${message.from_username} ';
+                        document.getElementById('parsermessage-txt').style.backgroundColor = '#ede6ff';
+                        document.getElementById('parsermessage-txt').style.border = '0.4px solid #6029ec';
+                        document.getElementById('sendmessage-btn').style.display = 'none';
+                        document.getElementById('whispermessage-btn').style.display = 'block';
+                        "
                         >${message.description}</section>
                         </section>
                         </div>`
@@ -142,8 +146,12 @@ function getParseroomMessages(){
                         <section class="p-username">@${message.from_username}</section>
                         <section class="p-description p-description-whisper" onclick="
                         localStorage.setItem('active-whisper-username', '${message.from}');
-                        document.getElementById('parsermessage-txt').innerText = '@${message.from_username} '";
-                        document.getElementById('parsermessage-txt').focus()";
+                        document.getElementById('parsermessage-txt').value += ' @${message.from_username} ';
+                        document.getElementById('parsermessage-txt').style.backgroundColor = '#ede6ff';
+                        document.getElementById('parsermessage-txt').style.border = '0.4px solid #6029ec';
+                        document.getElementById('sendmessage-btn').style.display = 'none';
+                        document.getElementById('whispermessage-btn').style.display = 'block';
+                        "
                         >${message.description}</section>
                         </section>
                         </div>`
@@ -235,27 +243,27 @@ async function getparser_id(username) {
     }
 }
 
-let holdTimeout;
-const holdDetectElement = document.getElementById("sendmessage-btn");
-function startHoldWhisper() {
-    holdTimeout = setTimeout(() => {
-        document.getElementById("parsermessage-txt").style.backgroundColor = "#ede6ff";
-        document.getElementById("parsermessage-txt").style.border = "0.4px solid #6029ec";
-        document.getElementById("sendmessage-btn").style.display = "none";
-        document.getElementById("whispermessage-btn").style.display = "block";
-    }, 500);
-}
-function cancelHold() {
-    clearTimeout(holdTimeout);
-}
-holdDetectElement.addEventListener("touchstart", startHoldWhisper);
-holdDetectElement.addEventListener("touchend", cancelHold);
-holdDetectElement.addEventListener("touchcancel", cancelHold);
-showParseroomDetails();
+// let holdTimeout;
+// const holdDetectElement = document.getElementById("sendmessage-btn");
+// function startHoldWhisper() {
+//     holdTimeout = setTimeout(() => {
+//         document.getElementById("parsermessage-txt").style.backgroundColor = "#ede6ff";
+//         document.getElementById("parsermessage-txt").style.border = "0.4px solid #6029ec";
+//         document.getElementById("sendmessage-btn").style.display = "none";
+//         document.getElementById("whispermessage-btn").style.display = "block";
+//     }, 500);
+// }
+// function cancelHold() {
+//     clearTimeout(holdTimeout);
+// }
+// holdDetectElement.addEventListener("touchstart", startHoldWhisper);
+// holdDetectElement.addEventListener("touchend", cancelHold);
+// holdDetectElement.addEventListener("touchcancel", cancelHold);
+
 function showParseroomDetails(){
     document.getElementById("parsecode").innerHTML = localStorage.getItem("parseroom-code");
     document.getElementById("parsename").innerHTML = localStorage.getItem("parseroom-name");
-}
+}showParseroomDetails();
 function extractUsername(text) {
     const match = text.match(/@(\S+)/);
     const messageInput = document.getElementById("parsermessage-txt").value;
@@ -272,18 +280,21 @@ function removeUsername(text) {
         newText = text.replace(match[0], '').trim();
         return newText;
     }
+    else{
+        return null;
+    }
 }
 async function submitWhisperMessage(){
     const messageInput = document.getElementById("parsermessage-txt").value;
     const whisperInput = removeUsername(messageInput);
-    const whisperTo_username = extractUsername(messageInput);
-    const whisperTo = localStorage.getItem("active-whisper-username");
+    let whisperTo_username = extractUsername(messageInput);
+    let whisperTo = localStorage.getItem("active-whisper-username");
     const username = await getparser_username(user_parser);
 
-    if (!messageInput || whisperTo_username === null) {
+    if (!messageInput || whisperTo_username === null || whisperTo === null || username === null || whisperInput === null) {
+        document.getElementById("parsermessage-txt").style.border = "0.4px solid red";
         return;
     }
-
     const newAnnouncement = {
         description: whisperInput,
         from: user_parser,
@@ -319,9 +330,10 @@ document.addEventListener('touchstart', (event) => {
 document.addEventListener('touchend', (event) => {
     endY = event.changedTouches[0].clientY;
     if (startY - endY > 400) {
-        document.getElementById("parsermessage-txt").style.backgroundColor = "#ede6ff";
-        document.getElementById("parsermessage-txt").style.border = "0.4px solid #6029ec";
-        document.getElementById("sendmessage-btn").style.display = "none";
-        document.getElementById("whispermessage-btn").style.display = "block";
+        document.getElementById('parsermessage-txt').style.backgroundColor = '#ede6ff';
+        document.getElementById('parsermessage-txt').style.border = '0.4px solid #6029ec';
+        document.getElementById('sendmessage-btn').style.display = 'none';
+        document.getElementById('whispermessage-btn').style.display = 'block';
+        getParseroomMessages();
     }
 });
