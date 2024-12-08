@@ -316,6 +316,8 @@ document.addEventListener('touchend', async (event) => {
         if(messageInput === ''){
             getParseroomMessages();
             hideWhisperTheme();
+            errorWhisperTheme();
+
         }
         else{
             if(messageInput.includes('@')){
