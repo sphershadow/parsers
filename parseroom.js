@@ -9,7 +9,8 @@ import {
     orderByKey,
     limitToLast,
     push,
-    set
+    set,
+    update
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyCFqgbA_t3EBVO21nW70umJOHX3UdRr9MY",
@@ -85,9 +86,9 @@ function adjustChatbox() {
     container.style.height = `${window.innerHeight}px`;
 }
 function getParseroomMessages(){
+    
     const dbRef = ref(database, `PARSEIT/administration/parseroom/${parseroom_id}/messages/`);
     const latestMessageQuery = query(dbRef, orderByKey());
-    let ping_whisper = "";
     onValue(latestMessageQuery, (snapshot) => {
         if (snapshot.exists()) {
             let messagecont = document.getElementById("parseroom-body-wrapper");
@@ -96,7 +97,7 @@ function getParseroomMessages(){
             let appendMessageHTML = "<div class='filler-message'></div>";
             const snapshotData = snapshot.val();
             const reversedsnapshot = Object.entries(snapshotData);
-            reversedsnapshot.forEach(([key, message]) => {
+            reversedsnapshot.forEach( async([key, message]) => {
                 if(message.from === user_parser){
                     
                     if(message.to === "everyone"){
@@ -113,34 +114,43 @@ function getParseroomMessages(){
                     }
                 }
                 else{
-                    if(message.ping === user_parser){
-                        ping_whisper += message.ping;
-                        console.log("ping");
-                    }
                     if(message.to === "everyone"){
-                        appendMessageHTML += `
-                        <div class="parseroom-message">
-                        <section class="p-profile">
-                        <img id="parser-profile" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
-                        </section>
-                        <section class="p-message">
-                        <section class="p-username">@${message.from_username}</section>
-                        <section id="ping" class="p-description " onclick="
-                        document.getElementById('parsermessage-txt').value += ' @${message.from_username} ';
-                        "
-                        >${message.description}</section>
-                        </section>
-                        </div>`
+                        const dbRef = ref(database, `PARSEIT/administration/students/${user_parser}/pings/${message.from}/`);
+                        const snapshot = await get(dbRef);
+                        if (snapshot.exists()) {
+                            appendMessageHTML += `
+                            <div class="parseroom-message">
+                            <section class="p-profile">
+                            <img id="parser-profile" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
+                            </section>
+                            <section class="p-message">
+                            <section class="p-username">@${message.from_username}</section>
+                            <section class="p-description ping-whisper" onclick="
+                            document.getElementById('parsermessage-txt').value += ' @${message.from_username} ';
+                            "
+                            >${message.description}</section>
+                            </section>
+                            </div>`
+                        } 
+                        else{
+                            appendMessageHTML += `
+                            <div class="parseroom-message">
+                            <section class="p-profile">
+                            <img id="parser-profile" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
+                            </section>
+                            <section class="p-message">
+                            <section class="p-username">@${message.from_username}</section>
+                            <section class="p-description " onclick="
+                            document.getElementById('parsermessage-txt').value += ' @${message.from_username} ';
+                            "
+                            >${message.description}</section>
+                            </section>
+                            </div>`
+                        }
                     }
                 }
             });
             messagecont.innerHTML = appendMessageHTML;
-            if(ping_whisper !== ""){
-                document.getElementById('ping').classList.add('ping-whisper');
-            }
-            else{
-                document.getElementById('ping').classList.remove('ping-whisper');
-            }
             scrollToBottom();
         } else {
             
@@ -291,7 +301,6 @@ async function submitWhisperMessage(){
                 to_username: whisperTo_username,
                 time: getMessageTime(),
                 from_username: username,
-                ping: whisperTo,
             };
             
             const dbRef = ref(database, `PARSEIT/administration/parseroom/${parseroom_id}/messages/`);
@@ -304,6 +313,7 @@ async function submitWhisperMessage(){
                 document.getElementById("parsermessage-txt").style.border = "0.4px solid #dcdcdc";
                 document.getElementById("sendmessage-btn").style.display = "none";
                 document.getElementById("whispermessage-btn").style.display = "block";
+                await addPing(user_parser, whisperTo)
                 showWhisperTheme();
                 showPrivateMessages();
                 scrollToBottom();
@@ -477,3 +487,10 @@ function errorWhisperTheme(){
         document.getElementById('parsermessage-txt').style.border = '0.4px solid #dcdcdc';
     }, 1000);
 }
+
+async function addPing(from, to) {
+    await update(ref(database, `PARSEIT/administration/students/${to}/pings/`), {
+        [from]: "ping",
+    });
+}
+
