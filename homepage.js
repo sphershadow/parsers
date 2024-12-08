@@ -454,6 +454,7 @@ function changeHomeLbl(id, type) {
     document.getElementById(id).innerText = type;
 }
 async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section) {
+    //console.log(acadref, yearlvl, sem, userId, type, section);
     let sem_final = "first-sem";
     if (sem === "2") {
         sem_final = "second-sem";
@@ -467,7 +468,6 @@ async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section)
                 snapshot.forEach((subjectSnapshot) => {
                     const sectionRef = child(subjectSnapshot.ref, `${section}`);
                     get(sectionRef).then((sectionSnapshot) => {
-                        //sched, members
                         if (sectionSnapshot.exists()) {
                             const memberRef = sectionSnapshot.child("members");
                             if (memberRef.exists()) {
@@ -511,13 +511,10 @@ async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section)
                                 });
                             }
                             else {
-                                console.log('No member found,');
+                                //console.log('No member found,');
                             }
                         } else {
-                            document.getElementById("parseclass-default-div").style.display = "none";
-                            document.getElementById("search-parseclass-div").style.display = "none";
-                            document.getElementById("notyetstarted_div").style.display = "flex";
-                            console.log("No members found.");
+                            //console.log("No members found.");
                         }
                     }).catch((error) => {
                         console.log(error);
