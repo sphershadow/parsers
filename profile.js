@@ -81,6 +81,52 @@ document.getElementById("zhongli_bg").addEventListener('click', (event) => {
     setNewBanner("zhongli_bg.png", "zhongli_banner.png");
 });
 
+//profiles
+document.getElementById("default_profile").addEventListener('click', (event) => {
+    setNewProfile("default_profile.png");
+});
+document.getElementById("mavuika_profile").addEventListener('click', (event) => {
+    setNewProfile("mavuika_1.png");
+});
+document.getElementById("mavuika2_profile").addEventListener('click', (event) => {
+    setNewProfile("mavuika_2.png");
+});
+document.getElementById("furina_profile").addEventListener('click', (event) => {
+    setNewProfile("furina_1.png");
+});
+document.getElementById("furina2_profile").addEventListener('click', (event) => {
+    setNewProfile("furina_2.png");
+});
+document.getElementById("nahida_profile").addEventListener('click', (event) => {
+    setNewProfile("nahida_1.png");
+});
+document.getElementById("nahida2_profile").addEventListener('click', (event) => {
+    setNewProfile("nahida_2.png");
+});
+document.getElementById("raiden_profile").addEventListener('click', (event) => {
+    setNewProfile("raiden_1.png");
+});
+document.getElementById("raiden2_profile").addEventListener('click', (event) => {
+    setNewProfile("raiden_2.png");
+});
+document.getElementById("venti_profile").addEventListener('click', (event) => {
+    setNewProfile("venti_1.png");
+});
+document.getElementById("venti2_profile").addEventListener('click', (event) => {
+    setNewProfile("venti_2.png");
+});
+document.getElementById("zhongli_profile").addEventListener('click', (event) => {
+    setNewProfile("zhongli_1.png");
+});
+document.getElementById("zhongli2_profile").addEventListener('click', (event) => {
+    setNewProfile("zhongli_2.png");
+});
+
+
+
+
+
+
 
 
 
@@ -159,14 +205,29 @@ async function setparserBanners(id) {
 } setparserBanners(user_parser);
 
 async function setNewBanner(cover, banner) {
-    update(ref(database, "PARSEIT/administration/students/" + user_parser), {
+    await update(ref(database, "PARSEIT/administration/students/" + user_parser), {
         cover: cover,
         banner: banner,
     }).then(() => {
         setparserBanners(user_parser);
         document.getElementById("body-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
         document.getElementById("details-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
+        document.getElementById("changeProfile").style.display = "none";
+        document.getElementById("changeCover").style.display = "none";
+    });
 
+}
+
+async function setNewProfile(profile) {
+    await update(ref(database, "PARSEIT/administration/students/" + user_parser), {
+        profile: profile,
+
+    }).then(() => {
+        setparserBanners(user_parser);
+        document.getElementById("body-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
+        document.getElementById("details-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
+        document.getElementById("changeProfile").style.display = "none";
+        document.getElementById("changeCover").style.display = "none";
     });
 
 }
