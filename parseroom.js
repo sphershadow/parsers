@@ -325,12 +325,12 @@ async function submitWhisperMessage(){
                 document.getElementById("whispermessage-btn").style.display = "block";
                 showWhisperTheme();
                 showPrivateMessages();
-                scrollToBottom();
             } catch (error) {
                 console.error("Error submitting announcement: ", error);
             }
         }
     }
+    scrollToBottom();
 
 }
 let startY = 0;
@@ -348,7 +348,6 @@ document.addEventListener('touchend', async (event) => {
             getParseroomMessages();
             hideWhisperTheme();
             errorWhisperTheme();
-
         }
         else{
             if(messageInput.includes('@')){
@@ -366,12 +365,10 @@ document.addEventListener('touchend', async (event) => {
             }
             else{
                 getParseroomMessages();
-
                 errorWhisperTheme();
             }
         }
     }
-    scrollToBottom();
 });
 function showWhisperTheme(){
     document.getElementById('parseroom-body').style.backgroundColor = '#000000';
