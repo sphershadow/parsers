@@ -142,7 +142,6 @@ body {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  background-image: url(assets/profiles/furina_banner.png);
 }
 
 #parser_profile {
