@@ -38,15 +38,15 @@ window.addEventListener("load", async function () {
 });
 
 document.getElementById("details-btn").addEventListener('click', (event) => {
-    document.getElementById("body-parseroom-div").style.animation= "parseroom-slideOut 0.6s ease-out forwards";
-    document.getElementById("details-parseroom-div").style.animation= "parseroom-slideOut 0.6s ease-out forwards";
+    document.getElementById("body-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
+    document.getElementById("details-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
 });
-window.addEventListener("resize", adjustChatbox);adjustChatbox();
-window.addEventListener("resize", scrollToBottom);scrollToBottom();
+window.addEventListener("resize", adjustChatbox); adjustChatbox();
+window.addEventListener("resize", scrollToBottom); scrollToBottom();
 document.getElementById("sendmessage-btn").addEventListener('click', (event) => {
-   submitMessage();
-   getParseroomMessages();
-   scrollToBottom();
+    submitMessage();
+    getParseroomMessages();
+    scrollToBottom();
 });
 function scrollToBottom() {
     const element = document.getElementById("parseroom-body-wrapper");
@@ -61,21 +61,21 @@ document.getElementById("closeparseroom-btn").addEventListener('click', (event) 
     window.location.href = "homepage.html";
     localStorage.removeItem("active-whisper-id");
 });
- document.getElementById("info-btn").addEventListener('click', (event) => {
-    document.getElementById("body-parseroom-div").style.animation= "parseroom-slideIn 0.6s ease-out forwards";
-    document.getElementById("details-parseroom-div").style.animation= "parseroom-slideIn 0.6s ease-out forwards";
+document.getElementById("info-btn").addEventListener('click', (event) => {
+    document.getElementById("body-parseroom-div").style.animation = "parseroom-slideIn 0.6s ease-out forwards";
+    document.getElementById("details-parseroom-div").style.animation = "parseroom-slideIn 0.6s ease-out forwards";
 });
 document.getElementById("whispermessage-btn").addEventListener('click', (event) => {
-   submitWhisperMessage();
+    submitWhisperMessage();
 });
 
 document.getElementById("header-left").addEventListener('click', (event) => {
     getParseroomMessages();
     scrollToBottom();
-    hideWhisperTheme(); 
+    hideWhisperTheme();
     localStorage.removeItem("active-whisper-id");
 
- });
+});
 
 //functions
 async function setScreenSize(width, height) {
@@ -86,7 +86,7 @@ function adjustChatbox() {
     const container = document.querySelector('.body-parseroom-div');
     container.style.height = `${window.innerHeight}px`;
 }
-function getParseroomMessages(){
+function getParseroomMessages() {
     const dbRef = ref(database, `PARSEIT/administration/parseroom/${parseroom_id}/messages/`);
     const latestMessageQuery = query(dbRef, orderByKey());
 
@@ -99,8 +99,8 @@ function getParseroomMessages(){
             const snapshotData = snapshot.val();
             const reversedsnapshot = Object.entries(snapshotData);
             reversedsnapshot.forEach(([key, message]) => {
-                if(message.from === user_parser){
-                    if(message.to === "everyone"){
+                if (message.from === user_parser) {
+                    if (message.to === "everyone") {
                         appendMessageHTML += `
                         <div class="parseroom-message">
                         <section class="p-message p-message-me">
@@ -112,7 +112,7 @@ function getParseroomMessages(){
                         </section>
                         </div>`;
                     }
-                    else{
+                    else {
                         appendMessageHTML += `
                         <div class="parseroom-message">
                         <section class="p-message p-message-me" style="display: flex; align-items: center; justify-content: center;">
@@ -125,8 +125,8 @@ function getParseroomMessages(){
                         </div>`;
                     }
                 }
-                else{
-                    if(message.to === "everyone"){
+                else {
+                    if (message.to === "everyone") {
                         appendMessageHTML += `
                         <div class="parseroom-message">
                         <section class="p-profile">
@@ -141,8 +141,8 @@ function getParseroomMessages(){
                         </section>
                         </div>`
                     }
-                    else{
-                        if(message.to === user_parser){
+                    else {
+                        if (message.to === user_parser) {
                             appendMessageHTML += `
                         <div class="parseroom-message" style="display: flex; align-items: center; justify-content: center;">
                         <section class="p-profile" style="display: none;">
@@ -163,13 +163,13 @@ function getParseroomMessages(){
             messagecont.innerHTML = appendMessageHTML;
             scrollToBottom();
         } else {
-            
+
         }
     }, (error) => {
         console.error("Error fetching announcement: ", error);
     });
 }
-async function submitMessage(){
+async function submitMessage() {
     const messageInput = document.getElementById("parsermessage-txt").value;
     const username = await getparser_username(user_parser);
     if (!messageInput) {
@@ -194,7 +194,7 @@ async function submitMessage(){
         document.getElementById("parsermessage-txt").value = "";
         getParseroomMessages();
         scrollToBottom();
-        
+
     } catch (error) {
         console.error("Error submitting announcement: ", error);
     }
@@ -211,7 +211,7 @@ function getMessageTime() {
     const weekday = days[date.getDay()];
     let hours = date.getHours();
     const minutes = date.getMinutes().toString().padStart(2, "0"); // Add leading zero if needed
-    const period = hours >= 12 ? "PM" : "AM"; 
+    const period = hours >= 12 ? "PM" : "AM";
     hours = hours % 12 || 12;
     return `${month} ${day}, ${year} ${weekday} ${hours}:${minutes} ${period}`;
 }
@@ -225,7 +225,7 @@ async function getparser_username(id) {
                 return username;
             }
         }
-        return null; 
+        return null;
     } else {
         console.log("No data available");
         return null;
@@ -235,7 +235,7 @@ async function getparser_id(username) {
     const usernameRef = child(dbRef, `PARSEIT/username/${username}`);
     const snapshot = await get(usernameRef);
     if (snapshot.exists()) {
-        return snapshot.val();   
+        return snapshot.val();
     } else {
         console.log("No data available");
         return null;
@@ -259,18 +259,18 @@ async function getparser_id(username) {
 // holdDetectElement.addEventListener("touchend", cancelHold);
 // holdDetectElement.addEventListener("touchcancel", cancelHold);
 
-function showParseroomDetails(){
+function showParseroomDetails() {
     document.getElementById("parsecode").innerHTML = localStorage.getItem("parseroom-code");
     document.getElementById("parsename").innerHTML = localStorage.getItem("parseroom-name");
-}showParseroomDetails();
+} showParseroomDetails();
 function extractUsername(text) {
     const match = text.match(/@(\S+)/);
     const messageInput = document.getElementById("parsermessage-txt").value;
     const whisperInput = removeUsername(messageInput);
     if (match) {
-        return match[1]; 
+        return match[1];
     }
-    return getparser_id(whisperInput); 
+    return getparser_id(whisperInput);
 }
 function removeUsername(text) {
     const match = text.match(/@\S+/);
@@ -279,43 +279,37 @@ function removeUsername(text) {
         newText = text.replace(match[0], '').trim();
         return newText;
     }
-    else{
+    else {
         return null;
     }
 }
-async function submitWhisperMessage(){
+async function submitWhisperMessage() {
     const messageInput = document.getElementById("parsermessage-txt").value;
     const whisperInput = await removeUsername(messageInput);
-    let whisperTo_username = await extractUsername(messageInput)|| await getparser_username(localStorage.getItem('active-whisper-id'));
+    let whisperTo_username = await extractUsername(messageInput) || await getparser_username(localStorage.getItem('active-whisper-id'));
     let whisperTo = await getparser_id(whisperTo_username) || localStorage.getItem('active-whisper-id');
     const username = localStorage.getItem("parser-username");
-
-    // console.log("whisper:  "+whisperInput);
-    // console.log(whisperTo_username);
-    // console.log(whisperTo);
-    // console.log(username);
-
 
     if (messageInput === '' || whisperInput === '') {
         errorWhisperTheme();
     }
-    else{
+    else {
         if (whisperTo_username === null || whisperTo === null || username === null) {
             errorWhisperTheme();
         }
-        else{
+        else {
             const newAnnouncement = {
-                description:  whisperInput ||messageInput,
+                description: whisperInput || messageInput,
                 from: user_parser,
                 to: whisperTo,
                 to_username: whisperTo_username,
                 time: getMessageTime(),
                 from_username: username,
             };
-            
+
             const dbRef = ref(database, `PARSEIT/administration/parseroom/${parseroom_id}/messages/`);
             const newAnnouncementRef = push(dbRef);
-        
+
             try {
                 await set(newAnnouncementRef, newAnnouncement);
                 document.getElementById("parsermessage-txt").value = "";
@@ -331,7 +325,6 @@ async function submitWhisperMessage(){
         }
     }
     scrollToBottom();
-
 }
 let startY = 0;
 let endY = 0;
@@ -342,15 +335,13 @@ document.addEventListener('touchend', async (event) => {
     endY = event.changedTouches[0].clientY;
     if (startY - endY > 400) {
         let messageInput = document.getElementById("parsermessage-txt").value;
-        document.getElementById("parsermessage-txt").focus();
-        
-        if(messageInput === ''){
+        if (messageInput === '') {
             getParseroomMessages();
             hideWhisperTheme();
             errorWhisperTheme();
         }
-        else{
-            if(messageInput.includes('@')){
+        else {
+            if (messageInput.includes('@')) {
                 let username = extractUsername(messageInput);
                 let id = await getparser_id(username);
                 if (id !== null) {
@@ -358,19 +349,19 @@ document.addEventListener('touchend', async (event) => {
                     showPrivateMessages();
                     showWhisperTheme();
                 }
-                else{
+                else {
                     getParseroomMessages();
                     errorWhisperTheme();
                 }
             }
-            else{
+            else {
                 getParseroomMessages();
                 errorWhisperTheme();
             }
         }
     }
 });
-function showWhisperTheme(){
+function showWhisperTheme() {
     document.getElementById('parseroom-body').style.backgroundColor = '#000000';
     document.getElementById('parseroom-header').style.backgroundColor = '#000000';
     document.getElementById('parsecode').style.backgroundColor = '#000000';
@@ -391,7 +382,7 @@ function showWhisperTheme(){
         element.style.color = '#fefefe';
     });
 }
-function showPrivateMessages(){
+function showPrivateMessages() {
     const dbRef = ref(database, `PARSEIT/administration/parseroom/${parseroom_id}/messages/`);
     const latestMessageQuery = query(dbRef, orderByKey());
 
@@ -403,9 +394,9 @@ function showPrivateMessages(){
             const snapshotData = snapshot.val();
             const reversedsnapshot = Object.entries(snapshotData);
             reversedsnapshot.forEach(([key, message]) => {
-                if(message.from === user_parser){
-                    if(message.to !== "everyone" && message.to === localStorage.getItem('active-whisper-id')){
-                    appendMessageHTML += `
+                if (message.from === user_parser) {
+                    if (message.to !== "everyone" && message.to === localStorage.getItem('active-whisper-id')) {
+                        appendMessageHTML += `
                         <div class="parseroom-message">
                         <section class="p-message p-message-me" >
                         <section class="p-username p-username-me" style="color: #fefefe; opacity: 0.5;">@${message.from_username}</section>
@@ -417,8 +408,8 @@ function showPrivateMessages(){
                         </div>`;
                     }
                 }
-                else{
-                    if(message.from === localStorage.getItem('active-whisper-id') && message.to === user_parser){
+                else {
+                    if (message.from === localStorage.getItem('active-whisper-id') && message.to === user_parser) {
                         appendMessageHTML += `
                         <div class="parseroom-message">
                         <section class="p-profile">
@@ -438,13 +429,13 @@ function showPrivateMessages(){
             messagecont.innerHTML = appendMessageHTML;
             scrollToBottom();
         } else {
-            
+
         }
     }, (error) => {
         console.error("Error fetching announcement: ", error);
     });
 }
-function hideWhisperTheme(){
+function hideWhisperTheme() {
     document.getElementById('parseroom-body').style.backgroundColor = '#fefefe';
     document.getElementById('parseroom-header').style.backgroundColor = '#fefefe';
     document.getElementById('parsecode').style.backgroundColor = 'transparent';
@@ -468,8 +459,7 @@ function hideWhisperTheme(){
     });
     document.getElementById('parsermessage-txt').value = '';
 }
-
-function errorWhisperTheme(){
+function errorWhisperTheme() {
     document.getElementById('parsermessage-txt').style.border = '0.4px solid #f30505';
     setTimeout(() => {
         document.getElementById('parsermessage-txt').style.border = '0.4px solid #dcdcdc';
