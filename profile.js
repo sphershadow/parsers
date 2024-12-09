@@ -207,32 +207,63 @@ async function setparserBanners(id) {
 } setparserBanners(user_parser);
 
 async function setNewBanner(cover, banner) {
-    await update(ref(database, "PARSEIT/administration/students/" + user_parser), {
-        cover: cover,
-        banner: banner,
-    }).then(() => {
-        setparserBanners(user_parser);
-        document.getElementById("body-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
-        document.getElementById("details-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
-        setTimeout(() => {
-            document.getElementById("changeCover").style.display = "none";
-        }, 600);
-    });
+    try {
+        await update(ref(database, "PARSEIT/administration/students/" + user_parser), {
+            cover: cover,
+            banner: banner,
+        }).then(() => {
+            setparserBanners(user_parser);
+            document.getElementById("body-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
+            document.getElementById("details-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
+            setTimeout(() => {
+                document.getElementById("changeCover").style.display = "none";
+            }, 600);
+        });
+    }
+    catch (error) {
+        await update(ref(database, "PARSEIT/administration/teachers/" + user_parser), {
+            cover: cover,
+            banner: banner,
+        }).then(() => {
+            setparserBanners(user_parser);
+            document.getElementById("body-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
+            document.getElementById("details-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
+            setTimeout(() => {
+                document.getElementById("changeCover").style.display = "none";
+            }, 600);
+        });
+    }
+
 
 }
 
 async function setNewProfile(profile) {
-    await update(ref(database, "PARSEIT/administration/students/" + user_parser), {
-        profile: profile,
+    try {
+        await update(ref(database, "PARSEIT/administration/students/" + user_parser), {
+            profile: profile,
 
-    }).then(() => {
-        setparserBanners(user_parser);
-        document.getElementById("body-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
-        document.getElementById("details-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
-        setTimeout(() => {
-            document.getElementById("changeProfile").style.display = "none";
-        }, 600);
-    });
+        }).then(() => {
+            setparserBanners(user_parser);
+            document.getElementById("body-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
+            document.getElementById("details-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
+            setTimeout(() => {
+                document.getElementById("changeProfile").style.display = "none";
+            }, 600);
+        });
+    }
+    catch (error) {
+        await update(ref(database, "PARSEIT/administration/teachers/" + user_parser), {
+            profile: profile,
+
+        }).then(() => {
+            setparserBanners(user_parser);
+            document.getElementById("body-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
+            document.getElementById("details-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
+            setTimeout(() => {
+                document.getElementById("changeProfile").style.display = "none";
+            }, 600);
+        });
+    }
 
 }
 
