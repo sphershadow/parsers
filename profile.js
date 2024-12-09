@@ -32,6 +32,12 @@ let user_parser = localStorage.getItem("user-parser");
 await setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", async function () {
     document.getElementById("loading_animation_div").style.display = "none";
+    if (active_parser_type === "teacher") {
+        document.getElementById("teacher-year").style.display = "none";
+        document.getElementById("teacher-section").style.display = "none";
+        document.getElementById("span-yearlvl").style.display = "none";
+        document.getElementById("span-section").style.display = "none";
+    }
 });
 
 // document.getElementById("details-btn").addEventListener('click', (event) => {
@@ -60,68 +66,69 @@ document.getElementById("closeprofile-btn").addEventListener('click', (event) =>
     window.location.href = "homepage.html";
 });
 
+const active_parser_type = localStorage.getItem("active-parser-type");
 //banners
 document.getElementById("default_bg").addEventListener('click', (event) => {
-    setNewBanner("default_cover.png", "default_banner.png");
+    setNewBanner("default_cover.png", "default_banner.png", active_parser_type);
 });
 document.getElementById("furina_bg").addEventListener('click', (event) => {
-    setNewBanner("furina_bg.png", "furina_banner.png");
+    setNewBanner("furina_bg.png", "furina_banner.png", active_parser_type);
 });
 document.getElementById("mavuika_bg").addEventListener('click', (event) => {
-    setNewBanner("mavuika_bg.png", "mavuika_banner.png");
+    setNewBanner("mavuika_bg.png", "mavuika_banner.png", active_parser_type);
 });
 document.getElementById("nahida_bg").addEventListener('click', (event) => {
-    setNewBanner("nahida_bg.png", "nahida_banner.png");
+    setNewBanner("nahida_bg.png", "nahida_banner.png", active_parser_type);
 });
 document.getElementById("raiden_bg").addEventListener('click', (event) => {
-    setNewBanner("raiden_bg.png", "raiden_banner.png");
+    setNewBanner("raiden_bg.png", "raiden_banner.png", active_parser_type);
 });
 document.getElementById("venti_bg").addEventListener('click', (event) => {
-    setNewBanner("venti_bg.png", "venti_banner.png");
+    setNewBanner("venti_bg.png", "venti_banner.png", active_parser_type);
 });
 document.getElementById("zhongli_bg").addEventListener('click', (event) => {
-    setNewBanner("zhongli_bg.png", "zhongli_banner.png");
+    setNewBanner("zhongli_bg.png", "zhongli_banner.png", active_parser_type);
 });
 
 //profiles
 document.getElementById("default_profile").addEventListener('click', (event) => {
-    setNewProfile("default_profile.png");
+    setNewProfile("default_profile.png", active_parser_type);
 });
 document.getElementById("mavuika_profile").addEventListener('click', (event) => {
-    setNewProfile("mavuika_1.png");
+    setNewProfile("mavuika_1.png", active_parser_type);
 });
 document.getElementById("mavuika2_profile").addEventListener('click', (event) => {
-    setNewProfile("mavuika_2.png");
+    setNewProfile("mavuika_2.png", active_parser_type);
 });
 document.getElementById("furina_profile").addEventListener('click', (event) => {
-    setNewProfile("furina_1.png");
+    setNewProfile("furina_1.png", active_parser_type);
 });
 document.getElementById("furina2_profile").addEventListener('click', (event) => {
-    setNewProfile("furina_2.png");
+    setNewProfile("furina_2.png", active_parser_type);
 });
 document.getElementById("nahida_profile").addEventListener('click', (event) => {
-    setNewProfile("nahida_1.png");
+    setNewProfile("nahida_1.png", active_parser_type);
 });
 document.getElementById("nahida2_profile").addEventListener('click', (event) => {
-    setNewProfile("nahida_2.png");
+    setNewProfile("nahida_2.png", active_parser_type);
 });
 document.getElementById("raiden_profile").addEventListener('click', (event) => {
-    setNewProfile("raiden_1.png");
+    setNewProfile("raiden_1.png", active_parser_type);
 });
 document.getElementById("raiden2_profile").addEventListener('click', (event) => {
-    setNewProfile("raiden_2.png");
+    setNewProfile("raiden_2.png", active_parser_type);
 });
 document.getElementById("venti_profile").addEventListener('click', (event) => {
-    setNewProfile("venti_1.png");
+    setNewProfile("venti_1.png", active_parser_type);
 });
 document.getElementById("venti2_profile").addEventListener('click', (event) => {
-    setNewProfile("venti_2.png");
+    setNewProfile("venti_2.png", active_parser_type);
 });
 document.getElementById("zhongli_profile").addEventListener('click', (event) => {
-    setNewProfile("zhongli_1.png");
+    setNewProfile("zhongli_1.png", active_parser_type);
 });
 document.getElementById("zhongli2_profile").addEventListener('click', (event) => {
-    setNewProfile("zhongli_2.png");
+    setNewProfile("zhongli_2.png", active_parser_type);
 });
 
 
@@ -154,7 +161,7 @@ async function getparser_username(id) {
         return null;
     }
 }
-async function getparser_id(username) {
+async function getCreds(username, type) {
     const usernameRef = child(dbRef, `PARSEIT/username/${username}`);
     const snapshot = await get(usernameRef);
     if (snapshot.exists()) {
@@ -206,8 +213,8 @@ async function setparserBanners(id) {
     }
 } setparserBanners(user_parser);
 
-async function setNewBanner(cover, banner) {
-    try {
+async function setNewBanner(cover, banner, type) {
+    if (type === "student") {
         await update(ref(database, "PARSEIT/administration/students/" + user_parser), {
             cover: cover,
             banner: banner,
@@ -220,7 +227,7 @@ async function setNewBanner(cover, banner) {
             }, 600);
         });
     }
-    catch (error) {
+    else {
         await update(ref(database, "PARSEIT/administration/teachers/" + user_parser), {
             cover: cover,
             banner: banner,
@@ -237,8 +244,8 @@ async function setNewBanner(cover, banner) {
 
 }
 
-async function setNewProfile(profile) {
-    try {
+async function setNewProfile(profile, type) {
+    if (type === "student") {
         await update(ref(database, "PARSEIT/administration/students/" + user_parser), {
             profile: profile,
 
@@ -251,7 +258,7 @@ async function setNewProfile(profile) {
             }, 600);
         });
     }
-    catch (error) {
+    else {
         await update(ref(database, "PARSEIT/administration/teachers/" + user_parser), {
             profile: profile,
 

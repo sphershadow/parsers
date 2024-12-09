@@ -362,6 +362,7 @@ document.getElementById("community_btn").addEventListener('click', (event) => {
 });
 document.getElementById("myProfile_btn").addEventListener('click', (event) => {
     event.preventDefault();
+    localStorage.setItem("active-parser-type", parser[0].type);
     window.location.href = "profile.html";
 });
 document.getElementById("background-1").addEventListener('click', (event) => {
