@@ -55,6 +55,8 @@ document.getElementById("profile-avatar").addEventListener('click', (event) => {
     document.getElementById("details-parseroom-div").style.animation = "parseroom-slideIn 0.6s ease-out forwards";
 });
 document.getElementById("closeprofile-btn").addEventListener('click', (event) => {
+    document.getElementById("body-parseroom-div").style.animation = "none";
+    document.getElementById("details-parseroom-div").style.animation = "none";
     window.location.href = "homepage.html";
 });
 
@@ -212,8 +214,9 @@ async function setNewBanner(cover, banner) {
         setparserBanners(user_parser);
         document.getElementById("body-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
         document.getElementById("details-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
-        document.getElementById("changeProfile").style.display = "none";
-        document.getElementById("changeCover").style.display = "none";
+        setTimeout(() => {
+            document.getElementById("changeCover").style.display = "none";
+        }, 600);
     });
 
 }
@@ -226,8 +229,30 @@ async function setNewProfile(profile) {
         setparserBanners(user_parser);
         document.getElementById("body-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
         document.getElementById("details-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
-        document.getElementById("changeProfile").style.display = "none";
-        document.getElementById("changeCover").style.display = "none";
+        setTimeout(() => {
+            document.getElementById("changeProfile").style.display = "none";
+        }, 600);
     });
 
 }
+
+let startX = 0;
+let endX = 0;
+
+document.addEventListener('touchstart', (event) => {
+    startX = event.touches[0].clientX;
+});
+
+document.addEventListener('touchend', async (event) => {
+    endX = event.changedTouches[0].clientX;
+
+    if (endX - startX > 100) {
+
+        document.getElementById("body-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
+        document.getElementById("details-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
+        setTimeout(() => {
+            document.getElementById("changeProfile").style.display = "none";
+            document.getElementById("changeCover").style.display = "none";
+        }, 600);
+    }
+});
