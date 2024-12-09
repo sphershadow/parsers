@@ -76,6 +76,9 @@ document.getElementById("header-left").addEventListener('click', (event) => {
     localStorage.removeItem("active-whisper-id");
 
 });
+document.getElementById("parsermessage-txt").addEventListener('focus', (event) => {
+    scrollToBottom();
+});
 
 //functions
 async function setScreenSize(width, height) {

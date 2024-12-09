@@ -349,7 +349,7 @@ document.addEventListener('touchstart', (event) => {
 document.addEventListener('touchend', (event) => {
     endY = event.changedTouches[0].clientY;
     if (endY - startY > 300) {
-        document.getElementById("allannouncement-div").style.animation= "fadeScaleDown 0.25s ease-in-out forwards";
+        document.getElementById("allannouncement-div").style.animation = "fadeScaleDown 0.25s ease-in-out forwards";
     }
 });
 document.getElementById("announcement-div").addEventListener('click', (event) => {
@@ -482,7 +482,7 @@ async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section)
                                             parseclass_day = "No Schedule Today";
                                             parseclass_sched = "";
                                         }
-                                        else{
+                                        else {
                                             console.log("No Schedule Assigned");
                                         }
 
@@ -507,7 +507,7 @@ async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section)
                                         </div>`
                                         parseclass_cont.innerHTML = parseClassAppend;
                                     }
-                                    
+
                                 });
                             }
                             else {
@@ -774,7 +774,7 @@ function getTimeWithAMPM() {
 }
 viewAllAnnouncement();
 function viewAllAnnouncement() {
-    
+
     const dbRef = ref(database, "PARSEIT/administration/announcement/");
     const latestAnnouncementQuery = query(dbRef, orderByKey());
 
@@ -782,14 +782,14 @@ function viewAllAnnouncement() {
         if (snapshot.exists()) {
             let announcementcont = document.getElementById("allannouncement-body");
             announcementcont.innerHTML = "";
-    
+
             let appendAnnouncementHTML = "";
             const snapshotData = snapshot.val();
             const reversedsnapshot = Object.entries(snapshotData).reverse();
 
             reversedsnapshot.forEach(([key, value]) => {
-                
-            appendAnnouncementHTML += `
+
+                appendAnnouncementHTML += `
             <div class="allannouncement-wrapper">
             <div class="alldate">
             <span class="announcemonth">${value.month}</span>
@@ -825,6 +825,7 @@ function formatDate(date) {
     return `${month} ${day}, ${year}`;
 }
 
+
 async function getparser_username(id) {
     const usernameRef = child(dbRef, `PARSEIT/username/`);
     const snapshot = await get(usernameRef);
@@ -835,13 +836,16 @@ async function getparser_username(id) {
                 return username;
             }
         }
-        return null; 
+        return null;
     } else {
         console.log("No data available");
         return null;
     }
 }
 
+async function setParser_username() {
+    document.getElementById('parser_username').innerText = "@" + await getparser_username(user_parser);
+} setParser_username();
 async function loadTeacherSubjects(acadref, yearlvl, sem, userId, type, section) {
     let sem_final = "first-sem";
     if (sem === "2") {
