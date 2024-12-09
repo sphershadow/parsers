@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <title></title>
+    <link rel="stylesheet" href="profile.css" />
+  </head>
+  <body>
+    <!-- Loading Animation -->
+    <div id="loading_animation_div">
+      <img id="loading_animation_gif" src="assets/loading_animation.gif" />
+      <h1 id="parsing_lbl">Parsing...</h1>
+    </div>
+
+    <!-- ParseRoom -->
+    <div class="home-parseroom-div">
+      <div class="body-parseroom-div" id="body-parseroom-div">
+        <section class="profile-banner" id="profile-banner">
+          <div class="backprofile">
+            <img
+              id="closeprofile-btn"
+              class="closeprofile-btn"
+              src="assets/icons/arrow-left-solid.svg"
+              alt=""
+            />
+          </div>
+        </section>
+        <section class="profile-avatar" id="profile-avatar">
+          <img class="avatar-img" id="avatar-img" src="" />
+        </section>
+        <section class="profile-bio">
+          <section class="bio-top">
+            <span class="profile-fullname">John Lyndo Anuada</span>
+          </section>
+          <section class="bio-bot">
+            <section class="bot-icons">
+              <span class="icons-element">
+                <h1 class="tag">@</h1>
+              </span>
+              <span class="icons-element">
+                <img
+                  class="bot-icons-img img-grad"
+                  src="assets/icons/user-graduate-solid.svg"
+                />
+              </span>
+              <span class="icons-element">
+                <img
+                  class="bot-icons-img"
+                  src="assets/icons/door-open-solid.svg"
+                />
+              </span>
+            </section>
+            <section class="bot-spans">
+              <span class="icons-element" id="span-username">[username]</span>
+              <span class="icons-element" id="span-yearlvl">[Sophomore]</span>
+              <span class="icons-element" id="span-section">[4B-Laravel]</span>
+            </section>
+          </section>
+        </section>
+        <section class="profile-posts"></section>
+      </div>
+      <div class="details-parseroom-div" id="details-parseroom-div">
+        <button class="details" id="details-btn">Details</button>
+      </div>
+    </div>
+    <script type="module" src="profile.js"></script>
+  </body>
+</html>

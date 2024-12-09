@@ -360,6 +360,10 @@ document.getElementById("community_btn").addEventListener('click', (event) => {
     event.preventDefault();
     window.location.href = "https://parseitlearninghub.github.io/community/";
 });
+document.getElementById("myProfile_btn").addEventListener('click', (event) => {
+    event.preventDefault();
+    window.location.href = "profile.html";
+});
 document.getElementById("background-1").addEventListener('click', (event) => {
     hideBackground("background-2");
     hideBackground("background-3");

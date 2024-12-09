@@ -1,0 +1,235 @@
+@font-face {
+  font-family: "Inter-Regular";
+  src: url("assets/fonts/Inter-Regular.otf");
+}
+
+@font-face {
+  font-family: "Inter-Bold";
+  src: url("assets/fonts/Inter-Bold.otf");
+}
+@font-face {
+  font-family: "Inter-Light";
+  src: url("assets/fonts/Inter-Light.otf");
+}
+@font-face {
+  font-family: "Inter-Medium";
+  src: url("assets/fonts/Inter-Medium.otf");
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #fefefe;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#loading_animation_div {
+  height: 100%;
+  width: 100%;
+  background-color: #fefefe;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1000;
+  position: fixed;
+}
+
+#loading_animation_gif {
+  height: 50px;
+  width: 50px;
+}
+
+#parsing_lbl {
+  font-family: Inter-Regular;
+  color: #f30505;
+  margin-top: 15px;
+  font-size: 12px;
+}
+
+.home-parseroom-div {
+  background-color: #fefefe;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+}
+
+.body-parseroom-div {
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+  /* animation: parseroom-slideIn 0.6s ease-out forwards; */
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+
+.details-parseroom-div {
+  background-color: yellow;
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  /* animation: parseroom-slideIn 0.6s ease-out forwards; */
+}
+
+@keyframes parseroom-slideIn {
+  0% {
+    translate: 0%;
+  }
+  100% {
+    translate: -100%;
+  }
+}
+
+@keyframes parseroom-slideOut {
+  0% {
+    translate: -100%;
+  }
+  100% {
+    translate: 0%;
+  }
+}
+
+.profile-banner {
+  width: 100%;
+  height: 170px;
+  background-color: transparent;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.profile-avatar {
+  width: 100%;
+  height: 115px;
+  background-color: transparent;
+  margin-top: -23%;
+  pointer-events: none;
+}
+
+.profile-bio {
+  width: 100%;
+  height: 95px;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-posts {
+  width: 100%;
+  background-color: #f4f4f4;
+  flex: 1;
+}
+
+.avatar-img {
+  width: auto;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin-left: 15px;
+  border: 5px solid #fefefe;
+  box-sizing: border-box;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  pointer-events: all;
+  display: none;
+}
+
+.backprofile {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 40px;
+}
+
+.closeprofile-btn {
+  width: 15px;
+  margin-left: 15px;
+  filter: invert(100%) sepia(28%) saturate(554%) hue-rotate(248deg)
+    brightness(118%) contrast(117%);
+}
+
+.profile-fullname {
+  font-family: Inter-Bold;
+  font-size: 18px;
+  margin-left: 15px;
+}
+
+.bio-top {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.bio-bot {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+
+.bot-icons {
+  width: 100%;
+  height: 20px;
+  background-color: transparent;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.icons-element {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Inter-Light;
+  font-size: 13px;
+  color: #9f9f9f;
+}
+
+.tag {
+  font-family: Inter-Bold;
+  font-size: 14px;
+  color: #f30505;
+}
+.bot-spans {
+  width: 100%;
+  height: 20px;
+  background-color: transparent;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.bot-icons-img {
+  width: 15px;
+  filter: invert(24%) sepia(90%) saturate(6127%) hue-rotate(355deg)
+    brightness(91%) contrast(110%);
+}
+
+.img-grad {
+  width: 13px;
+}
