@@ -924,11 +924,11 @@ async function setParser_username() {
 } setParser_username();
 
 async function setparserBanners(id) {
-    let banners = ["venti_banner.png", "raiden_banner.png", "zhongli_banner.png",
-        "mavuika_banner.png", "nahida_banner.png", "furina_banner.png"];
+    // let banners = ["venti_banner.png", "raiden_banner.png", "zhongli_banner.png",
+    //     "mavuika_banner.png", "nahida_banner.png", "furina_banner.png"];
 
-    let profiles = ["venti_1.png", "venti_2.png", "raiden_1.png", "raiden_2.png", "zhongli_1.png", "zhongli_2.png",
-        "mavuika_1.png", "mavuika_2.png", "nahida_1.png", "nahida_2.png", "furina_1.png", "furina_2.png"];
+    // let profiles = ["venti_1.png", "venti_2.png", "raiden_1.png", "raiden_2.png", "zhongli_1.png", "zhongli_2.png",
+    //     "mavuika_1.png", "mavuika_2.png", "nahida_1.png", "nahida_2.png", "furina_1.png", "furina_2.png"];
 
     const bannerRef = child(dbRef, `PARSEIT/administration/students/${id}/banner`);
     const profileRef = child(dbRef, `PARSEIT/administration/students/${id}/profile`);
@@ -941,28 +941,28 @@ async function setparserBanners(id) {
     const snapTeacher = await get(teacherBannerRef);
     const snapTeacher2 = await get(teacherProfileRef);
     if (snapshot.exists()) {
-        if (banners.includes(snapshot.val())) {
-            document.getElementById('sidebar_header').style.backgroundImage = `url(assets/profiles/${snapshot.val()})`;
-        }
+        document.getElementById('sidebar_header').style.backgroundImage = `url(assets/profiles/${snapshot.val()})`;
     }
     else {
         if (snapTeacher.exists()) {
-            if (banners.includes(snapTeacher.val())) {
-                document.getElementById('sidebar_header').style.backgroundImage = `url(assets/profiles/${snapTeacher.val()})`;
-            }
+            document.getElementById('sidebar_header').style.backgroundImage = `url(assets/profiles/${snapTeacher.val()})`;
         }
+        else {
+            document.getElementById('sidebar_header').style.backgroundImage = `url(assets/profiles/default_banner.png`;
+        }
+
     }
 
+
     if (snapshot2.exists()) {
-        if (profiles.includes(snapshot2.val())) {
-            document.getElementById('parser_profile').src = `assets/profiles/${snapshot2.val()}`;
-        }
+        document.getElementById('parser_profile').src = `assets/profiles/${snapshot2.val()}`;
     }
     else {
         if (snapTeacher2.exists()) {
-            if (profiles.includes(snapTeacher2.val())) {
-                document.getElementById('parser_profile').src = `assets/profiles/${snapTeacher2.val()}`;
-            }
+            document.getElementById('parser_profile').src = `assets/profiles/${snapTeacher2.val()}`;
+        }
+        else {
+            document.getElementById('parser_profile').src = `assets/profiles/default_profile.png`;
         }
     }
 } setparserBanners(user_parser);
