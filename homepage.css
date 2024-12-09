@@ -155,6 +155,18 @@ body {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
+.sidebaroptions_img {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background-size: cover;
+  background-position: center;
+  margin-left: 15px;
+  aspect-ratio: 1/1;
+  margin-right: -5px;
+  filter: invert(22%) sepia(100%) saturate(7416%) hue-rotate(4deg)
+    brightness(95%) contrast(109%);
+}
 
 #parser_username {
   display: inline-block;
@@ -225,6 +237,8 @@ body {
 #logout_btn {
   width: 30px;
   margin-right: 10px;
+  filter: invert(22%) sepia(100%) saturate(7416%) hue-rotate(4deg)
+    brightness(95%) contrast(109%);
 }
 
 #body_section {
