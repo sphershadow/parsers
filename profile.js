@@ -9,7 +9,8 @@ import {
     orderByKey,
     limitToLast,
     push,
-    set
+    set,
+    update
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyCFqgbA_t3EBVO21nW70umJOHX3UdRr9MY",
@@ -44,16 +45,42 @@ window.addEventListener("load", async function () {
 // });
 
 document.getElementById("profile-banner").addEventListener('click', (event) => {
+    document.getElementById("changeCover").style.display = "block";
     document.getElementById("body-parseroom-div").style.animation = "parseroom-slideIn 0.6s ease-out forwards";
     document.getElementById("details-parseroom-div").style.animation = "parseroom-slideIn 0.6s ease-out forwards";
 });
 document.getElementById("profile-avatar").addEventListener('click', (event) => {
+    document.getElementById("changeProfile").style.display = "block";
     document.getElementById("body-parseroom-div").style.animation = "parseroom-slideIn 0.6s ease-out forwards";
     document.getElementById("details-parseroom-div").style.animation = "parseroom-slideIn 0.6s ease-out forwards";
 });
 document.getElementById("closeprofile-btn").addEventListener('click', (event) => {
     window.location.href = "homepage.html";
 });
+
+//banners
+document.getElementById("default_bg").addEventListener('click', (event) => {
+    setNewBanner("default_cover.png", "default_banner.png");
+});
+document.getElementById("furina_bg").addEventListener('click', (event) => {
+    setNewBanner("furina_bg.png", "furina_banner.png");
+});
+document.getElementById("mavuika_bg").addEventListener('click', (event) => {
+    setNewBanner("mavuika_bg.png", "mavuika_banner.png");
+});
+document.getElementById("nahida_bg").addEventListener('click', (event) => {
+    setNewBanner("nahida_bg.png", "nahida_banner.png");
+});
+document.getElementById("raiden_bg").addEventListener('click', (event) => {
+    setNewBanner("raiden_bg.png", "raiden_banner.png");
+});
+document.getElementById("venti_bg").addEventListener('click', (event) => {
+    setNewBanner("venti_bg.png", "venti_banner.png");
+});
+document.getElementById("zhongli_bg").addEventListener('click', (event) => {
+    setNewBanner("zhongli_bg.png", "zhongli_banner.png");
+});
+
 
 
 
@@ -130,3 +157,16 @@ async function setparserBanners(id) {
         }
     }
 } setparserBanners(user_parser);
+
+async function setNewBanner(cover, banner) {
+    update(ref(database, "PARSEIT/administration/students/" + user_parser), {
+        cover: cover,
+        banner: banner,
+    }).then(() => {
+        setparserBanners(user_parser);
+        document.getElementById("body-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
+        document.getElementById("details-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
+
+    });
+
+}

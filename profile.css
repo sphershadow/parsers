@@ -74,7 +74,7 @@ body {
 }
 
 .details-parseroom-div {
-  background-color: yellow;
+  background-color: transparent;
   width: 100%;
   height: 100%;
   flex-shrink: 0;
@@ -236,10 +236,67 @@ body {
 .changeBanner {
   width: 100%;
   height: 100%;
-  background: pink;
+  background: transparent;
+  display: none;
 }
 .changeHeader {
   height: 100px;
   width: 100%;
-  background-color: #f30505;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.changeHeader-lbl {
+  font-family: Inter-Bold;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.changeBody {
+  background-color: transparent;
+  height: 100%;
+  width: 100%;
+  overflow-x: scroll;
+  scrollbar-width: none;
+}
+.banner-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
+.cover {
+  width: 80%;
+  height: 120px;
+  border-radius: 8px;
+  margin-top: 15px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  background-position: center;
+  background-size: cover;
+}
+
+.banner-wrapper-filler {
+  visibility: hidden;
+}
+
+.profile-wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: transparent;
+}
+
+.profile {
+  width: auto;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  border: 5px solid #fefefe;
+  box-sizing: border-box;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  margin-top: 10px;
 }
