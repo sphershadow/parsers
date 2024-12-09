@@ -152,6 +152,8 @@ body {
   background-size: cover;
   background-position: center;
   margin-left: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
 #parser_username {
@@ -164,6 +166,7 @@ body {
   font-size: 16px;
   margin-left: 10px;
   color: #fefefe;
+  text-shadow: 0.1em 0.1em 0 hsl(200 50% 30%);
 }
 #sidebar_body {
   background-color: #fefefe;
