@@ -33,10 +33,10 @@ window.addEventListener("load", async function () {
     document.getElementById("loading_animation_div").style.display = "none";
 });
 
-document.getElementById("details-btn").addEventListener('click', (event) => {
-    document.getElementById("body-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
-    document.getElementById("details-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
-});
+// document.getElementById("details-btn").addEventListener('click', (event) => {
+//     document.getElementById("body-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
+//     document.getElementById("details-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
+// });
 
 // document.getElementById("info-btn").addEventListener('click', (event) => {
 //     document.getElementById("body-parseroom-div").style.animation = "parseroom-slideIn 0.6s ease-out forwards";
@@ -44,10 +44,12 @@ document.getElementById("details-btn").addEventListener('click', (event) => {
 // });
 
 document.getElementById("profile-banner").addEventListener('click', (event) => {
-    console.log('banner-click');
+    document.getElementById("body-parseroom-div").style.animation = "parseroom-slideIn 0.6s ease-out forwards";
+    document.getElementById("details-parseroom-div").style.animation = "parseroom-slideIn 0.6s ease-out forwards";
 });
 document.getElementById("profile-avatar").addEventListener('click', (event) => {
-    console.log('avatar-click');
+    document.getElementById("body-parseroom-div").style.animation = "parseroom-slideIn 0.6s ease-out forwards";
+    document.getElementById("details-parseroom-div").style.animation = "parseroom-slideIn 0.6s ease-out forwards";
 });
 document.getElementById("closeprofile-btn").addEventListener('click', (event) => {
     window.location.href = "homepage.html";

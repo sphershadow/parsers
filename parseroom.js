@@ -111,7 +111,7 @@ function getParseroomMessages() {
                         <section class="p-description p-description-me"> ${message.description}</section>
                         </section>
                         <section class="p-profile p-profile-me">
-                        <img id="parser-profile parser-profile-me" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
+                        <img id="parser-profile" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
                         </section>
                         </div>`;
                     }
@@ -123,7 +123,7 @@ function getParseroomMessages() {
                         <section class="p-description p-description-me ping-whisper-me">You whispered to @${message.to_username}</section>
                         </section>
                         <section class="p-profile p-profile-me" style="display: none;">
-                        <img id="parser-profile parser-profile-me" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
+                        <img id="parser-profile" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
                         </section>
                         </div>`;
                     }
@@ -468,3 +468,24 @@ function errorWhisperTheme() {
         document.getElementById('parsermessage-txt').style.border = '0.4px solid #dcdcdc';
     }, 1000);
 }
+
+async function setparserBanners(id) {
+    const profileRef = child(dbRef, `PARSEIT/administration/students/${id}/profile`);
+    const teacherProfileRef = child(dbRef, `PARSEIT/administration/teachers/${id}/profile`);
+
+    const snapshot2 = await get(profileRef);
+    const snapTeacher2 = await get(teacherProfileRef);
+
+    if (snapshot2.exists()) {
+        document.getElementById('parser-profile').src = `assets/profiles/${snapshot2.val()}`;
+
+    }
+    else {
+        if (snapTeacher2.exists()) {
+            document.getElementById('parser-profile').src = `assets/profiles/${snapTeacher2.val()}`;
+        }
+        else {
+            document.getElementById('parser-profile').src = `assets/profiles/default_profile.png`;
+        }
+    }
+} 
