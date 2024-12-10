@@ -38,6 +38,7 @@ window.addEventListener("load", async function () {
         document.getElementById("span-yearlvl").style.display = "none";
         document.getElementById("span-section").style.display = "none";
     }
+    await getCreds(user_parser, active_parser_type);
 });
 
 // document.getElementById("details-btn").addEventListener('click', (event) => {
@@ -162,16 +163,30 @@ async function getparser_username(id) {
     }
 }
 async function getCreds(username, type) {
-    const usernameRef = child(dbRef, `PARSEIT/username/${username}`);
+    const usernameRef = child(dbRef, `PARSEIT/administration/${type}s/${username}`);
     const snapshot = await get(usernameRef);
     if (snapshot.exists()) {
-        return snapshot.val();
+        snapshot.val();
+        document.getElementById('profile-fullname').innerText = snapshot.val().firstname + " " + snapshot.val().lastname;
+        document.getElementById('span-username').innerText = await getparser_username(username);
+        document.getElementById('span-section').innerText = snapshot.val().section;
+        if (snapshot.val().yearlvl === "1") {
+            document.getElementById('span-yearlvl').innerText = "Freshman";
+        }
+        else if (snapshot.val().yearlvl === "2") {
+            document.getElementById('span-yearlvl').innerText = "Sophomore";
+        }
+        else if (snapshot.val().yearlvl === "3") {
+            document.getElementById('span-yearlvl').innerText = "Junior";
+        }
+        else if (snapshot.val().yearlvl === "4") {
+            document.getElementById('span-yearlvl').innerText = "Senior";
+        }
     } else {
         console.log("No data available");
         return null;
     }
 }
-
 async function setparserBanners(id) {
     const coverRef = child(dbRef, `PARSEIT/administration/students/${id}/cover`);
     const profileRef = child(dbRef, `PARSEIT/administration/students/${id}/profile`);
@@ -212,7 +227,6 @@ async function setparserBanners(id) {
         }
     }
 } setparserBanners(user_parser);
-
 async function setNewBanner(cover, banner, type) {
     if (type === "student") {
         await update(ref(database, "PARSEIT/administration/students/" + user_parser), {
@@ -243,7 +257,6 @@ async function setNewBanner(cover, banner, type) {
 
 
 }
-
 async function setNewProfile(profile, type) {
     if (type === "student") {
         await update(ref(database, "PARSEIT/administration/students/" + user_parser), {
@@ -273,14 +286,11 @@ async function setNewProfile(profile, type) {
     }
 
 }
-
 let startX = 0;
 let endX = 0;
-
 document.addEventListener('touchstart', (event) => {
     startX = event.touches[0].clientX;
 });
-
 document.addEventListener('touchend', async (event) => {
     endX = event.changedTouches[0].clientX;
 

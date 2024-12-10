@@ -534,82 +534,28 @@ async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section)
 
 
 }
-async function loadTeacherSubjects(acadref, yearlvl, sem, userId, type, section) {
+loadTeacherSubjects(status[0].academicref, status[0].current_sem);
+async function loadTeacherSubjects(acadref, sem) {
     let sem_final = "first-sem";
     if (sem === "2") {
         sem_final = "second-sem";
     }
-    if (type === "student") {
-        const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${acadref}/year-lvl-${yearlvl}/${sem_final}/`);
-        get(subjectsRef).then((snapshot) => {
+    const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${acadref}/`);
+        await get(subjectsRef).then((snapshot) => {
             if (snapshot.exists()) {
-                parseclass_cont.innerHTML = "";
-                let parseClassAppend = "";
-                snapshot.forEach((subjectSnapshot) => {
-                    const sectionRef = child(subjectSnapshot.ref, `${section}`);
-                    get(sectionRef).then((sectionSnapshot) => {
-                        //sched, members
-                        if (sectionSnapshot.exists()) {
-                            const memberRef = sectionSnapshot.child("members");
-                            if (memberRef.exists()) {
-                                // if (idSnapshot.key === userId) {
-                                //     let parseclass_id = sectionSnapshot.val().parseclass_id;
-                                //     let parseimgid = subjectSnapshot.key.replace(/\s+/g, "");
-                                //     let parseclass_day = sectionSnapshot.val().schedule.sched_day;
-                                //     let parseclass_sched = sectionSnapshot.val().schedule.sched_start + " - " + sectionSnapshot.val().schedule.sched_end;
-
-                                //     if (getCurrentDayName() !== parseclass_day) {
-                                //         parseclass_day = "No Schedule Today";
-                                //         parseclass_sched = "";
-                                //     }
-                                //     else{
-                                //         console.log("No Schedule Assigned");
-                                //     }
-
-                                //     parseClassAppend += `
-                                //     <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(/\s+/g, "")}');
-                                //         localStorage.setItem('parser-parseroom', '${parseclass_id.replace(/\s+/g, "")}');
-                                //         localStorage.setItem('parseroom-code', '${subjectSnapshot.key}');
-                                //         localStorage.setItem('parseroom-name', '${subjectSnapshot.val().name}');
-                                //         window.location.href = 'parseroom.html';" id="${parseimgid}"
-                                //         style="background-image: url('assets/parseclass/${parseimgid.toUpperCase()}.jpg');"
-                                //         value ="${parseclass_id.replace(/\s+/g, "")}">
-                                //     <div class="parseclass-default-gradient">
-                                //     <span class="parsesched-default-span">
-                                //     <label for="" class="parseclass-day-lbl">${parseclass_day}</label>
-                                //     <label for="" class="parseclass-time-lbl">${parseclass_sched}</label>
-                                //     </span>
-                                //     <span class="parseclass-default-span">
-                                //     <label for="" class="parseclass-header-lbl">${subjectSnapshot.key}</label>
-                                //     <label for="" class="parseclass-header-sublbl">${subjectSnapshot.val().name}</label>
-                                //     </span>
-                                //     </div>
-                                //     </div>`
-                                //     parseclass_cont.innerHTML = parseClassAppend;
-                                // }
-                                console.log(memberRef.val());
-                            }
-                            else {
-                                console.log('No member found,');
-                            }
-                        } else {
-                            document.getElementById("parseclass-default-div").style.display = "none";
-                            document.getElementById("search-parseclass-div").style.display = "none";
-                            document.getElementById("notyetstarted_div").style.display = "flex";
-                            console.log("No members found.");
-                        }
-                    }).catch((error) => {
-                        console.log(error);
-                    })
+                // parseclass_cont.innerHTML = "";
+                // let parseClassAppend = "";
+                snapshot.forEach((yearLvlSnapshot) => {
+                    console.log(yearLvlSnapshot.val());
+                    const yearLvlRef = child(yearLvlSnapshot.ref, `${sem_final}/`);
+                    get(yearLvlRef).then((yearLvlSnapshot) => {
+                    });
                 });
             }
             else {
                 console.log("No Data Found.");
             }
         });
-    }
-
-
 }
 
 function getCurrentDayName() {
