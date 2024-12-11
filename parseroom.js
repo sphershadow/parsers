@@ -111,7 +111,7 @@ function getParseroomMessages() {
                         <section class="p-description p-description-me"> ${message.description}</section>
                         </section>
                         <section class="p-profile p-profile-me">
-                        <img id="parser-profile" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
+                        <img id="parser-profile" class="parser-profile" src="assets/profiles/default_profile.png" alt="" />
                         </section>
                         </div>`;
                     }
@@ -123,7 +123,7 @@ function getParseroomMessages() {
                         <section class="p-description p-description-me ping-whisper-me">You whispered to @${message.to_username}</section>
                         </section>
                         <section class="p-profile p-profile-me" style="display: none;">
-                        <img id="parser-profile" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
+                        <img id="parser-profile" class="parser-profile" src="assets/profiles/default_profile.png" alt="" />
                         </section>
                         </div>`;
                     }
@@ -133,7 +133,7 @@ function getParseroomMessages() {
                         appendMessageHTML += `
                         <div class="parseroom-message">
                         <section class="p-profile">
-                        <img id="parser-profile" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
+                        <img id="parser-profile" class="parser-profile" src="assets/profiles/default_profile.png" alt="" />
                         </section>
                         <section class="p-message">
                         <section class="p-username">@${message.from_username}</section>
