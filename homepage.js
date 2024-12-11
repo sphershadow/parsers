@@ -326,9 +326,9 @@ document.getElementById("game-1").addEventListener("click", function () {
 document.getElementById("game-2").addEventListener("click", function () {
     window.location.href = "https://parseitlearninghub.github.io/game-fruitmania/";
 });
-document.getElementById("game-3").addEventListener("click", function () {
-    window.location.href = "https://parseitlearninghub.github.io/game-quiznotes/";
-});
+document.getElementById("game-4").addEventListener("click", function () {
+    window.location.href = "https://parseitlearninghub.github.io/game-guesspick/";
+})
 let startX = 0;
 let endX = 0;
 let startY = 0;

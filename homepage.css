@@ -379,7 +379,7 @@ body {
 
 #game-1 {
   position: relative;
-  background-image: url(assets/);
+  background-image: url(assets/game_background/flipit.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -399,7 +399,7 @@ body {
 }
 #game-3 {
   position: relative;
-  background-image: url(assets/);
+  background-image: url(assets/game_background/parserslearninghub.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -409,7 +409,7 @@ body {
 }
 #game-4 {
   position: relative;
-  background-image: url(assets/);
+  background-image: url(assets/game_background/quizmasters.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
