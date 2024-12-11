@@ -418,7 +418,6 @@ function hideBackground(element) {
 }
 function showBackground(element) {
     document.getElementById(element).style.display = "block";
-
 }
 function setScreenSize(width, height) {
     document.body.style.width = width + "px";
@@ -460,38 +459,6 @@ function revertNavLbl(id) {
 function changeHomeLbl(id, type) {
     document.getElementById(id).innerText = type;
 }
-
-// }
-// loadTeacherSubjects(status[0].academicref, status[0].current_sem);
-// async function loadTeacherSubjects(acadref, sem) {
-//     let sem_final = "first-sem";
-//     if (sem === "2") {
-//         sem_final = "second-sem";
-//     }
-//     const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${acadref}/`);
-//         await get(subjectsRef).then((snapshot) => {
-//             if (snapshot.exists()) {
-//                 // parseclass_cont.innerHTML = "";
-//                 // let parseClassAppend = "";
-//                 snapshot.forEach((yearLvlSnapshot) => {
-//                     //console.log(yearLvlSnapshot.val());
-//                     const yearLvlRef = child(yearLvlSnapshot.ref, `year-lvl-4`);
-//                     get(yearLvlRef).then((sectionSnapshot) => {
-//                         console.log(sectionSnapshot.val());
-//                         const sectionRef = child(yearLvlSnapshot.ref, `4B-Laravel`);
-//                         get(sectionRef).then((section) => {
-//                             console.log(section.val());
-
-//                         });
-//                     });
-//                 });
-//             }
-//             else {
-//                 console.log("No Data Found.");
-//             }
-//         });
-// }
-
 function getCurrentDayName() {
     let today = new Date();
     let weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -637,50 +604,6 @@ function getUser(id) {
         });
     });
 }
-function viewLatestAnnouncement() {
-    const date_announcement_lbl = document.getElementById("date_announcement_lbl");
-    const announcement_lbl = document.getElementById("announcement_lbl");
-    const time_announcement_lbl = document.getElementById("time_announcement_lbl");
-    const dbRef = ref(database, "PARSEIT/administration/announcement/");
-    const latestAnnouncementQuery = query(dbRef, orderByKey(), limitToLast(1));
-
-    onValue(latestAnnouncementQuery, (snapshot) => {
-        if (snapshot.exists()) {
-            let latestAnnouncement = null;
-
-            snapshot.forEach((childSnapshot) => {
-                latestAnnouncement = childSnapshot.val();
-            });
-
-            if (latestAnnouncement) {
-                date_announcement_lbl.innerText = latestAnnouncement.date || "[Date not available]";
-                announcement_lbl.innerText = latestAnnouncement.header || "[Message not available]";
-                time_announcement_lbl.innerText = latestAnnouncement.time || "[Time not available]";
-                document.getElementById("announcement-div").style.backgroundImage = `url(assets/announcement/${latestAnnouncement.background_img || "4.png"})`;
-                date_announcement_lbl.style.color = "#323232";
-                announcement_lbl.style.color = "#323232";
-                time_announcement_lbl.style.color = "#323232";
-
-                if (latestAnnouncement.background_img === "4.png") {
-
-                    date_announcement_lbl.style.color = "#fefefe";
-                    announcement_lbl.style.color = "#fefefe";
-                    time_announcement_lbl.style.color = "#fefefe";
-                }
-
-            }
-        } else {
-            document.getElementById("announcement-div").style.backgroundImage = "url(assets/announcement/4.png)";
-            date_announcement_lbl.innerText = "There is no announcement";
-            date_announcement_lbl.style.color = "#fefefe";
-            announcement_lbl.innerText = "Seems like you are all caught up!";
-            announcement_lbl.style.color = "#fefefe";
-            time_announcement_lbl.style.color = "#fefefe";
-        }
-    }, (error) => {
-        console.error("Error fetching announcement: ", error);
-    });
-}
 async function submitAnnouncement() {
     const dateInput = getCurrentDayName();
     const timeInput = getTimeWithAMPM();
@@ -734,7 +657,50 @@ function getTimeWithAMPM() {
     const timeString = new Intl.DateTimeFormat('en-US', options).format(now);
     return timeString;
 }
-viewAllAnnouncement();
+function viewLatestAnnouncement() {
+    const date_announcement_lbl = document.getElementById("date_announcement_lbl");
+    const announcement_lbl = document.getElementById("announcement_lbl");
+    const time_announcement_lbl = document.getElementById("time_announcement_lbl");
+    const dbRef = ref(database, "PARSEIT/administration/announcement/");
+    const latestAnnouncementQuery = query(dbRef, orderByKey(), limitToLast(1));
+
+    onValue(latestAnnouncementQuery, (snapshot) => {
+        if (snapshot.exists()) {
+            let latestAnnouncement = null;
+
+            snapshot.forEach((childSnapshot) => {
+                latestAnnouncement = childSnapshot.val();
+            });
+
+            if (latestAnnouncement) {
+                date_announcement_lbl.innerText = latestAnnouncement.date || "[Date not available]";
+                announcement_lbl.innerText = latestAnnouncement.header || "[Message not available]";
+                time_announcement_lbl.innerText = latestAnnouncement.time || "[Time not available]";
+                document.getElementById("announcement-div").style.backgroundImage = `url(assets/announcement/${latestAnnouncement.background_img || "4.png"})`;
+                date_announcement_lbl.style.color = "#323232";
+                announcement_lbl.style.color = "#323232";
+                time_announcement_lbl.style.color = "#323232";
+
+                if (latestAnnouncement.background_img === "4.png") {
+
+                    date_announcement_lbl.style.color = "#fefefe";
+                    announcement_lbl.style.color = "#fefefe";
+                    time_announcement_lbl.style.color = "#fefefe";
+                }
+
+            }
+        } else {
+            document.getElementById("announcement-div").style.backgroundImage = "url(assets/announcement/4.png)";
+            date_announcement_lbl.innerText = "There is no announcement";
+            date_announcement_lbl.style.color = "#fefefe";
+            announcement_lbl.innerText = "Seems like you are all caught up!";
+            announcement_lbl.style.color = "#fefefe";
+            time_announcement_lbl.style.color = "#fefefe";
+        }
+    }, (error) => {
+        console.error("Error fetching announcement: ", error);
+    });
+}
 function viewAllAnnouncement() {
 
     const dbRef = ref(database, "PARSEIT/administration/announcement/");
@@ -774,7 +740,7 @@ function viewAllAnnouncement() {
     }, (error) => {
         console.error("Error fetching announcement: ", error);
     });
-}
+} viewAllAnnouncement();
 function formatDate(date) {
     const months = [
         "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
@@ -802,18 +768,10 @@ async function getparser_username(id) {
         return null;
     }
 }
-
 async function setParser_username() {
     document.getElementById('parser_username').innerText = "@" + await getparser_username(user_parser);
 } setParser_username();
-
 async function setparserBanners(id) {
-    // let banners = ["venti_banner.png", "raiden_banner.png", "zhongli_banner.png",
-    //     "mavuika_banner.png", "nahida_banner.png", "furina_banner.png"];
-
-    // let profiles = ["venti_1.png", "venti_2.png", "raiden_1.png", "raiden_2.png", "zhongli_1.png", "zhongli_2.png",
-    //     "mavuika_1.png", "mavuika_2.png", "nahida_1.png", "nahida_2.png", "furina_1.png", "furina_2.png"];
-
     const bannerRef = child(dbRef, `PARSEIT/administration/students/${id}/banner`);
     const profileRef = child(dbRef, `PARSEIT/administration/students/${id}/profile`);
 
@@ -850,8 +808,6 @@ async function setparserBanners(id) {
         }
     }
 } setparserBanners(user_parser);
-
-
 
 function loadTeacherSubjects() {
     let semesterToCheck = status[0].current_sem;
@@ -917,8 +873,6 @@ function loadTeacherSubjects() {
             console.error("Error fetching data:", error);
         });
 }
-
-
 function loadStudentSubjects() {
     let semesterToCheck = status[0].current_sem;
     const acadref = status[0].academicref;
@@ -985,79 +939,3 @@ function loadStudentSubjects() {
             console.error("Error fetching data:", error);
         });
 }
-
-//orig
-// async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section) {
-//     //console.log(acadref, yearlvl, sem, userId, type, section);
-//     let sem_final = "first-sem";
-//     if (sem === "2") {
-//         sem_final = "second-sem";
-//     }
-//     if (type === "student") {
-//         const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${acadref}/year-lvl-${yearlvl}/${sem_final}/`);
-//         get(subjectsRef).then((snapshot) => {
-//             if (snapshot.exists()) {
-//                 parseclass_cont.innerHTML = "";
-//                 let parseClassAppend = "";
-//                 snapshot.forEach((subjectSnapshot) => {
-//                     const sectionRef = child(subjectSnapshot.ref, `${section}`);
-//                     get(sectionRef).then((sectionSnapshot) => {
-//                         if (sectionSnapshot.exists()) {
-//                             const memberRef = sectionSnapshot.child("members");
-//                             if (memberRef.exists()) {
-//                                 memberRef.forEach((idSnapshot) => {
-//                                     if (idSnapshot.key === userId) {
-//                                         let parseclass_id = sectionSnapshot.val().parseclass_id;
-//                                         let parseimgid = subjectSnapshot.key.replace(/\s+/g, "");
-//                                         let parseclass_day = sectionSnapshot.val().schedule.sched_day;
-//                                         let parseclass_sched = sectionSnapshot.val().schedule.sched_start + " - " + sectionSnapshot.val().schedule.sched_end;
-
-//                                         if (getCurrentDayName() !== parseclass_day) {
-//                                             parseclass_day = "No Schedule Today";
-//                                             parseclass_sched = "";
-//                                         }
-//                                         else {
-//                                             console.log("No Schedule Assigned");
-//                                         }
-
-//                                         parseClassAppend += `
-//                                         <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(/\s+/g, "")}');
-//                                             localStorage.setItem('parser-parseroom', '${parseclass_id.replace(/\s+/g, "")}');
-//                                             localStorage.setItem('parseroom-code', '${subjectSnapshot.key}');
-//                                             localStorage.setItem('parseroom-name', '${subjectSnapshot.val().name}');
-//                                             window.location.href = 'parseroom.html';" id="${parseimgid}"
-//                                             style="background-image: url('assets/parseclass/${parseimgid.toUpperCase()}.jpg');"
-//                                             value ="${parseclass_id.replace(/\s+/g, "")}">
-//                                         <div class="parseclass-default-gradient">
-//                                         <span class="parsesched-default-span">
-//                                         <label for="" class="parseclass-day-lbl">${parseclass_day}</label>
-//                                         <label for="" class="parseclass-time-lbl">${parseclass_sched}</label>
-//                                         </span>
-//                                         <span class="parseclass-default-span">
-//                                         <label for="" class="parseclass-header-lbl">${subjectSnapshot.key}</label>
-//                                         <label for="" class="parseclass-header-sublbl">${subjectSnapshot.val().name}</label>
-//                                         </span>
-//                                         </div>
-//                                         </div>`
-//                                         parseclass_cont.innerHTML = parseClassAppend;
-//                                     }
-
-//                                 });
-//                             }
-//                             else {
-//                                 //console.log('No member found,');
-//                             }
-//                         } else {
-//                             //console.log("No members found.");
-//                         }
-//                     }).catch((error) => {
-//                         console.log(error);
-//                     })
-//                 });
-//             }
-//             else {
-//                 console.log("No Data Found.");
-//             }
-//         });
-//     }
-// }
