@@ -68,11 +68,11 @@ window.addEventListener("load", async function () {
                     document.getElementById("search-parseclass-div").style.display = "flex";
                     document.getElementById("notyetstarted_div").style.display = "none";
                     document.getElementById("parseclass-default-div").style.display = "flex";
-                    loadStudentSubjects2();
-                    //loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+                    loadStudentSubjects();
+
                 }
                 else {
-                    loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+                    loadStudentSubjects();
                     document.getElementById("parseclass-default-div").style.display = "none";
                     document.getElementById("search-parseclass-div").style.display = "none";
                     document.getElementById("notyetstarted_div").style.display = "flex";
@@ -167,7 +167,7 @@ document.getElementById("logout_btn").addEventListener("click", function () {
     logout();
 });
 document.getElementById("homelobby_btn").addEventListener("click", function () {
-    loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+    loadStudentSubjects();
     showBodyWrapper("home_all_sec");
     selectNavIcon("homelobby_img");
     selectNavLbl("homelobby_lbl");
@@ -513,14 +513,14 @@ async function changesInOngoing() {
                         document.getElementById("search-parseclass-div").style.display = "flex";
                         document.getElementById("notyetstarted_div").style.display = "none";
                         document.getElementById("parseclass-default-div").style.display = "flex";
-                        loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+                        loadStudentSubjects();
                     }
                     else {
                         status[0].ongoing = "false";
                         document.getElementById("search-parseclass-div").style.display = "none";
                         document.getElementById("notyetstarted_div").style.display = "flex";
                         document.getElementById("parseclass-default-div").style.display = "none";
-                        loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+                        loadStudentSubjects();
 
                     }
                 }
@@ -550,7 +550,7 @@ async function changesInSem() {
                     document.getElementById("search-parseclass-div").style.display = "flex";
                     document.getElementById("notyetstarted_div").style.display = "none";
                     document.getElementById("parseclass-default-div").style.display = "flex";
-                    loadStudentSubjects(status[0].academicref, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+                    loadStudentSubjects();
                 }
             }
             sem_previousData = currentData;
@@ -575,7 +575,7 @@ async function changesInAcademicRef() {
                     document.getElementById("search-parseclass-div").style.display = "flex";
                     document.getElementById("notyetstarted_div").style.display = "none";
                     document.getElementById("parseclass-default-div").style.display = "flex";
-                    loadStudentSubjects(currentData, parser[0].yearlvl, status[0].current_sem, user_parser, parser[0].type, parser[0].section);
+                    loadStudentSubjects();
                 }
             }
             academicref_previousData = currentData;
@@ -919,7 +919,7 @@ function loadTeacherSubjects() {
 }
 
 
-function loadStudentSubjects2() {
+function loadStudentSubjects() {
     let semesterToCheck = status[0].current_sem;
     const acadref = status[0].academicref;
     if (semesterToCheck === "2") {
@@ -987,77 +987,77 @@ function loadStudentSubjects2() {
 }
 
 //orig
-async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section) {
-    //console.log(acadref, yearlvl, sem, userId, type, section);
-    let sem_final = "first-sem";
-    if (sem === "2") {
-        sem_final = "second-sem";
-    }
-    if (type === "student") {
-        const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${acadref}/year-lvl-${yearlvl}/${sem_final}/`);
-        get(subjectsRef).then((snapshot) => {
-            if (snapshot.exists()) {
-                parseclass_cont.innerHTML = "";
-                let parseClassAppend = "";
-                snapshot.forEach((subjectSnapshot) => {
-                    const sectionRef = child(subjectSnapshot.ref, `${section}`);
-                    get(sectionRef).then((sectionSnapshot) => {
-                        if (sectionSnapshot.exists()) {
-                            const memberRef = sectionSnapshot.child("members");
-                            if (memberRef.exists()) {
-                                memberRef.forEach((idSnapshot) => {
-                                    if (idSnapshot.key === userId) {
-                                        let parseclass_id = sectionSnapshot.val().parseclass_id;
-                                        let parseimgid = subjectSnapshot.key.replace(/\s+/g, "");
-                                        let parseclass_day = sectionSnapshot.val().schedule.sched_day;
-                                        let parseclass_sched = sectionSnapshot.val().schedule.sched_start + " - " + sectionSnapshot.val().schedule.sched_end;
+// async function loadStudentSubjects(acadref, yearlvl, sem, userId, type, section) {
+//     //console.log(acadref, yearlvl, sem, userId, type, section);
+//     let sem_final = "first-sem";
+//     if (sem === "2") {
+//         sem_final = "second-sem";
+//     }
+//     if (type === "student") {
+//         const subjectsRef = child(dbRef, `PARSEIT/administration/parseclass/${acadref}/year-lvl-${yearlvl}/${sem_final}/`);
+//         get(subjectsRef).then((snapshot) => {
+//             if (snapshot.exists()) {
+//                 parseclass_cont.innerHTML = "";
+//                 let parseClassAppend = "";
+//                 snapshot.forEach((subjectSnapshot) => {
+//                     const sectionRef = child(subjectSnapshot.ref, `${section}`);
+//                     get(sectionRef).then((sectionSnapshot) => {
+//                         if (sectionSnapshot.exists()) {
+//                             const memberRef = sectionSnapshot.child("members");
+//                             if (memberRef.exists()) {
+//                                 memberRef.forEach((idSnapshot) => {
+//                                     if (idSnapshot.key === userId) {
+//                                         let parseclass_id = sectionSnapshot.val().parseclass_id;
+//                                         let parseimgid = subjectSnapshot.key.replace(/\s+/g, "");
+//                                         let parseclass_day = sectionSnapshot.val().schedule.sched_day;
+//                                         let parseclass_sched = sectionSnapshot.val().schedule.sched_start + " - " + sectionSnapshot.val().schedule.sched_end;
 
-                                        if (getCurrentDayName() !== parseclass_day) {
-                                            parseclass_day = "No Schedule Today";
-                                            parseclass_sched = "";
-                                        }
-                                        else {
-                                            console.log("No Schedule Assigned");
-                                        }
+//                                         if (getCurrentDayName() !== parseclass_day) {
+//                                             parseclass_day = "No Schedule Today";
+//                                             parseclass_sched = "";
+//                                         }
+//                                         else {
+//                                             console.log("No Schedule Assigned");
+//                                         }
 
-                                        parseClassAppend += `
-                                        <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(/\s+/g, "")}');
-                                            localStorage.setItem('parser-parseroom', '${parseclass_id.replace(/\s+/g, "")}');
-                                            localStorage.setItem('parseroom-code', '${subjectSnapshot.key}');
-                                            localStorage.setItem('parseroom-name', '${subjectSnapshot.val().name}');
-                                            window.location.href = 'parseroom.html';" id="${parseimgid}"
-                                            style="background-image: url('assets/parseclass/${parseimgid.toUpperCase()}.jpg');"
-                                            value ="${parseclass_id.replace(/\s+/g, "")}">
-                                        <div class="parseclass-default-gradient">
-                                        <span class="parsesched-default-span">
-                                        <label for="" class="parseclass-day-lbl">${parseclass_day}</label>
-                                        <label for="" class="parseclass-time-lbl">${parseclass_sched}</label>
-                                        </span>
-                                        <span class="parseclass-default-span">
-                                        <label for="" class="parseclass-header-lbl">${subjectSnapshot.key}</label>
-                                        <label for="" class="parseclass-header-sublbl">${subjectSnapshot.val().name}</label>
-                                        </span>
-                                        </div>
-                                        </div>`
-                                        parseclass_cont.innerHTML = parseClassAppend;
-                                    }
+//                                         parseClassAppend += `
+//                                         <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(/\s+/g, "")}');
+//                                             localStorage.setItem('parser-parseroom', '${parseclass_id.replace(/\s+/g, "")}');
+//                                             localStorage.setItem('parseroom-code', '${subjectSnapshot.key}');
+//                                             localStorage.setItem('parseroom-name', '${subjectSnapshot.val().name}');
+//                                             window.location.href = 'parseroom.html';" id="${parseimgid}"
+//                                             style="background-image: url('assets/parseclass/${parseimgid.toUpperCase()}.jpg');"
+//                                             value ="${parseclass_id.replace(/\s+/g, "")}">
+//                                         <div class="parseclass-default-gradient">
+//                                         <span class="parsesched-default-span">
+//                                         <label for="" class="parseclass-day-lbl">${parseclass_day}</label>
+//                                         <label for="" class="parseclass-time-lbl">${parseclass_sched}</label>
+//                                         </span>
+//                                         <span class="parseclass-default-span">
+//                                         <label for="" class="parseclass-header-lbl">${subjectSnapshot.key}</label>
+//                                         <label for="" class="parseclass-header-sublbl">${subjectSnapshot.val().name}</label>
+//                                         </span>
+//                                         </div>
+//                                         </div>`
+//                                         parseclass_cont.innerHTML = parseClassAppend;
+//                                     }
 
-                                });
-                            }
-                            else {
-                                //console.log('No member found,');
-                            }
-                        } else {
-                            //console.log("No members found.");
-                        }
-                    }).catch((error) => {
-                        console.log(error);
-                    })
-                });
-            }
-            else {
-                console.log("No Data Found.");
-            }
-        });
-    }
-}
+//                                 });
+//                             }
+//                             else {
+//                                 //console.log('No member found,');
+//                             }
+//                         } else {
+//                             //console.log("No members found.");
+//                         }
+//                     }).catch((error) => {
+//                         console.log(error);
+//                     })
+//                 });
+//             }
+//             else {
+//                 console.log("No Data Found.");
+//             }
+//         });
+//     }
+// }
