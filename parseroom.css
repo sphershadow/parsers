@@ -564,7 +564,7 @@ body {
   background-color: transparent;
   font-size: 16px;
   font-family: Inter-Medium;
-  display: flex;
+  display: none;
   justify-content: flex-start;
   align-items: center;
   padding-left: 15px;

@@ -32,7 +32,7 @@ let user_parser = localStorage.getItem("user-parser");
 let parseroom_id = localStorage.getItem("parser-parseroom");
 let parseroom_username = localStorage.getItem("parser-username");
 let active_profile = "";
-
+let user_parser_type = localStorage.getItem("type-parser");
 //listeners
 setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", async function () {
@@ -41,6 +41,9 @@ window.addEventListener("load", async function () {
     getParseroomMessages();
     scrollToBottom();
 
+    if (user_parser_type === "teacher") {
+        document.getElementById("monitor-btn").style.display = "flex";
+    }
 
 });
 
@@ -69,8 +72,11 @@ document.getElementById("closeparseroom-btn").addEventListener('click', (event) 
     localStorage.removeItem("active-whisper-id");
 });
 document.getElementById("info-btn").addEventListener('click', (event) => {
+    document.getElementById("cover-infodetail-top").innerHTML = localStorage.getItem("parseroom-code");
+    document.getElementById("cover-infodetail-bot").innerHTML = localStorage.getItem("parseroom-name");
     document.getElementById("body-parseroom-div").style.animation = "parseroom-slideIn 0.6s ease-out forwards";
     document.getElementById("details-parseroom-div").style.animation = "parseroom-slideIn 0.6s ease-out forwards";
+    
 });
 document.getElementById("whispermessage-btn").addEventListener('click', (event) => {
     submitWhisperMessage();
