@@ -25,16 +25,22 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const dbRef = ref(database)
 
+
 //variables
 let user_parser = localStorage.getItem("user-parser");
 let parseroom_id = localStorage.getItem("parser-parseroom");
 let parseroom_username = localStorage.getItem("parser-username");
+let active_profile = "";
+
 //listeners
-await setScreenSize(window.innerWidth, window.innerHeight);
+setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", async function () {
     document.getElementById("loading_animation_div").style.display = "none";
+    active_profile = await activeProfile(user_parser); 
     getParseroomMessages();
     scrollToBottom();
+    
+    
 });
 
 document.getElementById("details-btn").addEventListener('click', (event) => {
@@ -89,7 +95,7 @@ function adjustChatbox() {
     const container = document.querySelector('.body-parseroom-div');
     container.style.height = `${window.innerHeight}px`;
 }
-function getParseroomMessages() {
+async function getParseroomMessages() {
     const dbRef = ref(database, `PARSEIT/administration/parseroom/${parseroom_id}/messages/`);
     const latestMessageQuery = query(dbRef, orderByKey());
 
@@ -97,7 +103,6 @@ function getParseroomMessages() {
         if (snapshot.exists()) {
             let messagecont = document.getElementById("parseroom-body-wrapper");
             //messagecont.innerHTML = "";
-
             let appendMessageHTML = "<div class='filler-message'></div>";
             const snapshotData = snapshot.val();
             const reversedsnapshot = Object.entries(snapshotData);
@@ -111,7 +116,7 @@ function getParseroomMessages() {
                         <section class="p-description p-description-me"> ${message.description}</section>
                         </section>
                         <section class="p-profile p-profile-me">
-                        <img id="parser-profile" class="parser-profile" src="assets/profiles/default_profile.png" alt="" />
+                        <img id="parser-profile" class="parser-profile" src='${active_profile}' alt="" />
                         </section>
                         </div>`;
                     }
@@ -123,7 +128,7 @@ function getParseroomMessages() {
                         <section class="p-description p-description-me ping-whisper-me">You whispered to @${message.to_username}</section>
                         </section>
                         <section class="p-profile p-profile-me" style="display: none;">
-                        <img id="parser-profile" class="parser-profile" src="assets/profiles/default_profile.png" alt="" />
+                        <img id="parser-profile" class="parser-profile" src='${active_profile}' alt="" />
                         </section>
                         </div>`;
                     }
@@ -133,7 +138,7 @@ function getParseroomMessages() {
                         appendMessageHTML += `
                         <div class="parseroom-message">
                         <section class="p-profile">
-                        <img id="parser-profile" class="parser-profile" src="assets/profiles/default_profile.png" alt="" />
+                        <img id="parser-profile" class="parser-profile" src='${message.sender_profile}' alt="" />
                         </section>
                         <section class="p-message">
                         <section class="p-username">@${message.from_username}</section>
@@ -149,7 +154,7 @@ function getParseroomMessages() {
                             appendMessageHTML += `
                         <div class="parseroom-message" style="display: flex; align-items: center; justify-content: center;">
                         <section class="p-profile" style="display: none;">
-                        <img id="parser-profile" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
+                        <img id="parser-profile" class="parser-profile" src='${message.sender_profile}' alt="" />
                         </section>
                         <section class="p-message" style="display: flex; align-items: center; justify-content: center;">
                         <section class="p-username" style="display: none;">@${message.from_username}</section>
@@ -175,6 +180,7 @@ function getParseroomMessages() {
 async function submitMessage() {
     const messageInput = document.getElementById("parsermessage-txt").value;
     const username = await getparser_username(user_parser);
+    const sender_profile = await activeProfile(user_parser);
     if (!messageInput) {
 
         return;
@@ -187,6 +193,7 @@ async function submitMessage() {
         to_username: "everyone",
         time: getMessageTime(),
         from_username: username,
+        send_profile: sender_profile,
     };
 
     const dbRef = ref(database, `PARSEIT/administration/parseroom/${parseroom_id}/messages/`);
@@ -292,7 +299,7 @@ async function submitWhisperMessage() {
     let whisperTo_username = await extractUsername(messageInput) || await getparser_username(localStorage.getItem('active-whisper-id'));
     let whisperTo = await getparser_id(whisperTo_username) || localStorage.getItem('active-whisper-id');
     const username = localStorage.getItem("parser-username");
-
+    const sender_profile = await activeProfile(user_parser);
     if (messageInput === '' || whisperInput === '') {
         errorWhisperTheme();
     }
@@ -308,6 +315,7 @@ async function submitWhisperMessage() {
                 to_username: whisperTo_username,
                 time: getMessageTime(),
                 from_username: username,
+                sender_profile: sender_profile,
             };
 
             const dbRef = ref(database, `PARSEIT/administration/parseroom/${parseroom_id}/messages/`);
@@ -406,7 +414,7 @@ function showPrivateMessages() {
                         <section class="p-description p-description-me-whisper">${message.description}</section>
                         </section>
                         <section class="p-profile p-profile-me">
-                        <img id="parser-profile parser-profile-me" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
+                        <img id="parser-profile parser-profile-me" class="parser-profile" src='${active_profile}' alt="" />
                         </section>
                         </div>`;
                     }
@@ -416,7 +424,7 @@ function showPrivateMessages() {
                         appendMessageHTML += `
                         <div class="parseroom-message">
                         <section class="p-profile">
-                        <img id="parser-profile" class="parser-profile" src="assets/game_background/fruitmania.jpg" alt="" />
+                        <img id="parser-profile" class="parser-profile" src='${message.sender_profile}' alt="" />
                         </section>
                         <section class="p-message">
                         <section class="p-username" style="color: #fefefe; opacity: 0.5;">@${message.from_username}</section>
@@ -486,6 +494,27 @@ async function setparserBanners(id) {
         }
         else {
             document.getElementById('parser-profile').src = `assets/profiles/default_profile.png`;
+        }
+    }
+} 
+
+async function activeProfile(id) {
+    const profileRef = child(dbRef, `PARSEIT/administration/students/${id}/profile`);
+    const teacherProfileRef = child(dbRef, `PARSEIT/administration/teachers/${id}/profile`);
+
+    const snapshot2 = await get(profileRef);
+    const snapTeacher2 = await get(teacherProfileRef);
+
+    if (snapshot2.exists()) {
+        return `assets/profiles/${snapshot2.val()}`;
+
+    }
+    else {
+        if (snapTeacher2.exists()) {
+            return `assets/profiles/${snapTeacher2.val()}`;
+        }
+        else {
+            return `assets/profiles/default_profile.png`;
         }
     }
 } 
