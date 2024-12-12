@@ -193,7 +193,7 @@ async function submitMessage() {
         to_username: "everyone",
         time: getMessageTime(),
         from_username: username,
-        send_profile: sender_profile,
+        sender_profile: sender_profile,
     };
 
     const dbRef = ref(database, `PARSEIT/administration/parseroom/${parseroom_id}/messages/`);
