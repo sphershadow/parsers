@@ -9,7 +9,8 @@ import {
     orderByKey,
     limitToLast,
     push,
-    set
+    set,
+    update,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 const firebaseConfig = {
     apiKey: "AIzaSyCFqgbA_t3EBVO21nW70umJOHX3UdRr9MY",
@@ -73,6 +74,7 @@ document.getElementById("info-btn").addEventListener('click', (event) => {
 });
 document.getElementById("whispermessage-btn").addEventListener('click', (event) => {
     submitWhisperMessage();
+    scrollToBottom();
 });
 
 document.getElementById("header-left").addEventListener('click', (event) => {
@@ -107,7 +109,12 @@ async function getParseroomMessages() {
             const snapshotData = snapshot.val();
             const reversedsnapshot = Object.entries(snapshotData);
             reversedsnapshot.forEach(([key, message]) => {
+                
                 if (message.from === user_parser) {
+                    if(message.sender_profile !== `${active_profile}`){
+                        updateSenderProfile(parseroom_id, user_parser, active_profile); 
+                    }
+
                     if (message.to === "everyone") {
                         appendMessageHTML += `
                         <div class="parseroom-message">
@@ -203,7 +210,6 @@ async function submitMessage() {
         await set(newAnnouncementRef, newAnnouncement);
         document.getElementById("parsermessage-txt").value = "";
         getParseroomMessages();
-        scrollToBottom();
 
     } catch (error) {
         console.error("Error submitting announcement: ", error);
@@ -518,3 +524,20 @@ async function activeProfile(id) {
         }
     }
 } 
+
+async function updateSenderProfile(parseroom_id, user_parser, active_profile) {
+    const senderRef = child(dbRef, `PARSEIT/administration/parseroom/${parseroom_id}/messages/`);
+    const data = await get(senderRef);
+    if (data.exists()) {
+        data.forEach((childSnapshot) => {
+            const childValue = childSnapshot.val();
+            if(childValue.from === user_parser){
+                const childKey = childSnapshot.key;
+                update(ref(database, `PARSEIT/administration/parseroom/${parseroom_id}/messages/${childKey}`), {
+                    sender_profile: active_profile,
+                })
+
+            }
+        });
+    }
+}
