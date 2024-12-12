@@ -835,28 +835,27 @@ function loadTeacherSubjects() {
 
                                 }
                                 else {
-                                    //console.log(subjectData[key]);
                                     const parseclass_img = subject.replace(/\s+/g, "");
                                     if (user_parser === subjectData[key].teacher_id) {
                                         parseClassAppend += `
-                                <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(/\s+/g, "")}');
-                                localStorage.setItem('parser-parseroom', '${subjectData[key].parseclass_id.replace(/\s+/g, "")}');
-                                localStorage.setItem('parseroom-code', '${subject}');
-                                localStorage.setItem('parseroom-name', '${subjectData.name}');
-                                window.location.href = 'parseroom.html';" id=""
-                                style="background-image: url('assets/parseclass/${parseclass_img.toUpperCase()}.jpg');"
-                                value ="">
-                                <div class="parseclass-default-gradient">
-                                <span class="parsesched-default-span">
-                                <label for="" class="parseclass-day-lbl"></label>
-                                <label for="" class="parseclass-time-lbl"></label>
-                                </span>
-                                <span class="parseclass-default-span">
-                                <label for="" class="parseclass-header-lbl">${subject} (${key})</label>
-                                <label for="" class="parseclass-header-sublbl">${subjectData.name}</label>
-                                </span>
-                                </div>
-                                </div>`
+                                        <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(/\s+/g, "")}');
+                                        localStorage.setItem('parser-parseroom', '${subjectData[key].parseclass_id.replace(/\s+/g, "")}');
+                                        localStorage.setItem('parseroom-code', '${subject}');
+                                        localStorage.setItem('parseroom-name', '${subjectData.name}');
+                                        window.location.href = 'parseroom.html';" id=""
+                                        style="background-image: url('assets/parseclass/${parseclass_img.toUpperCase()}.jpg');"
+                                        value ="">
+                                        <div class="parseclass-default-gradient">
+                                        <span class="parsesched-default-span">
+                                        <label for="" class="parseclass-day-lbl"></label>
+                                        <label for="" class="parseclass-time-lbl"></label>
+                                        </span>
+                                        <span class="parseclass-default-span">
+                                        <label for="" class="parseclass-header-lbl">${subject} (${key})</label>
+                                        <label for="" class="parseclass-header-sublbl">${subjectData.name}</label>
+                                        </span>
+                                        </div>
+                                        </div>`
                                         parseclass_cont.innerHTML = parseClassAppend;
                                     }
                                 }
@@ -869,9 +868,9 @@ function loadTeacherSubjects() {
             console.log("No data available");
         }
     })
-        .catch((error) => {
-            console.error("Error fetching data:", error);
-        });
+    .catch((error) => {
+        console.error("Error fetching data:", error);
+    });
 }
 function loadStudentSubjects() {
     let semesterToCheck = status[0].current_sem;
@@ -901,28 +900,48 @@ function loadStudentSubjects() {
                                 else {
                                     for (const parser in subjectData[section].members) {
                                         if (parser === user_parser) {
-                                            const parseclass_img = subject.replace(/\s+/g, "");
-                                            parseClassAppend += `
-                                            <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(/\s+/g, "")}');
-                                            localStorage.setItem('parser-parseroom', '${subjectData[section].parseclass_id.replace(/\s+/g, "")}');
-                                            localStorage.setItem('parseroom-code', '${subject}');
-                                            localStorage.setItem('parseroom-name', '${subjectData.name}');
-                                            window.location.href = 'parseroom.html';" id=""
-                                            style="background-image: url('assets/parseclass/${parseclass_img.toUpperCase()}.jpg');"
-                                            value ="">
-                                            <div class="parseclass-default-gradient">
-                                            <span class="parsesched-default-span">
-                                            <label for="" class="parseclass-day-lbl"></label>
-                                            <label for="" class="parseclass-time-lbl"></label>
-                                            </span>
-                                            <span class="parseclass-default-span">
-                                            <label for="" class="parseclass-header-lbl">${subject} (${section})</label>
-                                            <label for="" class="parseclass-header-sublbl">${subjectData.name}</label>
-                                            </span>
-                                            </div>
-                                            </div>`
-                                            parseclass_cont.innerHTML = parseClassAppend;
-
+                                            //for (const schedule in subjectData[section].schedule){
+                                                // const scheduleItem = subjectData[section].schedule[schedule];
+                                                // let startSched = '';
+                                                // let endSched = '';
+                                                // let daySched = 'No Schedule Today';
+                                                // if(scheduleItem.day === returnCurrentDay()){
+                                                //     const startObject = convertToTimeObject(scheduleItem.start);
+                                                //     const endObject = convertToTimeObject(scheduleItem.end);
+                                                //     //console.log(startObject, endObject);
+                                                   
+                                                //     if (isTimeInRange(startObject, endObject)) {
+                                                //         //console.log("The current time is between");
+                                                //         startSched = scheduleItem.start;
+                                                //         endSched = scheduleItem.end;
+                                                //         daySched = scheduleItem.day;
+                                                //     }
+                                                // }
+                                                // else{
+                                                //     daySched = 'No Schedule Today';
+                                                // }
+                                                const parseclass_img = subject.replace(/\s+/g, "");
+                                                parseClassAppend += `
+                                                <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(/\s+/g, "")}');
+                                                localStorage.setItem('parser-parseroom', '${subjectData[section].parseclass_id.replace(/\s+/g, "")}');
+                                                localStorage.setItem('parseroom-code', '${subject}');
+                                                localStorage.setItem('parseroom-name', '${subjectData.name}');
+                                                window.location.href = 'parseroom.html';" id=""
+                                                style="background-image: url('assets/parseclass/${parseclass_img.toUpperCase()}.jpg');"
+                                                value ="">
+                                                <div class="parseclass-default-gradient">
+                                                <span class="parsesched-default-span">
+                                                <label for="" class="parseclass-day-lbl"></label>
+                                                <label for="" class="parseclass-time-lbl"></label>
+                                                </span>
+                                                <span class="parseclass-default-span">
+                                                <label for="" class="parseclass-header-lbl">${subject} (${section})</label>
+                                                <label for="" class="parseclass-header-sublbl">${subjectData.name}</label>
+                                                </span>
+                                                </div>
+                                                </div>`
+                                                parseclass_cont.innerHTML = parseClassAppend;
+                                            //}
                                         }
                                     }
                                 }
@@ -938,4 +957,45 @@ function loadStudentSubjects() {
         .catch((error) => {
             console.error("Error fetching data:", error);
         });
+}
+function returnCurrentDay(){
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    return days[dayOfWeek];
+}
+function isTimeInRange(startTime, endTime) {
+    // Get current date and time
+    const now = new Date();
+
+    // Create date objects for the start time and end time
+    const start = new Date(now);
+    const end = new Date(now);
+
+    // Set the start time (e.g., 2:30 PM)
+    start.setHours(startTime.hours, startTime.minutes, 0, 0);
+
+    // Set the end time (e.g., 4:00 PM)
+    end.setHours(endTime.hours, endTime.minutes, 0, 0);
+
+    // Check if current time is within the range
+    return now >= start && now <= end;
+}
+function convertToTimeObject(timeString) {
+    // Parse the time string (e.g., "2:30 PM") into hours and minutes
+    const [time, period] = timeString.split(' '); // Split time and period (AM/PM)
+    let [hours, minutes] = time.split(':');      // Split hours and minutes
+    // Convert string values to numbers
+    hours = parseInt(hours, 10);
+    // Convert 12-hour format to 24-hour format
+    if (period === 'PM' && hours < 12 || period === 'pm' && hours ) {
+        hours += 12;
+    } else if (period === 'AM' && hours === 12 || period === 'am' && hours === 12) {
+        hours = 0;
+    }
+    // Return the time object
+    return {
+        hours: hours,
+        minutes: minutes
+    };
 }
