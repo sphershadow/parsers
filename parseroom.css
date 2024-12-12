@@ -297,6 +297,7 @@ body {
   box-sizing: border-box;
   font-family: Inter-Regular;
   font-size: 13px;
+  word-break: break-word;
 }
 
 .p-description-whisper {
@@ -308,6 +309,7 @@ body {
   box-sizing: border-box;
   font-family: Inter-Regular;
   font-size: 13px;
+  word-break: break-word;
 }
 
 .p-description-whisper {
@@ -320,6 +322,7 @@ body {
   font-family: Inter-Regular;
   font-size: 13px;
   color: #fefefe;
+  word-break: break-word;
 }
 
 .parser-profile {
@@ -352,6 +355,7 @@ body {
   font-family: Inter-Regular;
   font-size: 13px;
   color: #fefefe;
+  word-break: break-word;
 }
 
 .p-description-me-whisper {
@@ -364,6 +368,7 @@ body {
   font-family: Inter-Regular;
   font-size: 13px;
   color: #fefefe;
+  word-break: break-word;
 }
 
 .parser-profile-me {

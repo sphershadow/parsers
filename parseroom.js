@@ -185,6 +185,7 @@ async function getParseroomMessages() {
     });
 }
 async function submitMessage() {
+    scrollToBottom();
     const messageInput = document.getElementById("parsermessage-txt").value;
     const username = await getparser_username(user_parser);
     const sender_profile = await activeProfile(user_parser);
@@ -209,6 +210,7 @@ async function submitMessage() {
     try {
         await set(newAnnouncementRef, newAnnouncement);
         document.getElementById("parsermessage-txt").value = "";
+        document.getElementById("parsermessage-txt").style.height = '40px';
         getParseroomMessages();
 
     } catch (error) {
