@@ -1,47 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
     <title></title>
     <link rel="stylesheet" href="parseroom.css" />
-</head>
-<body>
+  </head>
+  <body>
     <!-- Loading Animation -->
     <div id="loading_animation_div">
-        <img id="loading_animation_gif" src="assets/loading_animation.gif" />
-        <h1 id="parsing_lbl">Parsing...</h1>
+      <img id="loading_animation_gif" src="assets/loading_animation.gif" />
+      <h1 id="parsing_lbl">Parsing...</h1>
     </div>
 
     <!-- ParseRoom -->
-     <div class="home-parseroom-div">
-        <div class="body-parseroom-div" id="body-parseroom-div">
-            <div class="parseroom-header" id="parseroom-header">
-                <section class="header-left" id="header-left">
-                    <img id="closeparseroom-btn" class="closeparseroom-btn" src="assets/icons/arrow-left-solid.svg" alt="" />
-                    <section class="parseroomName">
-                        <span class="parsecode" id="parsecode"></span>
-                        <span class="parsename" id="parsename"></span>
-                    </section>
-                </section>
-                    <img id="info-btn" class="info-btn" src="assets/icons/circle-info-solid.svg" alt="" />
-            </div>
-            <div class="parseroom-body" id="parseroom-body">
-                <div class="parseroom-body-wrapper" id="parseroom-body-wrapper">
-                    <div class="filler-message"></div>
-                </div>
-            </div>
-            <div class="parseroom-footer" id="parseroom-footer">
-                <textarea class="parsermessage-txt" id="parsermessage-txt" placeholder="Send Message"
-                oninput="this.style.height = ''; this.style.height = this.scrollHeight +'px';"></textarea>
-                <img id="sendmessage-btn" class="sendmessage-btn" src="assets/icons/paper-plane-solid.svg" alt="" />
-                <img id="whispermessage-btn" class="whispermessage-btn" src="assets/icons/paper-plane-solid.svg" alt="" />
-            </div>
+    <div class="home-parseroom-div">
+      <div class="body-parseroom-div" id="body-parseroom-div">
+        <div class="parseroom-header" id="parseroom-header">
+          <section class="header-left" id="header-left">
+            <img
+              id="closeparseroom-btn"
+              class="closeparseroom-btn"
+              src="assets/icons/arrow-left-solid.svg"
+              alt=""
+            />
+            <section class="parseroomName">
+              <span class="parsecode" id="parsecode"></span>
+              <span class="parsename" id="parsename"></span>
+            </section>
+          </section>
+          <img
+            id="info-btn"
+            class="info-btn"
+            src="assets/icons/circle-info-solid.svg"
+            alt=""
+          />
         </div>
-        <div class="details-parseroom-div" id="details-parseroom-div">
-            <button class="details" id="details-btn">Details</button>
+        <div class="parseroom-body" id="parseroom-body">
+          <div class="parseroom-body-wrapper" id="parseroom-body-wrapper">
+            <div class="filler-message"></div>
+          </div>
         </div>
-     </div>
+        <div class="parseroom-footer" id="parseroom-footer">
+          <textarea
+            class="parsermessage-txt"
+            id="parsermessage-txt"
+            placeholder="Send Message"
+            oninput="this.style.height = ''; this.style.height = this.scrollHeight +'px';"
+          ></textarea>
+          <img
+            id="sendmessage-btn"
+            class="sendmessage-btn"
+            src="assets/icons/paper-plane-solid.svg"
+            alt=""
+          />
+          <img
+            id="whispermessage-btn"
+            class="whispermessage-btn"
+            src="assets/icons/paper-plane-solid.svg"
+            alt=""
+          />
+        </div>
+      </div>
+      <div class="details-parseroom-div" id="details-parseroom-div">
+        <section class="details-parseroom-wrapper">
+          <div class="game-default-wrapper" id="game-2">
+            <div class="game-default-gradient">
+              <span class="game-default-span">
+                <label for="" class="game-header-lbl">[Subject Code]</label>
+                <label for="" class="game-header-sublbl">Subject Name</label>
+              </span>
+            </div>
+          </div>
+
+          <div class="details-parseroom-title">Classworks</div>
+          <div class="details-parseroom-bulletin">
+            <img
+              class="icon-details"
+              src="assets/icons/chalkboard-solid.svg"
+            />Check Bulletin
+          </div>
+          <div class="details-parseroom-title">ParseRoom Info</div>
+          <div class="details-parseroom-bulletin">
+            <img class="icon-details" src="assets/icons/users-solid.svg" />See
+            Members
+          </div>
+          <div class="details-parseroom-title">More Actions</div>
+        </section>
+      </div>
+    </div>
     <script type="module" src="parseroom.js"></script>
-</body>
+  </body>
 </html>

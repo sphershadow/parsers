@@ -37,14 +37,14 @@ let active_profile = "";
 setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", async function () {
     document.getElementById("loading_animation_div").style.display = "none";
-    active_profile = await activeProfile(user_parser); 
+    active_profile = await activeProfile(user_parser);
     getParseroomMessages();
     scrollToBottom();
-    
-    
+
+
 });
 
-document.getElementById("details-btn").addEventListener('click', (event) => {
+document.getElementById("game-2").addEventListener('click', (event) => {
     document.getElementById("body-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
     document.getElementById("details-parseroom-div").style.animation = "parseroom-slideOut 0.6s ease-out forwards";
 });
@@ -109,10 +109,10 @@ async function getParseroomMessages() {
             const snapshotData = snapshot.val();
             const reversedsnapshot = Object.entries(snapshotData);
             reversedsnapshot.forEach(([key, message]) => {
-                
+
                 if (message.from === user_parser) {
-                    if(message.sender_profile !== `${active_profile}`){
-                        updateSenderProfile(parseroom_id, user_parser, active_profile); 
+                    if (message.sender_profile !== `${active_profile}`) {
+                        updateSenderProfile(parseroom_id, user_parser, active_profile);
                     }
 
                     if (message.to === "everyone") {
@@ -504,7 +504,7 @@ async function setparserBanners(id) {
             document.getElementById('parser-profile').src = `assets/profiles/default_profile.png`;
         }
     }
-} 
+}
 
 async function activeProfile(id) {
     const profileRef = child(dbRef, `PARSEIT/administration/students/${id}/profile`);
@@ -525,7 +525,7 @@ async function activeProfile(id) {
             return `assets/profiles/default_profile.png`;
         }
     }
-} 
+}
 
 async function updateSenderProfile(parseroom_id, user_parser, active_profile) {
     const senderRef = child(dbRef, `PARSEIT/administration/parseroom/${parseroom_id}/messages/`);
@@ -533,7 +533,7 @@ async function updateSenderProfile(parseroom_id, user_parser, active_profile) {
     if (data.exists()) {
         data.forEach((childSnapshot) => {
             const childValue = childSnapshot.val();
-            if(childValue.from === user_parser){
+            if (childValue.from === user_parser) {
                 const childKey = childSnapshot.key;
                 update(ref(database, `PARSEIT/administration/parseroom/${parseroom_id}/messages/${childKey}`), {
                     sender_profile: active_profile,
