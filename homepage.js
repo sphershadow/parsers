@@ -913,12 +913,15 @@ function loadTeacherSubjects() {
                                         <section class="sched-all-wrapper">
                                         `
                                         for (const schedule in subjectData[key].schedule){
-                                            parseClassAppend += `
-                                            <div class="parseclass-sched-single">
-                                            <label for="" class="parseclass-day-lbl">${subjectData[key].schedule[schedule].day} (${subjectData[key].schedule[schedule].room})</label>
-                                            <label for="" class="parseclass-time-lbl">${subjectData[key].schedule[schedule].start}-${subjectData[key].schedule[schedule].end}</label>
-                                            </div>
-                                            `
+                                            if(subjectData[key].schedule[schedule].day === returnCurrentDay()){
+                                                parseClassAppend += `
+                                                <div class="parseclass-sched-single">
+                                                <label for="" class="parseclass-day-lbl">${subjectData[key].schedule[schedule].day} (${subjectData[key].schedule[schedule].room})</label>
+                                                <label for="" class="parseclass-time-lbl">${subjectData[key].schedule[schedule].start}-${subjectData[key].schedule[schedule].end}</label>
+                                                </div>
+                                                `
+                                            }
+                                            
                                         }
                                         parseClassAppend += `
                                         </section>
