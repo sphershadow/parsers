@@ -992,7 +992,8 @@ function loadStudentSubjects() {
                                                 style="background-image: url('assets/parseclass/${parseclass_img.toUpperCase()}.jpg');"
                                                 value ="">
                                                 <div class="parseclass-default-gradient">
-                                                <span class="parsesched-default-span"><div class='sched-all-container'>`
+                                                <span class="parsesched-default-span"><div class='sched-all-container'>
+                                                <section class="sched-all-wrapper">`
                                                 
                                                 for (const schedule in subjectData[section].schedule){
                                                         
@@ -1004,6 +1005,7 @@ function loadStudentSubjects() {
                                                     `
                                                     }
                                                     parseClassAppend += `
+                                                    </section>
                                                     </div>
                                                     </span>
                                                     <span class="parseclass-default-span">

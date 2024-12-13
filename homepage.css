@@ -561,15 +561,6 @@ body {
   opacity: 1;
   
 }
-.sched-all-container{
-  display: flex;
-  width: 500px;
-  height: 40px;
-  box-sizing: border-box;
-  background-color: transparent;
-  overflow: scroll;
-  scrollbar-width: none;
-}
 
 .parseclass-day-lbl {
   color: #fefefe;
@@ -599,6 +590,16 @@ body {
   
   
 }
+.sched-all-container{
+  width: 330px;
+  height: 40px;
+  box-sizing: border-box;
+  background-color: transparent;
+  overflow-x: auto;
+  scrollbar-width: none;
+  
+}
+
 .parseclass-sched-single{
   display: flex;
   flex-direction: column;
@@ -614,9 +615,23 @@ body {
   background-color: rgba(165, 165, 165, 0.5); 
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   box-sizing: border-box;
-  margin-bottom: 2px;
+  margin-bottom: 5px;
   margin-left: 2px;
+  max-width: 110px;
+  width: 110px;
 }
+
+
+
+.sched-all-wrapper{
+  display: flex;
+  width: 600px;
+  height: 40px;
+  background-color: transparent;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 
 
 #notyetstarted_div {
