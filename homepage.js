@@ -828,7 +828,7 @@ function viewLatestAnnouncement() {
           document.getElementById(
             "announcement-div"
           ).style.backgroundImage = `url(assets/announcement/${latestAnnouncement.background_img || "4.png"
-            })`;
+          })`;
           date_announcement_lbl.style.color = "#323232";
           announcement_lbl.style.color = "#323232";
           time_announcement_lbl.style.color = "#323232";
@@ -1369,23 +1369,3 @@ document.querySelectorAll('input[name="year"]').forEach((radio) => {
 });
 
 
-function searchParseClass() {
-  const parentElement = document.getElementById("parseclass-default-div");
-
-  if (parentElement) {
-    const children = parentElement.children;
-
-    for (let i = 0; i < children.length; i++) {
-      const child = children[i];
-      if (child.id) {
-        console.log(`Child ${i + 1} ID:`, child.id);
-      } else {
-        console.log(`Child ${i + 1} has no ID`);
-      }
-    }
-  } else {
-    console.log("Parent element not found");
-  }
-}
-
-searchParseClass();
