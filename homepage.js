@@ -909,11 +909,23 @@ function loadTeacherSubjects() {
                                         value ="">
                                         <div class="parseclass-default-gradient">
                                         <span class="parsesched-default-span">
-                                        <label for="" class="parseclass-day-lbl"></label>
-                                        <label for="" class="parseclass-time-lbl"></label>
+                                        <div class='sched-all-container'>
+                                        <section class="sched-all-wrapper">
+                                        `
+                                        for (const schedule in subjectData[key].schedule){
+                                            parseClassAppend += `
+                                            <div class="parseclass-sched-single">
+                                            <label for="" class="parseclass-day-lbl">${subjectData[key].schedule[schedule].day} (${subjectData[key].schedule[schedule].room})</label>
+                                            <label for="" class="parseclass-time-lbl">${subjectData[key].schedule[schedule].start}-${subjectData[key].schedule[schedule].end}</label>
+                                            </div>
+                                            `
+                                        }
+                                        parseClassAppend += `
+                                        </section>
+                                        </div>
                                         </span>
                                         <span class="parseclass-default-span">
-                                        <label for="" class="parseclass-header-lbl">${subject} (${key})</label>
+                                        <label for="" class="parseclass-header-lbl">${subject} (${key})</label><br/>
                                         <label for="" class="parseclass-header-sublbl">${subjectData.name}</label>
                                         </span>
                                         </div>
