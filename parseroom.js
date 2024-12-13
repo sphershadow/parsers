@@ -46,6 +46,21 @@ window.addEventListener("load", async function () {
   if (user_parser_type === "teacher") {
     document.getElementById("monitor-btn").style.display = "flex";
   }
+  // getTeacherFullname(
+  //   localStorage.getItem("forparseroom-acadref"),
+  //   localStorage.getItem("forparseroom-acadref"),
+  //   "first-sem",
+  //   "AP 6",
+  //   "4B-Laravel"
+  // );
+
+  getTeacherFullname(
+    localStorage.getItem("parseroom-acadref"),
+    localStorage.getItem("parseroom-yearlvl"),
+    localStorage.getItem("parseroom-sem"),
+    localStorage.getItem("parseroom-code"),
+    localStorage.getItem("parseroom-section")
+  );
 });
 
 document.getElementById("game-2").addEventListener("click", (event) => {
@@ -85,8 +100,6 @@ document.getElementById("info-btn").addEventListener("click", (event) => {
     localStorage.getItem("parseroom-code");
   document.getElementById("cover-infodetail-bot").innerHTML =
     localStorage.getItem("parseroom-name");
-  document.getElementById("cover-infodetail-instructor").innerHTML =
-    "Instructor: " + localStorage.getItem("parser-fullname");
   document.getElementById("body-parseroom-div").style.animation =
     "parseroom-slideIn 0.6s ease-out forwards";
   document.getElementById("details-parseroom-div").style.animation =
@@ -668,4 +681,38 @@ async function loadCensoredWords() {
       censoredWordsArray.push(data);
     });
   });
+}
+async function getTeacherFullname(acadRef, yrlvl, sem, subject, section) {
+  console.log(
+    `PARSEIT/administration/parseclass/${acadRef}/${yrlvl}/${sem}/${subject}/${section}/teacher_id`
+  );
+  const usernameRef = child(
+    dbRef,
+    `PARSEIT/administration/parseclass/${acadRef}/${yrlvl}/${sem}/${subject}/${section}/teacher_id`
+  );
+  const snapshot = await get(usernameRef);
+  if (snapshot.exists()) {
+    const currentData = snapshot.val();
+    await getTeacherData(currentData);
+  }
+}
+
+async function getTeacherData(id) {
+  get(child(dbRef, "PARSEIT/administration/teachers/" + id)).then(
+    (snapshot) => {
+      if (snapshot.exists()) {
+        let suffix = "";
+        if (snapshot.val().suffix === "none") {
+          suffix = "";
+        }
+        document.getElementById("cover-infodetail-instructor").innerHTML =
+          "Instructor: " +
+          snapshot.val().firstname +
+          " " +
+          snapshot.val().lastname +
+          " " +
+          suffix;
+      }
+    }
+  );
 }

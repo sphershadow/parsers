@@ -65,10 +65,10 @@ window.addEventListener("load", async function () {
     if (parser[0].suffix === "none") {
       parser[0].suffix = "";
     }
-    localStorage.setItem(
-      "parser-fullname",
-      parser[0].firstname + " " + parser[0].lastname + " " + parser[0].suffix
-    );
+    // localStorage.setItem(
+    //   "parser-fullname",
+    //   parser[0].firstname + " " + parser[0].lastname + " " + parser[0].suffix
+    // );
     await getAcadStatus().then(() => {
       document.getElementById("homepage_div").style.display = "flex";
       viewLatestAnnouncement();
@@ -148,7 +148,6 @@ window.addEventListener("load", async function () {
         changeHomeLbl("lobby_title", "Home");
         selectNavIcon("homelobby_imgx");
         selectNavLbl("homelobby_lblx");
-
         //hide
         hideBodyWrapper("game_student_sec");
         hideBodyWrapper("library_student_sec");
@@ -1034,6 +1033,10 @@ function loadTeacherSubjects() {
                                         localStorage.setItem('parser-parseroom', '${subjectData[
                                           key
                                         ].parseclass_id.replace(/\s+/g, "")}');
+                                        localStorage.setItem('parseroom-acadref', '${acadref}');
+                                        localStorage.setItem('parseroom-sem', '${semesterToCheck}');
+                                        localStorage.setItem('parseroom-section', '${key}');
+                                        localStorage.setItem('parseroom-yearlvl', '${yearLevel}');
                                         localStorage.setItem('parseroom-code', '${subject}');
                                         localStorage.setItem('parseroom-name', '${
                                           subjectData.name
@@ -1132,6 +1135,10 @@ function loadStudentSubjects() {
                                                   /\s+/g,
                                                   ""
                                                 )}');
+                                                localStorage.setItem('parseroom-acadref', '${acadref}');
+                                                localStorage.setItem('parseroom-sem', '${semesterToCheck}');
+                                                localStorage.setItem('parseroom-section', '${section}');
+                                                localStorage.setItem('parseroom-yearlvl', '${yearLevel}');
                                                 localStorage.setItem('parseroom-code', '${subject}');
                                                 localStorage.setItem('parseroom-name', '${
                                                   subjectData.name
@@ -1232,6 +1239,10 @@ function reloadTeacherSubjects(year) {
                         localStorage.setItem('parser-parseroom', '${subjectData[
                           key
                         ].parseclass_id.replace(/\s+/g, "")}');
+                        localStorage.setItem('parseroom-acadref', '${acadref}');
+                        localStorage.setItem('parseroom-sem', '${semesterToCheck}');
+                        localStorage.setItem('parseroom-section', '${key}');
+                        localStorage.setItem('parseroom-yearlvl', '${year}');
                         localStorage.setItem('parseroom-code', '${subject}');
                         localStorage.setItem('parseroom-name', '${
                           subjectData.name
