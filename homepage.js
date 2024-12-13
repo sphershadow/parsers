@@ -496,6 +496,13 @@ document
 document.getElementById("reloadpage").addEventListener("click", (event) => {
   window.location.reload();
 });
+document.getElementById("searchparseclass_txt").addEventListener("input", (event) => {
+  document.getElementById('AP 1').style.display = 'none';
+});
+
+
+
+
 
 //functions
 function hideBackground(element) {
@@ -820,9 +827,8 @@ function viewLatestAnnouncement() {
             latestAnnouncement.time || "[Time not available]";
           document.getElementById(
             "announcement-div"
-          ).style.backgroundImage = `url(assets/announcement/${
-            latestAnnouncement.background_img || "4.png"
-          })`;
+          ).style.backgroundImage = `url(assets/announcement/${latestAnnouncement.background_img || "4.png"
+            })`;
           date_announcement_lbl.style.color = "#323232";
           announcement_lbl.style.color = "#323232";
           time_announcement_lbl.style.color = "#323232";
@@ -1027,20 +1033,19 @@ function loadTeacherSubjects() {
                     if (user_parser === subjectData[key].teacher_id) {
                       parseClassAppend += `
                                         <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(
-                                          /\s+/g,
-                                          ""
-                                        )}');
+                        /\s+/g,
+                        ""
+                      )}');
                                         localStorage.setItem('parser-parseroom', '${subjectData[
-                                          key
-                                        ].parseclass_id.replace(/\s+/g, "")}');
+                          key
+                        ].parseclass_id.replace(/\s+/g, "")}');
                                         localStorage.setItem('parseroom-acadref', '${acadref}');
                                         localStorage.setItem('parseroom-sem', '${semesterToCheck}');
                                         localStorage.setItem('parseroom-section', '${key}');
                                         localStorage.setItem('parseroom-yearlvl', '${yearLevel}');
                                         localStorage.setItem('parseroom-code', '${subject}');
-                                        localStorage.setItem('parseroom-name', '${
-                                          subjectData.name
-                                        }');
+                                        localStorage.setItem('parseroom-name', '${subjectData.name
+                        }');
                                         window.location.href = 'parseroom.html';" id=""
                                         style="background-image: url('assets/parseclass/${parseclass_img.toUpperCase()}.jpg');"
                                         value ="">
@@ -1126,23 +1131,22 @@ function loadStudentSubjects() {
                         const parseclass_img = subject.replace(/\s+/g, "");
                         parseClassAppend += `
                                                 <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(
-                                                  /\s+/g,
-                                                  ""
-                                                )}');
+                          /\s+/g,
+                          ""
+                        )}');
                                                 localStorage.setItem('parser-parseroom', '${subjectData[
-                                                  section
-                                                ].parseclass_id.replace(
-                                                  /\s+/g,
-                                                  ""
-                                                )}');
+                            section
+                          ].parseclass_id.replace(
+                            /\s+/g,
+                            ""
+                          )}');
                                                 localStorage.setItem('parseroom-acadref', '${acadref}');
                                                 localStorage.setItem('parseroom-sem', '${semesterToCheck}');
                                                 localStorage.setItem('parseroom-section', '${section}');
                                                 localStorage.setItem('parseroom-yearlvl', '${yearLevel}');
                                                 localStorage.setItem('parseroom-code', '${subject}');
-                                                localStorage.setItem('parseroom-name', '${
-                                                  subjectData.name
-                                                }');
+                                                localStorage.setItem('parseroom-name', '${subjectData.name
+                          }');
                                                 window.location.href = 'parseroom.html';" id=""
                                                 style="background-image: url('assets/parseclass/${parseclass_img.toUpperCase()}.jpg');"
                                                 value ="">
@@ -1233,20 +1237,19 @@ function reloadTeacherSubjects(year) {
                   if (user_parser === subjectData[key].teacher_id) {
                     parseClassAppend += `
                         <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(
-                          /\s+/g,
-                          ""
-                        )}');
+                      /\s+/g,
+                      ""
+                    )}');
                         localStorage.setItem('parser-parseroom', '${subjectData[
-                          key
-                        ].parseclass_id.replace(/\s+/g, "")}');
+                        key
+                      ].parseclass_id.replace(/\s+/g, "")}');
                         localStorage.setItem('parseroom-acadref', '${acadref}');
                         localStorage.setItem('parseroom-sem', '${semesterToCheck}');
                         localStorage.setItem('parseroom-section', '${key}');
                         localStorage.setItem('parseroom-yearlvl', '${year}');
                         localStorage.setItem('parseroom-code', '${subject}');
-                        localStorage.setItem('parseroom-name', '${
-                          subjectData.name
-                        }');
+                        localStorage.setItem('parseroom-name', '${subjectData.name
+                      }');
                         window.location.href = 'parseroom.html';" id=""
                         style="background-image: url('assets/parseclass/${parseclass_img.toUpperCase()}.jpg');"
                         value ="">
@@ -1364,3 +1367,25 @@ function displaySelectedYear() {
 document.querySelectorAll('input[name="year"]').forEach((radio) => {
   radio.addEventListener("click", displaySelectedYear);
 });
+
+
+function searchParseClass() {
+  const parentElement = document.getElementById("parseclass-default-div");
+
+  if (parentElement) {
+    const children = parentElement.children;
+
+    for (let i = 0; i < children.length; i++) {
+      const child = children[i];
+      if (child.id) {
+        console.log(`Child ${i + 1} ID:`, child.id);
+      } else {
+        console.log(`Child ${i + 1} has no ID`);
+      }
+    }
+  } else {
+    console.log("Parent element not found");
+  }
+}
+
+searchParseClass();
