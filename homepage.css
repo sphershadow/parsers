@@ -497,13 +497,13 @@ body {
 .parseclass-default-wrapper {
   width: 100%;
   height: 100px;
-  margin-top: 10px;
   border: 0.5px solid #dcdcdc;
   flex-shrink: 0;
   border-radius: 5px;
   box-sizing: border-box;
   background-color: #fefefe;
   text-overflow: ellipsis;
+  margin-bottom: 10px;
 }
 
 .parseclass-default-gradient {
@@ -535,7 +535,6 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   width: 94%;
-  
 }
 
 .parseclass-header-lbl {
@@ -543,7 +542,6 @@ body {
   font-family: Inter-Bold;
   font-size: 18px;
   text-shadow: 0.1em 0.1em 0 hsl(100 10% 25%);
-  
 }
 .parseclass-header-sublbl {
   color: #fefefe;
@@ -559,7 +557,6 @@ body {
   overflow: hidden;
   display: flex;
   opacity: 1;
-  
 }
 
 .parseclass-day-lbl {
@@ -568,7 +565,6 @@ body {
   font-size: 12px;
   background-color: transparent;
   margin-bottom: -10px;
-  
 }
 .parseclass-time-lbl {
   color: #fefefe;
@@ -587,20 +583,17 @@ body {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  
-  
 }
-.sched-all-container{
+.sched-all-container {
   width: 330px;
   height: 40px;
   box-sizing: border-box;
   background-color: transparent;
   overflow-x: auto;
   scrollbar-width: none;
-  
 }
 
-.parseclass-sched-single{
+.parseclass-sched-single {
   display: flex;
   flex-direction: column;
   margin-right: 10px;
@@ -612,7 +605,7 @@ body {
   border-radius: 2px;
   justify-content: center;
   align-items: center;
-  background-color: rgba(165, 165, 165, 0.5); 
+  background-color: rgba(165, 165, 165, 0.5);
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   box-sizing: border-box;
   margin-bottom: 5px;
@@ -621,9 +614,7 @@ body {
   width: 110px;
 }
 
-
-
-.sched-all-wrapper{
+.sched-all-wrapper {
   display: flex;
   width: 600px;
   height: 40px;
@@ -631,8 +622,6 @@ body {
   justify-content: flex-start;
   align-items: center;
 }
-
-
 
 #notyetstarted_div {
   /* display: flex; */
@@ -875,11 +864,36 @@ body {
   font-family: Inter-Medium;
 }
 
+#class-sort {
+  width: 100%;
+  height: 40px;
+  background-color: transparent;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
+  overflow: scroll;
+  scrollbar-width: none;
+}
+.class-sort-wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  vertical-align: middle;
+  margin-right: 10px;
+  color: #898989;
+}
 .select-bg-img {
   width: 12px;
   margin-right: 5px;
   opacity: 0.7;
   display: none;
+}
+
+.radio-list-class {
+  margin-bottom: 5px;
+  margin-right: 5px;
+  accent-color: #f30505;
 }
 
 .select-bg-head {
