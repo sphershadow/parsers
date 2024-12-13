@@ -76,6 +76,9 @@ document.getElementById("info-btn").addEventListener('click', (event) => {
     document.getElementById("cover-infodetail-bot").innerHTML = localStorage.getItem("parseroom-name");
     document.getElementById("body-parseroom-div").style.animation = "parseroom-slideIn 0.6s ease-out forwards";
     document.getElementById("details-parseroom-div").style.animation = "parseroom-slideIn 0.6s ease-out forwards";
+    const coverimg = localStorage.getItem('parseroom-code').replace(/\s+/g, "");
+    document.getElementById('game-2').style.backgroundImage =`url(assets/parseclass/${coverimg}.jpg)`; 
+
     
 });
 document.getElementById("whispermessage-btn").addEventListener('click', (event) => {

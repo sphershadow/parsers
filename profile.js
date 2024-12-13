@@ -51,7 +51,7 @@ window.addEventListener("load", async function () {
 //     document.getElementById("details-parseroom-div").style.animation = "parseroom-slideIn 0.6s ease-out forwards";
 // });
 
-document.getElementById("profile-banner").addEventListener('click', (event) => {
+document.getElementById("editbanner-btn").addEventListener('click', (event) => {
     document.getElementById("changeCover").style.display = "block";
     document.getElementById("body-parseroom-div").style.animation = "parseroom-slideIn 0.6s ease-out forwards";
     document.getElementById("details-parseroom-div").style.animation = "parseroom-slideIn 0.6s ease-out forwards";

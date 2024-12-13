@@ -91,6 +91,7 @@ window.addEventListener("load", async function () {
                 hideBodyWrapper("honors_teacher_sec");
                 hideBodyWrapper("chatgpt_all_sec");
                 hideBodyWrapper("share_teacher_sec");
+                hideBodyWrapper("quiz_teacher_sec");
 
                 revertNavIcon("homegame_img");
                 revertNavLbl("homegame_lbl");
@@ -104,11 +105,14 @@ window.addEventListener("load", async function () {
                 revertNavIcon("homechatbot_img");
                 revertNavLbl("homechatbot_lbl");
 
-                revertNavIcon("homechatbot_imgx");
-                revertNavLbl("homechatbot_lblx");
+                // revertNavIcon("homechatbot_imgx");
+                // revertNavLbl("homechatbot_lblx");
 
                 revertNavIcon("homeshare_img");
                 revertNavLbl("homeshare_lbl");
+
+                revertNavIcon("homequiz_img");
+                revertNavLbl("homequiz_lbl");
             }
             else {
                 document.getElementById("teacher_nav").style.display = "flex";
@@ -138,6 +142,7 @@ window.addEventListener("load", async function () {
                 hideBodyWrapper("honors_teacher_sec");
                 hideBodyWrapper("chatgpt_all_sec");
                 hideBodyWrapper("share_teacher_sec");
+                hideBodyWrapper("quiz_teacher_sec");
 
                 revertNavIcon("homegame_img");
                 revertNavLbl("homegame_lbl");
@@ -151,11 +156,14 @@ window.addEventListener("load", async function () {
                 revertNavIcon("homechatbot_img");
                 revertNavLbl("homechatbot_lbl");
 
-                revertNavIcon("homechatbot_imgx");
-                revertNavLbl("homechatbot_lblx");
+                // revertNavIcon("homechatbot_imgx");
+                // revertNavLbl("homechatbot_lblx");
 
                 revertNavIcon("homeshare_img");
                 revertNavLbl("homeshare_lbl");
+
+                revertNavIcon("homequiz_img");
+                revertNavLbl("homequiz_lbl");
             }
         });
     });
@@ -185,6 +193,10 @@ document.getElementById("homelobby_btn").addEventListener("click", function () {
     hideBodyWrapper("chatgpt_all_sec");
     revertNavIcon("homechatbot_img");
     revertNavLbl("homechatbot_lbl");
+
+    hideBodyWrapper("quiz_teacher_sec");
+    revertNavIcon("homequiz_img");
+    revertNavLbl("homequiz_lbl");
 });
 document.getElementById("homegame_btn").addEventListener("click", function () {
     showBodyWrapper("game_student_sec");
@@ -204,6 +216,10 @@ document.getElementById("homegame_btn").addEventListener("click", function () {
     hideBodyWrapper("chatgpt_all_sec");
     revertNavIcon("homechatbot_img");
     revertNavLbl("homechatbot_lbl");
+
+    hideBodyWrapper("quiz_teacher_sec");
+    revertNavIcon("homequiz_img");
+    revertNavLbl("homequiz_lbl");
 });
 document.getElementById("homelibrary_btn").addEventListener("click", function () {
     showBodyWrapper("library_student_sec");
@@ -223,6 +239,10 @@ document.getElementById("homelibrary_btn").addEventListener("click", function ()
     hideBodyWrapper("chatgpt_all_sec");
     revertNavIcon("homechatbot_img");
     revertNavLbl("homechatbot_lbl");
+
+    hideBodyWrapper("quiz_teacher_sec");
+    revertNavIcon("homequiz_img");
+    revertNavLbl("homequiz_lbl");
 });
 document.getElementById("homechatbot_btn").addEventListener("click", function () {
     showBodyWrapper("chatgpt_all_sec");
@@ -242,6 +262,10 @@ document.getElementById("homechatbot_btn").addEventListener("click", function ()
     hideBodyWrapper("library_student_sec");
     revertNavIcon("homelibrary_img");
     revertNavLbl("homelibrary_lbl");
+
+    hideBodyWrapper("quiz_teacher_sec");
+    revertNavIcon("homequiz_img");
+    revertNavLbl("homequiz_lbl");
 });
 document.getElementById("homelobby_btnx").addEventListener("click", function () {
     showBodyWrapper("home_all_sec");
@@ -258,9 +282,13 @@ document.getElementById("homelobby_btnx").addEventListener("click", function () 
     revertNavIcon("homeshare_img");
     revertNavLbl("homeshare_lbl");
 
-    hideBodyWrapper("chatgpt_all_sec");
-    revertNavIcon("homechatbot_imgx");
-    revertNavLbl("homechatbot_lblx");
+    // hideBodyWrapper("chatgpt_all_sec");
+    // revertNavIcon("homechatbot_imgx");
+    // revertNavLbl("homechatbot_lblx");
+
+    hideBodyWrapper("quiz_teacher_sec");
+    revertNavIcon("homequiz_img");
+    revertNavLbl("homequiz_lbl");
 });
 document.getElementById("homehonors_btn").addEventListener("click", function () {
     showBodyWrapper("honors_teacher_sec");
@@ -277,9 +305,13 @@ document.getElementById("homehonors_btn").addEventListener("click", function () 
     revertNavIcon("homeshare_img");
     revertNavLbl("homeshare_lbl");
 
-    hideBodyWrapper("chatgpt_all_sec");
-    revertNavIcon("homechatbot_imgx");
-    revertNavLbl("homechatbot_lblx");
+    // hideBodyWrapper("chatgpt_all_sec");
+    // revertNavIcon("homechatbot_imgx");
+    // revertNavLbl("homechatbot_lblx");
+
+    hideBodyWrapper("quiz_teacher_sec");
+    revertNavIcon("homequiz_img");
+    revertNavLbl("homequiz_lbl");
 });
 document.getElementById("homeshare_btn").addEventListener("click", function () {
     showBodyWrapper("share_teacher_sec");
@@ -297,15 +329,39 @@ document.getElementById("homeshare_btn").addEventListener("click", function () {
     revertNavIcon("homehonors_img");
     revertNavLbl("homehonors_lbl");
 
-    hideBodyWrapper("chatgpt_all_sec");
-    revertNavIcon("homechatbot_imgx");
-    revertNavLbl("homechatbot_lblx");
+    // hideBodyWrapper("chatgpt_all_sec");
+    // revertNavIcon("homechatbot_imgx");
+    // revertNavLbl("homechatbot_lblx");
+
+    hideBodyWrapper("quiz_teacher_sec");
+    revertNavIcon("homequiz_img");
+    revertNavLbl("homequiz_lbl");
 });
-document.getElementById("homechatbot_btnx").addEventListener("click", function () {
-    showBodyWrapper("chatgpt_all_sec");
-    selectNavIcon("homechatbot_imgx");
-    selectNavLbl("homechatbot_lblx");
-    changeHomeLbl("lobby_title", "ChatBot");
+// document.getElementById("homechatbot_btnx").addEventListener("click", function () {
+//     showBodyWrapper("chatgpt_all_sec");
+//     selectNavIcon("homechatbot_imgx");
+//     selectNavLbl("homechatbot_lblx");
+//     changeHomeLbl("lobby_title", "ChatBot");
+
+//     //revert
+//     hideBodyWrapper("home_all_sec");
+//     revertNavIcon("homelobby_imgx");
+//     revertNavLbl("homelobby_lblx");
+
+//     hideBodyWrapper("honors_teacher_sec");
+//     revertNavIcon("homehonors_img");
+//     revertNavLbl("homehonors_lbl");
+
+//     hideBodyWrapper("share_teacher_sec");
+//     revertNavIcon("homeshare_img");
+//     revertNavLbl("homeshare_lbl");
+// });
+
+document.getElementById("homequiz_btn").addEventListener("click", function () {
+    showBodyWrapper("quiz_teacher_sec");
+    selectNavIcon("homequiz_img");
+    selectNavLbl("homequiz_lbl");
+    changeHomeLbl("lobby_title", "Quiz");
 
     //revert
     hideBodyWrapper("home_all_sec");
@@ -319,6 +375,12 @@ document.getElementById("homechatbot_btnx").addEventListener("click", function (
     hideBodyWrapper("share_teacher_sec");
     revertNavIcon("homeshare_img");
     revertNavLbl("homeshare_lbl");
+
+    // hideBodyWrapper("chatgpt_all_sec");
+    // revertNavIcon("homechatbot_imgx");
+    // revertNavLbl("homechatbot_lblx");
+
+    
 });
 document.getElementById("game-1").addEventListener("click", function () {
     window.location.href = "https://parseitlearninghub.github.io/game-flipcard/";

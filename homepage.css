@@ -309,6 +309,10 @@ body {
 #honors_teacher_sec {
   background-color: blue;
 }
+#quiz_teacher_sec {
+  background-color: pink;
+}
+
 #share_teacher_sec {
   background-color: transparent;
   display: flex;
