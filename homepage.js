@@ -992,17 +992,27 @@ function loadStudentSubjects() {
                                                 style="background-image: url('assets/parseclass/${parseclass_img.toUpperCase()}.jpg');"
                                                 value ="">
                                                 <div class="parseclass-default-gradient">
-                                                <span class="parsesched-default-span">
-                                                <label for="" class="parseclass-day-lbl"></label>
-                                                <label for="" class="parseclass-time-lbl"></label>
-                                                </span>
-                                                <span class="parseclass-default-span">
-                                                <label for="" class="parseclass-header-lbl">${subject} (${section})</label>
-                                                <label for="" class="parseclass-header-sublbl">${subjectData.name}</label>
-                                                </span>
-                                                </div>
-                                                </div>`
-                                                parseclass_cont.innerHTML = parseClassAppend;
+                                                <span class="parsesched-default-span"><div class='sched-all-container'>`
+                                                
+                                                for (const schedule in subjectData[section].schedule){
+                                                        
+                                                        parseClassAppend += `
+                                                    <div class="parseclass-sched-single">
+                                                    <label for="" class="parseclass-day-lbl">${subjectData[section].schedule[schedule].day}</label>
+                                                    <label for="" class="parseclass-time-lbl">${subjectData[section].schedule[schedule].start}-${subjectData[section].schedule[schedule].end}</label>
+                                                    </div>
+                                                    `
+                                                    }
+                                                    parseClassAppend += `
+                                                    </div>
+                                                    </span>
+                                                    <span class="parseclass-default-span">
+                                                    <label for="" class="parseclass-header-lbl">${subject} (${section})</label><br/>
+                                                    <label for="" class="parseclass-header-sublbl">${subjectData.name}</label>
+                                                    </span>
+                                                    </div>
+                                                    </div>`
+                                                    parseclass_cont.innerHTML = parseClassAppend;
                                             //}
                                         }
                                     }

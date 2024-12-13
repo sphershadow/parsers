@@ -491,6 +491,7 @@ body {
   overflow-x: scroll;
   scrollbar-width: none;
   padding-bottom: 80%;
+  text-overflow: ellipsis;
 }
 
 .parseclass-default-wrapper {
@@ -502,6 +503,7 @@ body {
   border-radius: 5px;
   box-sizing: border-box;
   background-color: #fefefe;
+  text-overflow: ellipsis;
 }
 
 .parseclass-default-gradient {
@@ -517,6 +519,7 @@ body {
   align-items: flex-start;
   flex-direction: column;
   gap: 0px;
+  text-overflow: ellipsis;
 }
 
 .parseclass-default-span {
@@ -526,9 +529,13 @@ body {
   margin-left: 10px;
   font-size: 18px;
   background-color: transparent;
-  display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 94%;
+  
 }
 
 .parseclass-header-lbl {
@@ -536,6 +543,7 @@ body {
   font-family: Inter-Bold;
   font-size: 18px;
   text-shadow: 0.1em 0.1em 0 hsl(100 10% 25%);
+  
 }
 .parseclass-header-sublbl {
   color: #fefefe;
@@ -551,34 +559,65 @@ body {
   overflow: hidden;
   display: flex;
   opacity: 1;
+  
+}
+.sched-all-container{
+  display: flex;
+  width: 500px;
+  height: 40px;
+  box-sizing: border-box;
+  background-color: transparent;
+  overflow: scroll;
+  scrollbar-width: none;
 }
 
 .parseclass-day-lbl {
   color: #fefefe;
   font-family: Inter-Bold;
-  font-size: 14px;
+  font-size: 12px;
   background-color: transparent;
-  margin-top: 10px;
+  margin-bottom: -10px;
+  
 }
 .parseclass-time-lbl {
   color: #fefefe;
   font-family: Inter-Light;
-  font-size: 12px;
+  font-size: 10px;
   background-color: transparent;
-  margin-top: 12px;
-  margin-left: 5px;
+  margin-top: 10px;
 }
 
 .parsesched-default-span {
   color: #fefefe;
   font-family: Inter-Light;
-  margin-bottom: 10px;
   margin-left: 10px;
   font-size: 18px;
   background-color: transparent;
   display: flex;
   justify-content: flex-start;
+  align-items: flex-start;
+  
+  
 }
+.parseclass-sched-single{
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+  outline: 0.5px solid #dcdcdc;
+  margin-top: 10px;
+  padding: 3px;
+  padding-top: 1px;
+  padding-bottom: 2px;
+  border-radius: 2px;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(165, 165, 165, 0.5); 
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  box-sizing: border-box;
+  margin-bottom: 2px;
+  margin-left: 2px;
+}
+
 
 #notyetstarted_div {
   /* display: flex; */
