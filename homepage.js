@@ -979,21 +979,7 @@ function loadStudentSubjects() {
                                                 // let startSched = '';
                                                 // let endSched = '';
                                                 // let daySched = 'No Schedule Today';
-                                                // if(scheduleItem.day === returnCurrentDay()){
-                                                //     const startObject = convertToTimeObject(scheduleItem.start);
-                                                //     const endObject = convertToTimeObject(scheduleItem.end);
-                                                //     //console.log(startObject, endObject);
-                                                   
-                                                //     if (isTimeInRange(startObject, endObject)) {
-                                                //         //console.log("The current time is between");
-                                                //         startSched = scheduleItem.start;
-                                                //         endSched = scheduleItem.end;
-                                                //         daySched = scheduleItem.day;
-                                                //     }
-                                                // }
-                                                // else{
-                                                //     daySched = 'No Schedule Today';
-                                                // }
+                                                
                                                 const parseclass_img = subject.replace(/\s+/g, "");
                                                 parseClassAppend += `
                                                 <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(/\s+/g, "")}');
@@ -1008,26 +994,37 @@ function loadStudentSubjects() {
                                                 <section class="sched-all-wrapper">`
                                                 
                                                 for (const schedule in subjectData[section].schedule){
-                                                        
+                                                    if(subjectData[section].schedule[schedule].day === returnCurrentDay()){
+                                                        // const startObject = convertToTimeObject(scheduleItem.start);
+                                                        // const endObject = convertToTimeObject(scheduleItem.end);
+                                                        //console.log(startObject, endObject);
+                                                       
+                                                        // if (isTimeInRange(startObject, endObject)) {
+                                                        //     //console.log("The current time is between");
+                                                        //     startSched = scheduleItem.start;
+                                                        //     endSched = scheduleItem.end;
+                                                        //     daySched = scheduleItem.day;
+                                                        // }
+    
                                                         parseClassAppend += `
-                                                    <div class="parseclass-sched-single">
-                                                    <label for="" class="parseclass-day-lbl">${subjectData[section].schedule[schedule].day} (${subjectData[section].schedule[schedule].room})</label>
-                                                    <label for="" class="parseclass-time-lbl">${subjectData[section].schedule[schedule].start}-${subjectData[section].schedule[schedule].end}</label>
-                                                    </div>
-                                                    `
+                                                        <div class="parseclass-sched-single">
+                                                        <label for="" class="parseclass-day-lbl">${subjectData[section].schedule[schedule].day} (${subjectData[section].schedule[schedule].room})</label>
+                                                        <label for="" class="parseclass-time-lbl">${subjectData[section].schedule[schedule].start}-${subjectData[section].schedule[schedule].end}</label>
+                                                        </div>
+                                                        `
                                                     }
-                                                    parseClassAppend += `
-                                                    </section>
-                                                    </div>
-                                                    </span>
-                                                    <span class="parseclass-default-span">
-                                                    <label for="" class="parseclass-header-lbl">${subject} (${section})</label><br/>
-                                                    <label for="" class="parseclass-header-sublbl">${subjectData.name}</label>
-                                                    </span>
-                                                    </div>
-                                                    </div>`
-                                                    parseclass_cont.innerHTML = parseClassAppend;
-                                            //}
+                                                }
+                                            parseClassAppend += `
+                                            </section>
+                                            </div>
+                                            </span>
+                                            <span class="parseclass-default-span">
+                                            <label for="" class="parseclass-header-lbl">${subject} (${section})</label><br/>
+                                            <label for="" class="parseclass-header-sublbl">${subjectData.name}</label>
+                                            </span>
+                                            </div>
+                                            </div>`
+                                            parseclass_cont.innerHTML = parseClassAppend;
                                         }
                                     }
                                 }
@@ -1047,7 +1044,7 @@ function loadStudentSubjects() {
 function returnCurrentDay(){
     const today = new Date();
     const dayOfWeek = today.getDay();
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     return days[dayOfWeek];
 }
 function isTimeInRange(startTime, endTime) {
