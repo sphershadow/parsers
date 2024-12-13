@@ -345,6 +345,7 @@ async function submitWhisperMessage() {
                 document.getElementById("parsermessage-txt").style.border = "0.4px solid #dcdcdc";
                 document.getElementById("sendmessage-btn").style.display = "none";
                 document.getElementById("whispermessage-btn").style.display = "block";
+                document.getElementById("parsermessage-txt").style.height = '40px';
                 showWhisperTheme();
                 showPrivateMessages();
             } catch (error) {
