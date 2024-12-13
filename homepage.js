@@ -57,6 +57,8 @@ let status = [
   },
 ];
 
+let allsubjects = [];
+
 setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", async function () {
   document.getElementById("loading_animation_div").style.display = "none";
@@ -496,9 +498,7 @@ document
 document.getElementById("reloadpage").addEventListener("click", (event) => {
   window.location.reload();
 });
-document.getElementById("searchparseclass_txt").addEventListener("input", (event) => {
-  document.getElementById('AP 1').style.display = 'none';
-});
+
 
 
 
@@ -1031,8 +1031,13 @@ function loadTeacherSubjects() {
                   } else {
                     const parseclass_img = subject.replace(/\s+/g, "");
                     if (user_parser === subjectData[key].teacher_id) {
+                      allsubjects.length = 0;
+                      allsubjects.push(subject);
+                      allsubjects.push(subjectData.name);
+                      allsubjects.push(key);
+
                       parseClassAppend += `
-                                        <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(
+                                        <div id="${parseclass_img}" data-id="${subject} ${subjectData.name} ${key}" class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(
                         /\s+/g,
                         ""
                       )}');
@@ -1046,7 +1051,7 @@ function loadTeacherSubjects() {
                                         localStorage.setItem('parseroom-code', '${subject}');
                                         localStorage.setItem('parseroom-name', '${subjectData.name
                         }');
-                                        window.location.href = 'parseroom.html';" id=""
+                                        window.location.href = 'parseroom.html';" 
                                         style="background-image: url('assets/parseclass/${parseclass_img.toUpperCase()}.jpg');"
                                         value ="">
                                         <div class="parseclass-default-gradient">
@@ -1077,6 +1082,7 @@ function loadTeacherSubjects() {
                                         </span>
                                         </div>
                                         </div>`;
+
                       parseclass_cont.innerHTML = parseClassAppend;
                     }
                   }
@@ -1127,10 +1133,13 @@ function loadStudentSubjects() {
                         // let startSched = '';
                         // let endSched = '';
                         // let daySched = 'No Schedule Today';
-
+                        allsubjects.length = 0;
+                        allsubjects.push(subject);
+                        allsubjects.push(subjectData.name);
+                        allsubjects.push(section);
                         const parseclass_img = subject.replace(/\s+/g, "");
                         parseClassAppend += `
-                                                <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(
+                                                <div id="${parseclass_img}" data-id="${subject} ${subjectData.name} ${section}" class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(
                           /\s+/g,
                           ""
                         )}');
@@ -1147,7 +1156,7 @@ function loadStudentSubjects() {
                                                 localStorage.setItem('parseroom-code', '${subject}');
                                                 localStorage.setItem('parseroom-name', '${subjectData.name
                           }');
-                                                window.location.href = 'parseroom.html';" id=""
+                                                window.location.href = 'parseroom.html';"
                                                 style="background-image: url('assets/parseclass/${parseclass_img.toUpperCase()}.jpg');"
                                                 value ="">
                                                 <div class="parseclass-default-gradient">
@@ -1235,8 +1244,12 @@ function reloadTeacherSubjects(year) {
                 } else {
                   const parseclass_img = subject.replace(/\s+/g, "");
                   if (user_parser === subjectData[key].teacher_id) {
+                    allsubjects.length = 0;
+                    allsubjects.push(subject);
+                    allsubjects.push(subjectData.name);
+                    allsubjects.push(key);
                     parseClassAppend += `
-                        <div class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(
+                        <div id="${parseclass_img}" data-id="${subject} ${subjectData.name} ${key}" class="parseclass-default-wrapper parseclass" onclick="localStorage.setItem('parser-username', '${username.replace(
                       /\s+/g,
                       ""
                     )}');
@@ -1250,7 +1263,7 @@ function reloadTeacherSubjects(year) {
                         localStorage.setItem('parseroom-code', '${subject}');
                         localStorage.setItem('parseroom-name', '${subjectData.name
                       }');
-                        window.location.href = 'parseroom.html';" id=""
+                        window.location.href = 'parseroom.html';" 
                         style="background-image: url('assets/parseclass/${parseclass_img.toUpperCase()}.jpg');"
                         value ="">
                         <div class="parseclass-default-gradient">
@@ -1368,4 +1381,39 @@ document.querySelectorAll('input[name="year"]').forEach((radio) => {
   radio.addEventListener("click", displaySelectedYear);
 });
 
+document.getElementById("searchparseclass_txt").addEventListener("input", (event) => {
+  updateResults();
+});
 
+function fuzzy_match(text, search) {
+  search = search.replace(/\s/g, '').toLowerCase();
+  let search_position = 0;
+
+  for (let n = 0; n < text.length; n++) {
+    let text_char = text[n];
+    if (search_position < search.length && text_char.toLowerCase() === search[search_position]) {
+      search_position += 1;
+    }
+  }
+  return search_position === search.length;
+}
+
+function updateResults() {
+  const searchInput = document.getElementById("searchparseclass_txt").value;
+
+  const subjectElements = document.querySelectorAll('.parseclass-default-wrapper');
+
+  subjectElements.forEach(subject => {
+    const subjectText = subject.dataset.id;
+    const isMatch = fuzzy_match(subjectText, searchInput);
+
+    if (isMatch) {
+      subject.classList.remove('hidden');
+      subject.classList.add('highlight');
+    } else {
+      // Hide the element if no match
+      subject.classList.add('hidden');
+      subject.classList.remove('highlight');
+    }
+  });
+}

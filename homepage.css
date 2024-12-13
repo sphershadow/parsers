@@ -1117,3 +1117,10 @@ body {
   font-size: 11px;
   padding-top: 0%;
 }
+
+.hidden {
+  display: none;
+}
+.highlight {
+  display: flex;
+}
