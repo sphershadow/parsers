@@ -999,7 +999,7 @@ function loadStudentSubjects() {
                                                         
                                                         parseClassAppend += `
                                                     <div class="parseclass-sched-single">
-                                                    <label for="" class="parseclass-day-lbl">${subjectData[section].schedule[schedule].day}</label>
+                                                    <label for="" class="parseclass-day-lbl">${subjectData[section].schedule[schedule].day} (${subjectData[section].schedule[schedule].room})</label>
                                                     <label for="" class="parseclass-time-lbl">${subjectData[section].schedule[schedule].start}-${subjectData[section].schedule[schedule].end}</label>
                                                     </div>
                                                     `
