@@ -1,0 +1,146 @@
+@font-face {
+  font-family: "Inter-Regular";
+  src: url("/assets/fonts/Inter-Regular.otf");
+}
+
+@font-face {
+  font-family: "Inter-Bold";
+  src: url("/assets/fonts/Inter-Bold.otf");
+}
+@font-face {
+  font-family: "Inter-Light";
+  src: url("/assets/fonts/Inter-Light.otf");
+}
+@font-face {
+  font-family: "Inter-Medium";
+  src: url("/assets/fonts/Inter-Medium.otf");
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #fefefe;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-image: url("/assets/game_background/main_bg_dark.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#loading_animation_div {
+  height: 100%;
+  width: 100%;
+  background-color: #fefefe;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+#loading_animation_gif {
+  height: 50px;
+  width: 50px;
+}
+
+#parsing_lbl {
+  font-family: Inter-Regular;
+  color: #f30505;
+  margin-top: 15px;
+  font-size: 12px;
+}
+
+.header_div {
+  height: 80px;
+  width: 100%;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.body_div {
+  width: 100%;
+  background-color: transparent;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  flex: 1;
+}
+
+.pushable {
+  background: hsl(340deg 100% 32%);
+  border-radius: 10px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline-offset: 4px;
+  height: 54px;
+  margin-top: 5px;
+  margin-left: 10px;
+}
+.front {
+  display: block;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 1.25rem;
+  background: hsl(355, 100%, 47%);
+  color: white;
+  transform: translateY(-6px);
+}
+
+.pushable:active .front {
+  transform: translateY(-2px);
+}
+
+.home_img {
+  width: 20px;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%)
+    hue-rotate(225deg) brightness(106%) contrast(106%);
+}
+
+.parseit_banner {
+  height: 150px;
+  width: 100%;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner_img {
+  margin-top: 20px;
+  width: 220px;
+  animation: popAndBounce 0.6s ease-out;
+}
+
+@keyframes popAndBounce {
+  0% {
+    transform: scale(0.95); /* Slightly smaller to start */
+  }
+  50% {
+    transform: scale(1.05); /* Pop-out slightly larger */
+  }
+  70% {
+    transform: scale(0.98); /* Subtle shrink for bounce effect */
+  }
+  100% {
+    transform: scale(1); /* Return to normal size */
+  }
+}
+
+.home_menu {
+  width: 100%;
+  flex: 1;
+  background-color: yellow;
+}
