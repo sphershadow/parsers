@@ -2,7 +2,7 @@ setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", async function () {
   document.getElementById("loading_animation_div").style.display = "none";
 });
-window.addEventListener("resize", async function () { setScreenSize(window.innerWidth, window.innerHeight); });
+
 
 document.getElementById("home_btn").addEventListener("click", function () {
   window.location.href = "../homepage.html";
