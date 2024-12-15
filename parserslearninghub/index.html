@@ -5,12 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Parsers Learning Hub</title>
     <link rel="stylesheet" href="index.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
   </head>
   <body>
     <!-- Loading Animation -->
     <div id="loading_animation_div">
       <img id="loading_animation_gif" src="assets/loading_animation.gif" />
       <h1 id="parsing_lbl">Parsing...</h1>
+    </div>
+
+    <!-- Join Quiz -->
+    <div class="entercode_div" id="entercode_div">
+      <section class="joincode-header-wrapper">
+        <button class="pushable" id="returnjoinquiz_btn">
+          <span class="front"
+            ><img class="home_img" src="assets/icons/arrow-left-solid.svg"
+          /></span>
+        </button>
+      </section>
+
+      <section class="joincode-body-wrapper">
+        <input type="text" class="entercode_txt" id="entercode_txt" />
+        <button class="pushable joinquiz-pushable" id="submit_code_btn">
+          <span class="front joinquiz-front">Join Quiz</span>
+        </button>
+      </section>
     </div>
 
     <div class="header_div">
@@ -25,7 +45,7 @@
         <img class="banner_img" src="assets/icons/parseit_banner.png" />
       </section>
       <section class="home_menu">
-        <div class="joinquiz_div">
+        <div class="joinquiz_div" id="joinquiz_btn">
           <section class="top_joinquiz">
             <img class="iconjoin_img" src="assets/icons/join_quiz.png" />
           </section>
