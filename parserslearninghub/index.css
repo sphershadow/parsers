@@ -19,10 +19,6 @@
 body {
   margin: 0;
   padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
   background-color: #fefefe;
   width: 100vw;
   height: 100vh;
@@ -31,6 +27,7 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  overflow: hidden;
 }
 
 #loading_animation_div {
