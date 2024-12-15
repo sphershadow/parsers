@@ -394,7 +394,7 @@ body {
 }
 #game-2 {
   position: relative;
-  background-image: url(assets/game_background/fruitmania.jpg);
+  background-image: url(assets/game_background/fruitmania.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
