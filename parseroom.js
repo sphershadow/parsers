@@ -128,6 +128,29 @@ document
     scrollToBottom();
   });
 
+document.getElementById("check_bulletin").addEventListener("click", (event) => {
+  event.preventDefault();
+  document.getElementById("nofeature").style.display = "flex";
+  setTimeout(() => {
+    document.getElementById("nofeature").style.display = "none";
+  }, 1000);
+});
+document.getElementById("see_members").addEventListener("click", (event) => {
+  event.preventDefault();
+  document.getElementById("nofeature").style.display = "flex";
+  setTimeout(() => {
+    document.getElementById("nofeature").style.display = "none";
+  }, 1000);
+});
+document.getElementById("check_discussionroom").addEventListener("click", (event) => {
+  event.preventDefault();
+  document.getElementById("nofeature").style.display = "flex";
+  setTimeout(() => {
+    document.getElementById("nofeature").style.display = "none";
+  }, 1000);
+});
+
+
 //functions
 async function setScreenSize(width, height) {
   document.body.style.width = width + "px";

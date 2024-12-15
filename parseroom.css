@@ -53,6 +53,33 @@ body {
   font-size: 12px;
 }
 
+.nofeature {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: "Inter-Bold";
+  overflow: hidden;
+  z-index: 1000;
+  font-size: 16px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.nofeature-wrapper {
+  width: 70%;
+  height: 100px;
+  background-color: #fefefe;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
 .home-parseroom-div {
   background-color: #fefefe;
   width: 100%;
