@@ -233,12 +233,57 @@ body {
 
 .iconjoin_img {
   width: 80px;
+  animation: scale-with-pause 5s ease-in-out infinite;
 }
 
 .iconcreate_img {
   width: 48px;
   transform: rotate(-130deg);
+  animation: shake-with-pause 6s ease-in-out infinite;
 }
+
+@keyframes shake-with-pause {
+  0% {
+    transform: rotate(-130deg);
+  }
+  2% {
+    transform: rotate(-132deg);
+  }
+  4% {
+    transform: rotate(-128deg);
+  }
+  6% {
+    transform: rotate(-131deg);
+  }
+  8% {
+    transform: rotate(-130deg);
+  }
+  100% {
+    transform: rotate(-130deg);
+  }
+}
+
+@keyframes scale-with-pause {
+  0% {
+    transform: scale(1);
+  }
+  2% {
+    transform: scale(1.05);
+  }
+  4% {
+    transform: scale(1.1);
+  }
+  6% {
+    transform: scale(1.05);
+  }
+  8% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .createquiz_div {
   display: flex;
   justify-content: center;
