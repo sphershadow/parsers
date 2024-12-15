@@ -73,7 +73,7 @@ body {
 }
 
 .pushable {
-  background: hsl(340deg 100% 32%);
+  background: rgb(163, 0, 54);
   border-radius: 10px;
   border: none;
   padding: 0;
@@ -315,7 +315,8 @@ body {
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
-  background-image: url("assets/background/main_bg_yellow_60off.png");
+  background-color: #9694ff;
+  background-image: url("assets/background/background_star.png");
   background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
@@ -369,15 +370,18 @@ body {
 .entercode_txt {
   margin-top: 60%;
   width: 100%;
-  height: 60px;
+  height: 65px;
   appearance: none;
   border: none;
   outline: none;
-  border-bottom: 0.3em solid #f30505;
-  background: rgba(#f30505, 0.2);
-  border-radius: 10px;
+  border-top: 0.3em solid #fefefe;
+  border-left: 0.3em solid #fefefe;
+  border-right: 0.3em solid #fefefe;
+  border-bottom: 0.3em solid hsl(355, 100%, 47%);
+  background: rgba(hsl(355, 100%, 47%), 0.2);
+  border-radius: 10px 10px 5px 5px;
   padding: 0.4em;
-  color: #f30505;
+  color: hsl(355, 100%, 47%);
   box-sizing: border-box;
   text-align: center;
   font-family: Inter-Bold;
