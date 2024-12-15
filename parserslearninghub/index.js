@@ -2,6 +2,8 @@ setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", async function () {
   document.getElementById("loading_animation_div").style.display = "none";
 });
+window.addEventListener("resize", async function () { setScreenSize(window.innerWidth, window.innerHeight); });
+
 document.getElementById("home_btn").addEventListener("click", function () {
   window.location.href = "../homepage.html";
 });
@@ -25,7 +27,7 @@ $(document).ready(function () {
   $('#returnjoinquiz_btn').click(function () {
     anime({
       targets: page[0],
-      clipPath: ['circle(90% at 50% 50%)', 'circle(0% at 50% 50%)'],
+      clipPath: ['circle(100% at 50% 50%)', 'circle(0% at 50% 50%)'],
       duration: 400,
       easing: 'easeInOutQuad',
     });
