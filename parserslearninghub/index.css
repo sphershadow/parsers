@@ -34,6 +34,7 @@ body {
 }
 
 #loading_animation_div {
+  position: fixed;
   height: 100%;
   width: 100%;
   background-color: #fefefe;
@@ -86,6 +87,7 @@ body {
   height: 54px;
   margin-top: 5px;
   margin-left: 10px;
+  -webkit-tap-highlight-color: transparent;
 }
 .front {
   display: block;
@@ -182,6 +184,7 @@ body {
   color: #fefefe;
   font-size: 14px;
   font-style: italic;
+  opacity: 0.8;
 }
 .top_joinquiz {
   margin-top: -16%;
