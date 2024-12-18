@@ -331,8 +331,150 @@ body {
   background-color: yellow;
 }
 #chatgpt_all_sec {
-  background-color: green;
+  background-color: transparent;
+  flex-direction: column;
 }
+
+.chatbot-body {
+  background-color: transparent;
+  width: 100%;
+  flex: 1;
+  overflow-x: scroll;
+  scrollbar-width: none;
+}
+
+.chatbot-footer {
+  background-color: #fefefe;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border-top: 0.5px solid #dcdcdc;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+.chatbot-txt {
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  padding: 10px;
+  font-family: Inter-Regular;
+  scrollbar-width: none;
+  resize: none;
+}
+
+.chatbot-txt:focus {
+  outline: none;
+}
+
+.chatbot-send-btn {
+  width: 20px;
+  margin-right: 10px;
+  filter: invert(10%) sepia(99%) saturate(7139%) hue-rotate(10deg)
+    brightness(97%) contrast(109%);
+}
+
+.chatbot-wrapper {
+  background-color: transparent;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+.chatbot-parser-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+.chatbot-parser-message {
+  height: 100%;
+
+  background-color: #f3f3f3;
+  text-align: right;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+.chatbot-parser-profile {
+  height: 100%;
+  background-color: transparent;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding-left: 10px;
+}
+
+.chatbot-parser-img {
+  width: 40px;
+  border-radius: 50%;
+}
+
+.chatbot-siti-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+.chatbot-siti-message {
+  height: 100%;
+  background-color: #f30505;
+  text-align: left;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #fefefe;
+}
+.chatbot-siti-profile {
+  height: 100%;
+  background-color: transparent;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding-right: 10px;
+}
+
+.chatbot-siti-img {
+  width: 40px;
+  border-radius: 50%;
+}
+
+.chatbot-gpt-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+.chatbot-gpt-message {
+  height: 100%;
+
+  background-color: #0866ff;
+  text-align: left;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #fefefe;
+}
+.chatbot-gpt-profile {
+  height: 100%;
+  background-color: transparent;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding-right: 10px;
+  filter: invert(26%) sepia(79%) saturate(3579%) hue-rotate(214deg)
+    brightness(103%) contrast(104%);
+}
+
+.chatbot-gpt-img {
+  width: 40px;
+  border-radius: 50%;
+  transform: scale(0.9);
+}
+
 #honors_teacher_sec {
   background-color: blue;
 }
