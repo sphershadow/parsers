@@ -46,9 +46,9 @@ let parser = [
     temporarypass: "",
     type: "",
     yearlvl: "",
+    profile: "",
   },
 ];
-
 let status = [
   {
     current_sem: "",
@@ -56,8 +56,8 @@ let status = [
     academicref: "",
   },
 ];
-
 let allsubjects = [];
+let siti_brain = [];
 
 setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", async function () {
@@ -268,7 +268,7 @@ document
   });
 document
   .getElementById("homechatbot_btn")
-  .addEventListener("click", function () {
+  .addEventListener("click", async function () {
     showBodyWrapper("chatgpt_all_sec");
     document.getElementById("chatgpt_all_sec").style.display = "flex";
     scrollToBottom();
@@ -292,6 +292,8 @@ document
     hideBodyWrapper("quiz_teacher_sec");
     revertNavIcon("homequiz_img");
     revertNavLbl("homequiz_lbl");
+    await getTriggerInputs();
+
   });
 document
   .getElementById("homelobby_btnx")
@@ -1409,13 +1411,9 @@ function displaySelectedYear() {
 document.querySelectorAll('input[name="year"]').forEach((radio) => {
   radio.addEventListener("click", displaySelectedYear);
 });
-
-document
-  .getElementById("searchparseclass_txt")
-  .addEventListener("input", (event) => {
-    updateResults();
-  });
-
+document.getElementById("searchparseclass_txt").addEventListener("input", (event) => {
+  updateResults();
+});
 function fuzzy_match(text, search) {
   search = search.replace(/\s/g, "").toLowerCase();
   let search_position = 0;
@@ -1431,7 +1429,6 @@ function fuzzy_match(text, search) {
   }
   return search_position === search.length;
 }
-
 function updateResults() {
   const searchInput = document.getElementById("searchparseclass_txt").value;
 
@@ -1453,14 +1450,12 @@ function updateResults() {
     }
   });
 }
-
 function scrollToBottom() {
   const element = document.getElementById("chatbot-body");
   if (element) {
     element.scrollTop = element.scrollHeight;
   }
 }
-
 const screenHeight = window.innerHeight;
 window.addEventListener('resize', () => {
   const currentHeight = window.innerHeight;
@@ -1475,64 +1470,6 @@ window.addEventListener('resize', () => {
 document.getElementById("chatbot-txt").addEventListener("input", () => {
   scrollToBottom();
 });
-
-document.getElementById("chatbot-send-btn").addEventListener("click", async function (event) {
-
-  const userInput = document.getElementById("chatbot-txt").value;
-  document.getElementById("chatbot-body").innerHTML += `
-  <section class="chatbot-wrapper chatbot-parser-wrapper">
-  <div class="chatbot-parser-message">
-  <span>${userInput}</span>
-  </div>
-  <div class="chatbot-parser-profile"><img class="chatbot-parser-img" src="assets/profiles/furina_2.png" alt=""/>
-  </div>
-  </section>`;
-  document.getElementById("chatbot-txt").value = '';
-  try {
-    const response = await axios.post('https://api.openai.com/v1/chat/completions', {
-      model: "gpt-4o-mini",
-      messages: [
-        { "role": "user", "content": userInput },
-      ],
-    }, {
-      headers: {
-        'Authorization': `Bearer ${await getApikey()}`,
-        'Content-Type': 'application/json',
-      }
-    });
-    //document.getElementById("response").innerHTML = "AI: " + response.data.choices[0].message.content;
-    document.getElementById("chatbot-body").innerHTML += `<section class="chatbot-wrapper chatbot-gpt-wrapper">
-              <div class="chatbot-gpt-profile">
-                <img
-                  class="chatbot-gpt-img"
-                  src="assets/icons/ChatGPT.png"
-                  alt=""
-                />
-              </div>
-              <div class="chatbot-gpt-message">
-                <span
-                  >${response.data.choices[0].message.content}</span
-                >
-              </div>
-            </section>`;
-  }
-  catch (error) {
-    document.getElementById("chatbot-body").innerHTML += `<section class="chatbot-wrapper chatbot-gpt-wrapper">
-              <div class="chatbot-gpt-profile">
-                <img
-                  class="chatbot-gpt-img"
-                  src="assets/icons/ChatGPT.png"
-                  alt=""
-                />
-              </div>
-              <div class="chatbot-gpt-message">
-                <span>Can't answer your question right now. Please try again later.</span>
-              </div>
-            </section>`;
-  }
-  scrollToBottom();
-});
-
 async function getApikey() {
   const apikeyRef = child(dbRef, "PARSEIT/administration/chatbot_apikeys/");
   const snapshot = await get(apikeyRef);
@@ -1542,4 +1479,200 @@ async function getApikey() {
   } else {
     return null;
   }
+}
+
+
+let rejections = ['no', 'not', 'dont', 'stop', 'end', 'quit', 'cancel', 'nevermind', 'sorry', 'nope', 'ayaw', 'nah', 'nay', 'no way', 'no thanks', 'nothing', 'negative', 'dili'];
+let approval = ['sige', 'go', 'yes', 'ok', 'sure', 'yep', 'yeah', 'yay', 'please', 'okay', 'alright', 'go ahead', 'sure thing', 'of course', 'yes please', 'yes sir', 'yes ma\'am', 'yes master', 'yeah sure', 'yep sure', 'yay sure', 'please yes', 'sir yes', 'ma\'am yes', 'master yes', 'aye aye'];
+
+document.getElementById("chatbot-send-btn").addEventListener("click", async function (event) {
+  const userInput = document.getElementById("chatbot-txt").value;
+
+  document.getElementById("chatbot-body").innerHTML += `
+  <section class="chatbot-wrapper chatbot-parser-wrapper">
+  <div class="chatbot-parser-message">
+  <span>${userInput}</span>
+  </div>
+  <div class="chatbot-parser-profile"><img class="chatbot-parser-img" src="assets/profiles/furina_2.png" alt=""/>
+  </div>
+  </section>`;
+  document.getElementById("chatbot-txt").value = '';
+
+  const userInputLower = userInput.toLowerCase();
+
+
+  if (interpretInput(userInputLower, siti_brain) !== null) {
+    const response = await interpretInput(userInputLower, siti_brain);
+    await getResponse(response)
+  }
+  else {
+
+  }
+  // try {
+  //   const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+  //     model: "gpt-4o-mini",
+  //     messages: [
+  //       { "role": "user", "content": userInput },
+  //     ],
+  //   }, {
+  //     headers: {
+  //       'Authorization': `Bearer ${await getApikey()}`,
+  //       'Content-Type': 'application/json',
+  //     }
+  //   });
+  //   //document.getElementById("response").innerHTML = "AI: " + response.data.choices[0].message.content;
+  //   document.getElementById("chatbot-body").innerHTML += `<section class="chatbot-wrapper chatbot-gpt-wrapper">
+  //             <div class="chatbot-gpt-profile">
+  //               <img
+  //                 class="chatbot-gpt-img"
+  //                 src="assets/icons/ChatGPT.png"
+  //                 alt=""
+  //               />
+  //             </div>
+  //             <div class="chatbot-gpt-message">
+  //               <span
+  //                 >${response.data.choices[0].message.content}</span
+  //               >
+  //             </div>
+  //           </section>`;
+  // }
+  // catch (error) {
+  //   document.getElementById("chatbot-body").innerHTML += `<section class="chatbot-wrapper chatbot-gpt-wrapper">
+  //             <div class="chatbot-gpt-profile">
+  //               <img
+  //                 class="chatbot-gpt-img"
+  //                 src="assets/icons/ChatGPT.png"
+  //                 alt=""
+  //               />
+  //             </div>
+  //             <div class="chatbot-gpt-message">
+  //               <span>Can't answer your question right now. Please try again later.</span>
+  //             </div>
+  //           </section>`;
+  // }
+  scrollToBottom();
+});
+
+
+async function getTriggerInputs() {
+  const refPath = ref(database, 'PARSEIT/siti_chatbot/');
+  await onValue(refPath, (snapshot) => {
+    siti_brain = [];
+    if (snapshot.exists()) {
+      const chat_id = snapshot.val();
+      for (const id in chat_id) {
+        const chat = chat_id[id];
+        if (chat.trigger_input) {
+          if (Array.isArray(chat.trigger_input)) {
+            chat.trigger_input.forEach((item) => siti_brain.push(item));
+          } else {
+            siti_brain.push(chat.trigger_input);
+          }
+        }
+
+      }
+    } else {
+      //console.log('No data available');
+    }
+  }, (error) => {
+    //console.error('Error fetching data:', error);
+  });
+}
+async function interpretInput(text, search) {
+  text = text.replace(/\s/g, "").toLowerCase();
+
+  let bestMatchTerm = null;
+  let bestMatchScore = 0;
+  for (let originalTerm of search) {
+    let term = originalTerm.replace(/\s/g, "").toLowerCase();
+
+    let match_score = 0;
+    let search_position = 0;
+    for (let n = 0; n < text.length; n++) {
+      let text_char = text[n];
+      if (
+        search_position < term.length &&
+        text_char === term[search_position]
+      ) {
+        search_position += 1;
+        match_score += 1;
+      }
+    }
+
+    if (match_score > bestMatchScore) {
+      bestMatchTerm = originalTerm;
+      bestMatchScore = match_score;
+    }
+  }
+  return bestMatchScore > 0 ? bestMatchTerm : null;
+}
+async function getResponse(trigger_input) {
+  const refPath = ref(database, 'PARSEIT/siti_chatbot/');
+  await onValue(refPath, (snapshot) => {
+    if (snapshot.exists()) {
+      const chat_id = snapshot.val();
+      for (const id in chat_id) {
+        const chat = chat_id[id];
+        if (chat.trigger_input) {
+          if (Array.isArray(chat.trigger_input)) {
+            chat.trigger_input.forEach((item) => {
+              if (item === trigger_input) {
+                const response = chat.response;
+                displayChatbotResponse(response);
+              }
+            });
+          } else {
+            if (chat.trigger_input === trigger_input) {
+              const response = chat.response;
+              displayChatbotResponse(response);
+            }
+          }
+        }
+      }
+    } else {
+      console.log('No data available');
+    }
+  }, (error) => {
+    console.error('Error fetching data:', error);
+  });
+}
+
+function displayChatbotResponse(response) {
+  const chatbotBody = document.getElementById("chatbot-body");
+
+  const chatWrapper = document.createElement('section');
+  chatWrapper.classList.add('chatbot-wrapper', 'chatbot-siti-wrapper');
+
+  const profileDiv = document.createElement('div');
+  profileDiv.classList.add('chatbot-siti-profile');
+
+  const img = document.createElement('img');
+  img.classList.add('chatbot-siti-img');
+  img.src = "assets/icons/siti-icon.png";
+  img.alt = "Siti Icon";
+
+  profileDiv.appendChild(img);
+
+  const messageDiv = document.createElement('div');
+  messageDiv.classList.add('chatbot-siti-message');
+
+  const messageSpan = document.createElement('span');
+  messageDiv.appendChild(messageSpan);
+
+  chatWrapper.appendChild(profileDiv);
+  chatWrapper.appendChild(messageDiv);
+  chatbotBody.appendChild(chatWrapper);
+  typeWriterEffect(messageSpan, response, 20);
+}
+function typeWriterEffect(element, text, speed) {
+  let i = 0;
+
+  function typeWriter() {
+    if (i < text.length) {
+      element.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typeWriter, speed);
+    }
+  }
+  typeWriter();
 }

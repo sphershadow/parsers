@@ -432,6 +432,8 @@ body {
   border-radius: 5px;
   font-size: 14px;
   color: #fefefe;
+  width: 100%;
+  max-width: inherit;
 }
 .chatbot-siti-profile {
   height: 100%;
