@@ -1472,9 +1472,12 @@ window.addEventListener('resize', () => {
   }
   scrollToBottom();
 });
+document.getElementById("chatbot-txt").addEventListener("input", () => {
+  scrollToBottom();
+});
 
 document.getElementById("chatbot-send-btn").addEventListener("click", async function (event) {
-  scrollToBottom();
+
   const userInput = document.getElementById("chatbot-txt").value;
   document.getElementById("chatbot-body").innerHTML += `
   <section class="chatbot-wrapper chatbot-parser-wrapper">
@@ -1524,10 +1527,11 @@ document.getElementById("chatbot-send-btn").addEventListener("click", async func
                 />
               </div>
               <div class="chatbot-gpt-message">
-                <span>${error.message}</span>
+                <span>Can't answer your question. Please try again later.</span>
               </div>
             </section>`;
   }
+  scrollToBottom();
 });
 
 async function getApikey() {
