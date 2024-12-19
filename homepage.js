@@ -1460,3 +1460,18 @@ function scrollToBottom() {
     element.scrollTop = element.scrollHeight;
   }
 }
+
+
+document.getElementById("chatbot-send-btn").addEventListener("click", async function (event) {
+  const userInput = document.getElementById("chatbot-txt").value;
+  document.getElementById("chatbot-body").innerHTML += `
+  <section class="chatbot-wrapper chatbot-parser-wrapper">
+  <div class="chatbot-parser-message">
+  <span>${userInput}</span>
+  </div>
+  <div class="chatbot-parser-profile"><img class="chatbot-parser-img" src="assets/profiles/furina_2.png" alt=""/>
+  </div>
+  </section>`;
+  document.getElementById("chatbot-txt").value = '';
+
+});
