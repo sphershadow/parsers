@@ -1462,7 +1462,7 @@ function scrollToBottom() {
 }
 
 function adjustGPTChatbox() {
-  const container = document.getElementById("chatgpt_all_sec");
+  const container = document.getElementById("chatbot-body");
   container.style.height = `${window.innerHeight}px`;
 }
 window.addEventListener("resize", adjustGPTChatbox);

@@ -353,6 +353,8 @@ body {
   border-top: 0.5px solid #dcdcdc;
   padding-bottom: 10px;
   padding-top: 10px;
+  position: relative;
+  bottom: 0;
 }
 .chatbot-txt {
   width: 100%;
