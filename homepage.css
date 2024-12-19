@@ -341,10 +341,11 @@ body {
   flex: 1;
   overflow-x: scroll;
   scrollbar-width: none;
+  margin-bottom: 60px;
 }
 
 .chatbot-footer {
-  background-color: transparent;
+  background-color: #fefefe;
   width: inherit;
   display: flex;
   justify-content: space-between;

@@ -1464,17 +1464,17 @@ function scrollToBottom() {
 const screenHeight = window.innerHeight;
 window.addEventListener('resize', () => {
   const currentHeight = window.innerHeight;
-
   if (screenHeight > currentHeight) {
     document.getElementById("chatbot-footer").style.bottom = "0px";
   }
   else {
     document.getElementById("chatbot-footer").style.bottom = "60px";
   }
+  scrollToBottom();
 });
 
-
 document.getElementById("chatbot-send-btn").addEventListener("click", async function (event) {
+  scrollToBottom();
   const userInput = document.getElementById("chatbot-txt").value;
   document.getElementById("chatbot-body").innerHTML += `
   <section class="chatbot-wrapper chatbot-parser-wrapper">
