@@ -1473,5 +1473,47 @@ document.getElementById("chatbot-send-btn").addEventListener("click", async func
   </div>
   </section>`;
   document.getElementById("chatbot-txt").value = '';
-
+  try {
+    const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+      model: "gpt-4o-mini",
+      messages: [
+        { "role": "user", "content": userInput },
+      ],
+    }, {
+      headers: {
+        'Authorization': `Bearer `,
+        'Content-Type': 'application/json',
+      }
+    });
+    //document.getElementById("response").innerHTML = "AI: " + response.data.choices[0].message.content;
+    document.getElementById("chatbot-body").innerHTML += `<section class="chatbot-wrapper chatbot-gpt-wrapper">
+              <div class="chatbot-gpt-profile">
+                <img
+                  class="chatbot-gpt-img"
+                  src="assets/icons/ChatGPT.png"
+                  alt=""
+                />
+              </div>
+              <div class="chatbot-gpt-message">
+                <span
+                  >${response.data.choices[0].message.content}</span
+                >
+              </div>
+            </section>`;
+  }
+  catch (error) {
+    //console.error("Error fetching from OpenAI:", error);
+    document.getElementById("chatbot-body").innerHTML += `<section class="chatbot-wrapper chatbot-gpt-wrapper">
+              <div class="chatbot-gpt-profile">
+                <img
+                  class="chatbot-gpt-img"
+                  src="assets/icons/ChatGPT.png"
+                  alt=""
+                />
+              </div>
+              <div class="chatbot-gpt-message">
+                <span>${error.message}</span>
+              </div>
+            </section>`;
+  }
 });
