@@ -1461,12 +1461,22 @@ function scrollToBottom() {
   }
 }
 
-function adjustGPTChatbox() {
-  const container = document.getElementById("chatbot-body");
-  container.style.height = `${window.innerHeight}px`;
-}
-window.addEventListener("resize", adjustGPTChatbox);
-adjustGPTChatbox();
+(function () {
+  const footer = document.querySelector('.chatbot-footer');
+  let originalHeight = window.innerHeight;
+
+  window.addEventListener('resize', () => {
+    const currentHeight = window.innerHeight;
+    if (currentHeight < originalHeight - 150) {
+      footer.style.position = 'absolute';
+      footer.style.bottom = `${originalHeight - currentHeight}px`;
+    } else {
+      footer.style.position = 'fixed';
+      footer.style.bottom = '0';
+    }
+  });
+})();
+
 
 document.getElementById("chatbot-send-btn").addEventListener("click", async function (event) {
   const userInput = document.getElementById("chatbot-txt").value;
