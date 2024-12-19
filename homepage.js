@@ -1461,7 +1461,12 @@ function scrollToBottom() {
   }
 }
 
-
+function adjustGPTChatbox() {
+  const container = document.getElementById("chatgpt_all_sec");
+  container.style.height = `${window.innerHeight}px`;
+}
+window.addEventListener("resize", adjustGPTChatbox);
+adjustGPTChatbox();
 
 document.getElementById("chatbot-send-btn").addEventListener("click", async function (event) {
   const userInput = document.getElementById("chatbot-txt").value;
@@ -1519,7 +1524,6 @@ document.getElementById("chatbot-send-btn").addEventListener("click", async func
   }
 });
 
-
 async function getApikey() {
   const apikeyRef = child(dbRef, "PARSEIT/administration/chatbot_apikeys/");
   const snapshot = await get(apikeyRef);
@@ -1527,7 +1531,6 @@ async function getApikey() {
     const currentData = snapshot.val().key;
     return currentData;
   } else {
-    console.log("No data available");
     return null;
   }
 }
