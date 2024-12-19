@@ -351,6 +351,8 @@ body {
   align-items: center;
   gap: 10px;
   border-top: 0.5px solid #dcdcdc;
+  padding-bottom: 10px;
+  padding-top: 10px;
   position: fixed;
   bottom: 60px;
 }

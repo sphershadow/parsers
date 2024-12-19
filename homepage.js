@@ -1461,21 +1461,17 @@ function scrollToBottom() {
   }
 }
 
-(function () {
-  const footer = document.querySelector('.chatbot-footer');
-  let originalHeight = window.innerHeight;
+const screenHeight = window.innerHeight;
+window.addEventListener('resize', () => {
+  const currentHeight = window.innerHeight;
 
-  window.addEventListener('resize', () => {
-    const currentHeight = window.innerHeight;
-    if (currentHeight < originalHeight - 150) {
-      footer.style.position = 'absolute';
-      footer.style.bottom = `${originalHeight - currentHeight}px`;
-    } else {
-      footer.style.position = 'fixed';
-      footer.style.bottom = '0';
-    }
-  });
-})();
+  if (screenHeight > currentHeight) {
+    document.getElementById("chatbot-footer").style.bottom = "0px";
+  }
+  else {
+    document.getElementById("chatbot-footer").style.bottom = "60px";
+  }
+});
 
 
 document.getElementById("chatbot-send-btn").addEventListener("click", async function (event) {
