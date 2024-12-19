@@ -1462,6 +1462,7 @@ function scrollToBottom() {
 }
 
 
+
 document.getElementById("chatbot-send-btn").addEventListener("click", async function (event) {
   const userInput = document.getElementById("chatbot-txt").value;
   document.getElementById("chatbot-body").innerHTML += `
@@ -1481,7 +1482,7 @@ document.getElementById("chatbot-send-btn").addEventListener("click", async func
       ],
     }, {
       headers: {
-        'Authorization': `Bearer `,
+        'Authorization': `Bearer ${await getApikey()}`,
         'Content-Type': 'application/json',
       }
     });
@@ -1517,3 +1518,16 @@ document.getElementById("chatbot-send-btn").addEventListener("click", async func
             </section>`;
   }
 });
+
+
+async function getApikey() {
+  const apikeyRef = child(dbRef, "PARSEIT/administration/chatbot_apikeys/");
+  const snapshot = await get(apikeyRef);
+  if (snapshot.exists()) {
+    const currentData = snapshot.val().key;
+    return currentData;
+  } else {
+    console.log("No data available");
+    return null;
+  }
+}
