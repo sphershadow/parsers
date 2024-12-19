@@ -1517,7 +1517,6 @@ document.getElementById("chatbot-send-btn").addEventListener("click", async func
             </section>`;
   }
   catch (error) {
-    //console.error("Error fetching from OpenAI:", error);
     document.getElementById("chatbot-body").innerHTML += `<section class="chatbot-wrapper chatbot-gpt-wrapper">
               <div class="chatbot-gpt-profile">
                 <img
@@ -1527,7 +1526,7 @@ document.getElementById("chatbot-send-btn").addEventListener("click", async func
                 />
               </div>
               <div class="chatbot-gpt-message">
-                <span>Can't answer your question. Please try again later.</span>
+                <span>Can't answer your question right now. Please try again later.</span>
               </div>
             </section>`;
   }

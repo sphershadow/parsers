@@ -131,6 +131,7 @@ body {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   height: 60px;
   width: 100%;
+  z-index: 1;
 }
 
 .lobby_nav {
@@ -356,6 +357,7 @@ body {
   padding-top: 10px;
   position: fixed;
   bottom: 60px;
+  z-index: 0;
 }
 .chatbot-txt {
   width: 100%;
