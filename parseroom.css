@@ -604,3 +604,154 @@ body {
   margin-top: 10px;
   text-shadow: 0.1em 0.1em 0 hsl(100 10% 25%);
 }
+
+.bulletin-div {
+  background-color: rgba(82, 82, 82, 0.39);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 200;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.bulletin-wrapper {
+  width: 92%;
+  height: 96%;
+  background-color: #fefefe;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+}
+@keyframes fadeScaleUp {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(50px);
+    z-index: -100;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes fadeScaleDown {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8) translateY(50px);
+    z-index: -100;
+  }
+}
+
+@keyframes opacity_bg {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes opacity_bg_rev {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    z-index: -100;
+  }
+}
+
+.bulletin-navigation {
+  height: 60px;
+  width: 100%;
+  background-color: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bulletin-body {
+  width: 100%;
+  background-color: #fefefe;
+  flex: 1;
+}
+
+.thumbtack_img {
+  width: 50px;
+  margin-right: 12px;
+}
+
+.bulletin_lbl {
+  font-family: Inter-Bold;
+  font-size: 20px;
+  margin-left: 15px;
+}
+
+.bulletin-body-header {
+  width: 100%;
+  height: 40px;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#bulletin_assignment,
+#bulletin_announcement {
+  width: 100%;
+  height: 100%;
+  font-family: Inter-Regular;
+  font-size: 16px;
+  background-color: transparent;
+  border: none;
+}
+#bulletin_assignment {
+  border-radius: 10px 10px 0px 0px;
+  background-color: rgb(245, 245, 245);
+}
+
+#bulletin_announcement {
+  background-color: #fefefe;
+  border-radius: 0px 0px 0px 0px;
+}
+
+.bulletin-info {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(245, 245, 245);
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+.bulletin-info-assignment,
+.bulletin-info-announcement {
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.bulletin-info-assignment {
+  display: flex;
+}
+
+.bulletin-info-announcement {
+  background-color: yellow;
+}

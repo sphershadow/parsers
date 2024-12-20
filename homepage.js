@@ -184,6 +184,17 @@ window.addEventListener("load", async function () {
 });
 document.getElementById("sidebar_btn").addEventListener("click", function () {
   showSidebar();
+  let startX = 0;
+  let endX = 0;
+  document.addEventListener("touchstart", (event) => {
+    startX = event.touches[0].clientX;
+  });
+  document.addEventListener("touchend", (event) => {
+    endX = event.changedTouches[0].clientX;
+    if (startX - endX > 50) {
+      hideSidebar();
+    }
+  });
 });
 document.getElementById("logout_btn").addEventListener("click", function () {
   logout();
@@ -425,38 +436,26 @@ document.getElementById("game-4").addEventListener("click", function () {
 document.getElementById("game-3").addEventListener("click", function () {
   window.location.href = "./parserslearninghub/index.html";
 });
-let startX = 0;
-let endX = 0;
-let startY = 0;
-let endY = 0;
-document.addEventListener("touchstart", (event) => {
-  startX = event.touches[0].clientX;
-});
-document.addEventListener("touchend", (event) => {
-  endX = event.changedTouches[0].clientX;
-  // if (endX - startX > 50) {
-  //     showSidebar();
-  // }
-  if (startX - endX > 50) {
-    hideSidebar();
-  }
-});
-document.addEventListener("touchstart", (event) => {
-  startY = event.touches[0].clientY;
-});
-document.addEventListener("touchend", (event) => {
-  endY = event.changedTouches[0].clientY;
-  if (endY - startY > 300) {
-    document.getElementById("allannouncement-div").style.animation =
-      "fadeScaleDown 0.25s ease-in-out forwards";
-  }
-});
+
 document
   .getElementById("announcement-div")
   .addEventListener("click", (event) => {
     document.getElementById("allannouncement-div").style.display = "flex";
     document.getElementById("allannouncement-div").style.animation =
       "fadeScaleUp 0.25s ease-in-out forwards";
+
+    let startY = 0;
+    let endY = 0;
+    document.addEventListener("touchstart", (event) => {
+      startY = event.touches[0].clientY;
+    });
+    document.addEventListener("touchend", (event) => {
+      endY = event.changedTouches[0].clientY;
+      if (endY - startY > 300) {
+        document.getElementById("allannouncement-div").style.animation =
+          "fadeScaleDown 0.25s ease-in-out forwards";
+      }
+    });
   });
 
 

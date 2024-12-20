@@ -128,27 +128,27 @@ document
     scrollToBottom();
   });
 
-document.getElementById("check_bulletin").addEventListener("click", (event) => {
-  event.preventDefault();
-  document.getElementById("nofeature").style.display = "flex";
-  setTimeout(() => {
-    document.getElementById("nofeature").style.display = "none";
-  }, 1000);
-});
-document.getElementById("see_members").addEventListener("click", (event) => {
-  event.preventDefault();
-  document.getElementById("nofeature").style.display = "flex";
-  setTimeout(() => {
-    document.getElementById("nofeature").style.display = "none";
-  }, 1000);
-});
-document.getElementById("check_discussionroom").addEventListener("click", (event) => {
-  event.preventDefault();
-  document.getElementById("nofeature").style.display = "flex";
-  setTimeout(() => {
-    document.getElementById("nofeature").style.display = "none";
-  }, 1000);
-});
+// document.getElementById("check_bulletin").addEventListener("click", (event) => {
+//   event.preventDefault();
+//   document.getElementById("nofeature").style.display = "flex";
+//   setTimeout(() => {
+//     document.getElementById("nofeature").style.display = "none";
+//   }, 1000);
+// });
+// document.getElementById("see_members").addEventListener("click", (event) => {
+//   event.preventDefault();
+//   document.getElementById("nofeature").style.display = "flex";
+//   setTimeout(() => {
+//     document.getElementById("nofeature").style.display = "none";
+//   }, 1000);
+// });
+// document.getElementById("check_discussionroom").addEventListener("click", (event) => {
+//   event.preventDefault();
+//   document.getElementById("nofeature").style.display = "flex";
+//   setTimeout(() => {
+//     document.getElementById("nofeature").style.display = "none";
+//   }, 1000);
+// });
 
 
 //functions
@@ -738,4 +738,51 @@ async function getTeacherData(id) {
       }
     }
   );
+}
+
+
+
+document.getElementById("check_bulletin").addEventListener("click", (event) => {
+
+  document.getElementById("bulletin-div").style.display = "flex";
+  document.getElementById("bulletin-div").style.animation =
+    "opacity_bg 0.25s ease-in-out forwards";
+  document.getElementById("bulletin-wrapper").style.animation =
+    "fadeScaleUp 0.25s ease-in-out forwards";
+
+
+  let startY = 0;
+  let endY = 0;
+  document.addEventListener("touchstart", (event) => {
+    startY = event.touches[0].clientY;
+  });
+  document.addEventListener("touchend", (event) => {
+    endY = event.changedTouches[0].clientY;
+    if (endY - startY > 300) {
+      document.getElementById("bulletin-wrapper").style.animation =
+        "fadeScaleDown 0.25s ease-in-out forwards";
+      document.getElementById("bulletin-div").style.animation =
+        "opacity_bg_rev 0.25s ease-in-out forwards";
+    }
+  });
+});
+
+document.getElementById("bulletin_assignment").addEventListener("click", (event) => {
+  showBulletinMenu("bulletin_assignment", "bulletin_announcement", "bulletin-assignment", "bulletin-announcement");
+
+});
+
+document.getElementById("bulletin_announcement").addEventListener("click", (event) => {
+  showBulletinMenu("bulletin_announcement", "bulletin_assignment", "bulletin-announcement", "bulletin-assignment");
+});
+
+function showBulletinMenu(selected, hidden, selecteddiv, hiddendiv) {
+  document.getElementById(selected).style.borderRadius = "10px 10px 0px 0px";
+  document.getElementById(selected).style.backgroundColor = "rgb(245, 245, 245)";
+
+  document.getElementById(hidden).style.borderRadius = "0px 0px 0px 0px";
+  document.getElementById(hidden).style.backgroundColor = "#fefefe";
+
+  document.getElementById(selecteddiv).style.display = "flex";
+  document.getElementById(hiddendiv).style.display = "none";
 }
