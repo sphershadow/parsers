@@ -1500,13 +1500,12 @@ document.getElementById("chatbot-send-btn").addEventListener("click", async func
 
   const userInputLower = userInput.toLowerCase();
 
-
-  if (interpretInput(userInputLower, siti_brain) !== null) {
+  if (await interpretInput(userInputLower, siti_brain) !== null) {
     const response = await interpretInput(userInputLower, siti_brain);
     await getResponse(response)
   }
   else {
-
+    console.log("No response found");
   }
   // try {
   //   const response = await axios.post('https://api.openai.com/v1/chat/completions', {
