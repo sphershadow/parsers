@@ -52,5 +52,5 @@ function setScreenSize(width, height) {
 }
 
 document.getElementById("canceladdchatbot-btn").addEventListener("click", (event) => {
-    window.location.href = "homepage.html";
+    window.location.href = "parseroom.html";
 });
