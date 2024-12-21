@@ -813,10 +813,8 @@ async function getAssignments() {
         for (const assignmentKey in assignments) {
           const assignment = assignments[assignmentKey];
           const assignment_title = assignment.title;
-          const assignment_datelbl = assignment.date_lbl;
-          const assignment_timelbl = assignment.time_lbl;
-          const assignment_duedatelbl = assignment.duedate_lbl;
-          const assignment_duetimelbl = assignment.duetime_lbl;
+          const assignment_date = assignment.date;
+          const assignment_duedate = assignment.duedate;
 
           const wrapper = document.createElement("div");
           wrapper.className =
@@ -845,11 +843,18 @@ async function getAssignments() {
 
           const dateLabel = document.createElement("label");
           dateLabel.className = "assignment-date";
-          dateLabel.textContent = `${assignment_datelbl} (${assignment_timelbl})`;
+          dateLabel.textContent = `${formatDateTime(assignment_date)}`;
 
           const dueLabel = document.createElement("label");
           dueLabel.className = "assignment-due";
-          dueLabel.textContent = `Due ${assignment_duedatelbl} (${assignment_duetimelbl})`;
+          if (Due(assignment_duedate)) {
+            dueLabel.textContent = `${formatDateTime(assignment_duedate)} Missing`;
+          }
+          else {
+            dueLabel.textContent = `Due ${formatDateTime(assignment_duedate)}`;
+          }
+
+
 
           detailsSection.appendChild(titleLabel);
           detailsSection.appendChild(dateLabel);
@@ -862,6 +867,7 @@ async function getAssignments() {
             containerNotDone.appendChild(wrapper);
           } else {
             containerDone.appendChild(wrapper);
+            dueLabel.textContent = `Due ${formatDateTime(assignment_duedate)}`;
           }
         }
       } else {
@@ -871,29 +877,41 @@ async function getAssignments() {
   }
 }
 
-function convertToTimeObject(timeString) {
-  const [time, period] = timeString.split(" ");
-  let [hours, minutes] = time.split(":");
-  hours = parseInt(hours, 10);
-  if ((period === "PM" && hours < 12) || (period === "pm" && hours)) {
-    hours += 12;
-  } else if (
-    (period === "AM" && hours === 12) ||
-    (period === "am" && hours === 12)
-  ) {
-    hours = 0;
+document.getElementById('datetime').setAttribute('min', getCurrentDateTime());
+const form = document.getElementById('datetimeForm');
+form.addEventListener('submit', function (event) {
+  event.preventDefault();
+  const datetimeValue = document.getElementById('datetime').value;
+  console.log(datetimeValue);
+});
+
+function getCurrentDateTime() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
+function formatDateTime(datetime) {
+  const date = new Date(datetime);
+  const options = { year: 'numeric', month: 'short', day: 'numeric' };
+  const formattedDate = date.toLocaleDateString('en-US', options);
+  const hours = date.getHours();
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  const formattedTime = `${hours % 12 || 12}:${minutes} ${ampm}`;
+  return `${formattedDate} (${formattedTime})`;
+}
+
+function Due(date) {
+  const currentDate = new Date();
+  const targetDate = new Date(date);
+  if (currentDate > targetDate) {
+    return true;
+  } else {
+    return false;
   }
-  return {
-    hours: hours,
-    minutes: minutes,
-  };
 }
-
-function getCurrentDateFormatted() {
-  const date = new Date();
-  const options = { month: 'short', day: '2-digit', year: 'numeric' };
-  return new Intl.DateTimeFormat('en-US', options).format(date);
-}
-
-console.log(new Date());
-
