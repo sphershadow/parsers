@@ -41,8 +41,16 @@
           </section>
           <section class="bulletin-info">
             <div class="bulletin-info-assignment" id="bulletin-assignment">
-              <section class="assignment-container notdone-assignment">
-                <div class="assignment-notdone-wrapper">
+              <form>
+                <label for="datetime">Select Date and Time:</label>
+                <input type="datetime-local" id="datetime" name="datetime" />
+                <button type="submit">Submit</button>
+              </form>
+              <section
+                class="assignment-container notdone-assignment"
+                id="notdone-assignment"
+              >
+                <!-- <div class="assignment-notdone-wrapper">
                   <section class="assignment-icon">
                     <img
                       src="assets/icons/clipboard.png"
@@ -60,10 +68,13 @@
                       >Due Jan 1, 2025 (8:00 AM)</label
                     >
                   </section>
-                </div>
+                </div> -->
               </section>
-              <section class="assignment-container done-assignment">
-                <div class="assignment-done-wrapper">
+              <section
+                class="assignment-container done-assignment"
+                id="done-assignment"
+              >
+                <!-- <div class="assignment-done-wrapper">
                   <section class="assignment-icon">
                     <img
                       src="assets/icons/clipboard.png"
@@ -81,7 +92,7 @@
                       >Due Jan 1, 2025 (11:59 PM)</label
                     >
                   </section>
-                </div>
+                </div> -->
               </section>
             </div>
             <div

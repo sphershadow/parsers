@@ -33,6 +33,7 @@ let parseroom_username = localStorage.getItem("parser-username");
 let active_profile = "";
 let user_parser_type = localStorage.getItem("type-parser");
 loadCensoredWords();
+getAssignments();
 let censoredWordsArray = [];
 
 //listeners
@@ -706,9 +707,7 @@ async function loadCensoredWords() {
   });
 }
 async function getTeacherFullname(acadRef, yrlvl, sem, subject, section) {
-  console.log(
-    `PARSEIT/administration/parseclass/${acadRef}/${yrlvl}/${sem}/${subject}/${section}/teacher_id`
-  );
+
   const usernameRef = child(
     dbRef,
     `PARSEIT/administration/parseclass/${acadRef}/${yrlvl}/${sem}/${subject}/${section}/teacher_id`
@@ -786,3 +785,115 @@ function showBulletinMenu(selected, hidden, selecteddiv, hiddendiv) {
   document.getElementById(selecteddiv).style.display = "block";
   document.getElementById(hiddendiv).style.display = "none";
 }
+
+async function getAssignments() {
+  const type = localStorage.getItem("type-parser");
+  const acadref = localStorage.getItem("parseroom-acadref");
+  const yearlvl = localStorage.getItem("parseroom-yearlvl");
+  const sem = localStorage.getItem("parseroom-sem");
+  const subject = localStorage.getItem("parseroom-code");
+  const section = localStorage.getItem("parseroom-section");
+  const studentid = localStorage.getItem("user-parser");
+
+  if (type === "student") {
+    const assignmentRef = ref(
+      database,
+      `PARSEIT/administration/parseclass/${acadref}/${yearlvl}/${sem}/${subject}/${section}/members/${studentid}/assignment/`
+    );
+
+    onValue(assignmentRef, (snapshot) => {
+      const containerNotDone = document.getElementById("notdone-assignment");
+      const containerDone = document.getElementById("done-assignment");
+
+      containerNotDone.innerHTML = "";
+      containerDone.innerHTML = "";
+
+      if (snapshot.exists()) {
+        const assignments = snapshot.val();
+        for (const assignmentKey in assignments) {
+          const assignment = assignments[assignmentKey];
+          const assignment_title = assignment.title;
+          const assignment_datelbl = assignment.date_lbl;
+          const assignment_timelbl = assignment.time_lbl;
+          const assignment_duedatelbl = assignment.duedate_lbl;
+          const assignment_duetimelbl = assignment.duetime_lbl;
+
+          const wrapper = document.createElement("div");
+          wrapper.className =
+            assignment.status === "incomplete"
+              ? "assignment-notdone-wrapper"
+              : "assignment-done-wrapper";
+
+          const iconSection = document.createElement("section");
+          iconSection.className = "assignment-icon";
+
+          const iconImg = document.createElement("img");
+          iconImg.src = "assets/icons/clipboard.png";
+          iconImg.className =
+            assignment.status === "incomplete"
+              ? "assignment-img"
+              : "done-assignment-img";
+
+          iconSection.appendChild(iconImg);
+
+          const detailsSection = document.createElement("section");
+          detailsSection.className = "assignment-details";
+
+          const titleLabel = document.createElement("label");
+          titleLabel.className = "assignment-title";
+          titleLabel.textContent = assignment_title;
+
+          const dateLabel = document.createElement("label");
+          dateLabel.className = "assignment-date";
+          dateLabel.textContent = `${assignment_datelbl} (${assignment_timelbl})`;
+
+          const dueLabel = document.createElement("label");
+          dueLabel.className = "assignment-due";
+          dueLabel.textContent = `Due ${assignment_duedatelbl} (${assignment_duetimelbl})`;
+
+          detailsSection.appendChild(titleLabel);
+          detailsSection.appendChild(dateLabel);
+          detailsSection.appendChild(dueLabel);
+
+          wrapper.appendChild(iconSection);
+          wrapper.appendChild(detailsSection);
+
+          if (assignment.status === "incomplete") {
+            containerNotDone.appendChild(wrapper);
+          } else {
+            containerDone.appendChild(wrapper);
+          }
+        }
+      } else {
+        console.log("No Assignments");
+      }
+    });
+  }
+}
+
+function convertToTimeObject(timeString) {
+  const [time, period] = timeString.split(" ");
+  let [hours, minutes] = time.split(":");
+  hours = parseInt(hours, 10);
+  if ((period === "PM" && hours < 12) || (period === "pm" && hours)) {
+    hours += 12;
+  } else if (
+    (period === "AM" && hours === 12) ||
+    (period === "am" && hours === 12)
+  ) {
+    hours = 0;
+  }
+  return {
+    hours: hours,
+    minutes: minutes,
+  };
+}
+
+function getCurrentDateFormatted() {
+  const date = new Date();
+  const options = { month: 'short', day: '2-digit', year: 'numeric' };
+  return new Intl.DateTimeFormat('en-US', options).format(date);
+}
+
+console.log(new Date());
+
