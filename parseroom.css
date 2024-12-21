@@ -782,7 +782,7 @@ body {
   margin-top: 10px;
   box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px,
     rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
-  background-color: rgb(245, 245, 245);
+  background-color: rgb(238, 238, 238);
   overflow: hidden;
   display: flex;
 }
@@ -837,4 +837,11 @@ body {
   margin-top: 15px;
   filter: invert(37%) sepia(100%) saturate(7404%) hue-rotate(7deg)
     brightness(91%) contrast(124%);
+}
+
+.done-assignment-img {
+  width: 25px;
+  margin-top: 15px;
+  filter: invert(74%) sepia(1%) saturate(1%) hue-rotate(356deg) brightness(86%)
+    contrast(92%);
 }
