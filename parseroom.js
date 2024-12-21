@@ -822,6 +822,10 @@ async function getAssignments() {
               ? "assignment-notdone-wrapper"
               : "assignment-done-wrapper";
 
+          wrapper.addEventListener("click", (event) => {
+            window.location.href = `viewassignment.html?assignment=${assignmentKey}`;
+          });
+
           const iconSection = document.createElement("section");
           iconSection.className = "assignment-icon";
 
@@ -877,13 +881,13 @@ async function getAssignments() {
   }
 }
 
-document.getElementById('datetime').setAttribute('min', getCurrentDateTime());
-const form = document.getElementById('datetimeForm');
-form.addEventListener('submit', function (event) {
-  event.preventDefault();
-  const datetimeValue = document.getElementById('datetime').value;
-  console.log(datetimeValue);
-});
+// document.getElementById('datetime').setAttribute('min', getCurrentDateTime());
+// const form = document.getElementById('datetimeForm');
+// form.addEventListener('submit', function (event) {
+//   event.preventDefault();
+//   const datetimeValue = document.getElementById('datetime').value;
+//   console.log(datetimeValue);
+// });
 
 function getCurrentDateTime() {
   const now = new Date();
