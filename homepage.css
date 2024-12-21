@@ -681,6 +681,7 @@ body {
   background-color: #fefefe;
   text-overflow: ellipsis;
   margin-bottom: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset;
 }
 
 .parseclass-default-gradient {
