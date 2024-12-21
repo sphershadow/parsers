@@ -783,6 +783,6 @@ function showBulletinMenu(selected, hidden, selecteddiv, hiddendiv) {
   document.getElementById(hidden).style.borderRadius = "0px 0px 0px 0px";
   document.getElementById(hidden).style.backgroundColor = "#fefefe";
 
-  document.getElementById(selecteddiv).style.display = "flex";
+  document.getElementById(selecteddiv).style.display = "block";
   document.getElementById(hiddendiv).style.display = "none";
 }
