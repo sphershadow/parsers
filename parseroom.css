@@ -789,8 +789,8 @@ body {
 
 .assignment-icon {
   height: 100%;
-  width: 30px;
-  background-color: rgba(255, 210, 210, 0.774);
+  width: 70px;
+  background-color: transparent;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -808,23 +808,21 @@ body {
 
 .assignment-title {
   font-family: Inter-Medium;
-  font-size: 18px;
+  font-size: 15px;
   width: 90%;
   padding-top: 10px;
-  padding-left: 15px;
 }
 
 .assignment-date {
   font-family: Inter-Light;
-  font-size: 14px;
+  font-size: 13px;
   width: 100%;
   padding-top: 5px;
-  padding-left: 15px;
 }
 
 .assignment-due {
   font-family: Inter-Light;
-  font-size: 14px;
+  font-size: 13px;
   background-color: transparent;
   width: 95%;
   height: 100%;
@@ -832,4 +830,11 @@ body {
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
+}
+
+.assignment-img {
+  width: 25px;
+  margin-top: 15px;
+  filter: invert(37%) sepia(100%) saturate(7404%) hue-rotate(7deg)
+    brightness(91%) contrast(124%);
 }
