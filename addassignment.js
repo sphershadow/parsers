@@ -61,7 +61,12 @@ const form = document.getElementById('datetimeForm');
 form.addEventListener('change', function (event) {
     event.preventDefault();
     const datetimeValue = document.getElementById('datetime').value;
-    console.log(datetimeValue);
+    document.getElementById('setduedate-btn').innerText = formatDateTime(datetimeValue);
+    document.getElementById('setduedate-btn').style.color = 'black';
+    if (datetimeValue === '') {
+        document.getElementById('setduedate-btn').innerText = 'Set Due Date';
+        document.getElementById('setduedate-btn').style.color = '#cccccc';
+    }
 });
 
 
