@@ -36,7 +36,7 @@ const appAdmin = initializeApp(firebaseConfigAdmin, "ParseITAdmin");
 const databaseAdmin = getDatabase(appAdmin);
 const dbRefAdmin = ref(databaseAdmin);
 
-let admin_id = localStorage.getItem("user-parser-admin");
+let admin_id = localStorage.getItem("user-parser");
 
 
 //preloads
@@ -123,16 +123,22 @@ document.getElementById("widget-closefile").addEventListener("click", () => {
     hideWidget();
 });
 
-document.getElementById("createassignment-btn").addEventListener("click", () => {
+document.getElementById("createassignment-btn").addEventListener("click", async () => {
+    const acadref = localStorage.getItem("parseroom-acadref");
+    const yearlvl = localStorage.getItem("parseroom-yearlvl");
+    const sem = localStorage.getItem("parseroom-sem");
+    const subject = localStorage.getItem("parseroom-code");
+    const section = localStorage.getItem("parseroom-section");
+    const assignmentcode = Date.now().toString();
+
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
 
     const assignmenttype = urlParams.get('assignmenttype');
-    const header = document.getElementById("header-title");
-    const instructions = document.getElementById("createassigment-instructions");
-    const totalscore = document.getElementById("createassigment-totalscore");
-    const pointsontime = document.getElementById("createassigment-pointsontime");
-    const deduction = document.getElementById("createassigment-deduction");
+    const header = document.getElementById("header-title").value;
+    const instructions = document.getElementById("createassigment-instructions").value;
+    const totalscore = document.getElementById("createassigment-totalscore").value;
+    const pointsontime = document.getElementById("createassigment-pointsontime").value;
     let repository = false;
     if (document.getElementById("repository-radio").checked) {
         repository = true;
@@ -141,6 +147,42 @@ document.getElementById("createassignment-btn").addEventListener("click", () => 
     const date = getCurrentDateTime();
 
 
+    if (header === "") {
+        errorElement("header-title");
+        return;
+    }
+
+    if (instructions === "") {
+        errorElement("createassigment-instructions");
+        return;
+    }
+
+    if (totalscore === "") {
+        errorElement("createassigment-totalscore");
+        return;
+    }
+
+    if (pointsontime === "") {
+        errorElement("createassigment-pointsontime");
+        return;
+    }
+
+    if (duedate === "") {
+        errorElement("setduedate-btn");
+        return;
+    }
+
+    await update(ref(database, `PARSEIT/administration/parseclass/${acadref}/${yearlvl}/${sem}/${subject}/${section}/assignment/${assignmentcode}/`), {
+        assignmenttype: assignmenttype,
+        header: header,
+        instructions: instructions,
+        totalscore: totalscore,
+        pointsontime: pointsontime,
+        repository: repository,
+        duedate: duedate,
+        date: date,
+    });
+    console.log("Assignment created successfully");
 });
 
 
@@ -157,26 +199,58 @@ document.getElementById("createassigment-pointsontime").addEventListener("click"
     }
 });
 
+function errorElement(element) {
+    document.getElementById(element).style.border = "0.4px solid #f30505";
+    setTimeout(() => {
+        document.getElementById(element).style.border = "0.4px solid #dcdcdc";
+    }, 1000);
+}
 
-document.getElementById("createassigment-deduction").addEventListener("click", () => {
-    if (document.getElementById("createassigment-totalscore").value === "") {
 
-        document.getElementById("createassigment-totalscore").focus();
-        document.getElementById("createassigment-totalscore").style.border =
-            "0.4px solid #f30505";
-        setTimeout(() => {
-            document.getElementById("createassigment-totalscore").style.border =
-                "0.4px solid #dcdcdc";
-        }, 1000);
-    }
+
+document.getElementById("widget-pdf-file").addEventListener("click", () => {
+    // accept = "image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    document.getElementById("fileInput").accept = "application/pdf";
+    document.getElementById("fileInput").click();
 });
-// Function to upload file to GitHub
+
+
+
+
+document.getElementById('fileInput').addEventListener('change', handleFileInput);
+async function handleFileInput(event) {
+    const file = event.target.files[0];
+    if (!file) {
+        console.error("No file selected.");
+        return;
+    }
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+        const base64FileContent = reader.result.split(",")[1];
+
+        const token = await getApikey();
+        const owner = "parseitlearninghub";
+        const repo = "parseitlearninghub-storage";
+        const filePath = `PARSEIT/storage/${admin_id}/${file.name}`;
+
+        uploadFileToGitHub(token, owner, repo, filePath, base64FileContent)
+            .then(response => console.log(response))
+            .catch(error => console.error(error));
+    };
+
+    reader.onerror = () => {
+        //console.error("Error reading file.");
+    }
+    reader.readAsDataURL(file);
+}
+
+
 async function uploadFileToGitHub(token, owner, repo, filePath, fileContent) {
     const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
 
     const data = {
-        message: "Adding a file via API",
-        content: fileContent, // Base64 encoded file content
+        message: "assignment attachment " + admin_id,
+        content: fileContent,
     };
 
     try {
@@ -203,44 +277,6 @@ async function uploadFileToGitHub(token, owner, repo, filePath, fileContent) {
     }
 }
 
-// Function to handle file input and convert it to base64
-async function handleFileInput(event) {
-    const file = event.target.files[0];
-
-    if (!file) {
-        console.error("No file selected.");
-        return;
-    }
-
-    const reader = new FileReader();
-
-    reader.onloadend = async () => {
-        const base64FileContent = reader.result.split(",")[1]; // Get the base64 part (after the comma)
-
-        // Define GitHub repository details
-        const token = await getApikey(); // Replace with your GitHub Personal Access Token
-        const owner = "parseitlearninghub"; // Replace with your GitHub username
-        const repo = "parseitlearninghub-storage"; // Replace with your repository name
-        const filePath = `PARSEIT/storage/${file.name}`; // Save the file with its original name in the "uploads" directory
-
-        // Call the function to upload the file
-        uploadFileToGitHub(token, owner, repo, filePath, base64FileContent)
-            .then(response => console.log(response))
-            .catch(error => console.error(error));
-    };
-
-    reader.onerror = () => {
-        console.error("Error reading file.");
-    };
-
-    // Read the file as a data URL (which is base64-encoded)
-    reader.readAsDataURL(file);
-}
-
-// Attach event listener to the file input
-document.getElementById('fileInput').addEventListener('change', handleFileInput);
-
-
 async function getApikey() {
     const apikeyRef = child(dbRef, "PARSEIT/administration/apikeys/");
     const snapshot = await get(apikeyRef);
@@ -251,5 +287,3 @@ async function getApikey() {
         return null;
     }
 }
-
-console.log(getApikey());
