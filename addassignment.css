@@ -126,6 +126,7 @@ body {
   border: 0.3px solid #dcdcdc;
   border-radius: 4px;
   background-color: transparent;
+  visibility: hidden;
 }
 #datetime:focus {
   outline: none;
