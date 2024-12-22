@@ -122,3 +122,132 @@ document.getElementById("attachfile").addEventListener("click", () => {
 document.getElementById("widget-closefile").addEventListener("click", () => {
     hideWidget();
 });
+
+document.getElementById("createassignment-btn").addEventListener("click", () => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    const assignmenttype = urlParams.get('assignmenttype');
+    const header = document.getElementById("header-title");
+    const instructions = document.getElementById("createassigment-instructions");
+    const totalscore = document.getElementById("createassigment-totalscore");
+    const pointsontime = document.getElementById("createassigment-pointsontime");
+    const deduction = document.getElementById("createassigment-deduction");
+    let repository = false;
+    if (document.getElementById("repository-radio").checked) {
+        repository = true;
+    }
+    const duedate = document.getElementById("datetime").value;
+    const date = getCurrentDateTime();
+
+
+});
+
+
+document.getElementById("createassigment-pointsontime").addEventListener("click", () => {
+    if (document.getElementById("createassigment-totalscore").value === "") {
+
+        document.getElementById("createassigment-totalscore").focus();
+        document.getElementById("createassigment-totalscore").style.border =
+            "0.4px solid #f30505";
+        setTimeout(() => {
+            document.getElementById("createassigment-totalscore").style.border =
+                "0.4px solid #dcdcdc";
+        }, 1000);
+    }
+});
+
+
+document.getElementById("createassigment-deduction").addEventListener("click", () => {
+    if (document.getElementById("createassigment-totalscore").value === "") {
+
+        document.getElementById("createassigment-totalscore").focus();
+        document.getElementById("createassigment-totalscore").style.border =
+            "0.4px solid #f30505";
+        setTimeout(() => {
+            document.getElementById("createassigment-totalscore").style.border =
+                "0.4px solid #dcdcdc";
+        }, 1000);
+    }
+});
+// Function to upload file to GitHub
+async function uploadFileToGitHub(token, owner, repo, filePath, fileContent) {
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+
+    const data = {
+        message: "Adding a file via API",
+        content: fileContent, // Base64 encoded file content
+    };
+
+    try {
+        const response = await fetch(url, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Accept": "application/vnd.github.v3+json",
+            },
+            body: JSON.stringify(data),
+        });
+
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            console.error("GitHub API error:", responseData);
+            return;
+        }
+
+        console.log("File uploaded successfully:", responseData);
+        return responseData;
+    } catch (error) {
+        console.error("Error uploading file:", error);
+    }
+}
+
+// Function to handle file input and convert it to base64
+async function handleFileInput(event) {
+    const file = event.target.files[0];
+
+    if (!file) {
+        console.error("No file selected.");
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onloadend = async () => {
+        const base64FileContent = reader.result.split(",")[1]; // Get the base64 part (after the comma)
+
+        // Define GitHub repository details
+        const token = await getApikey(); // Replace with your GitHub Personal Access Token
+        const owner = "parseitlearninghub"; // Replace with your GitHub username
+        const repo = "parseitlearninghub-storage"; // Replace with your repository name
+        const filePath = `PARSEIT/storage/${file.name}`; // Save the file with its original name in the "uploads" directory
+
+        // Call the function to upload the file
+        uploadFileToGitHub(token, owner, repo, filePath, base64FileContent)
+            .then(response => console.log(response))
+            .catch(error => console.error(error));
+    };
+
+    reader.onerror = () => {
+        console.error("Error reading file.");
+    };
+
+    // Read the file as a data URL (which is base64-encoded)
+    reader.readAsDataURL(file);
+}
+
+// Attach event listener to the file input
+document.getElementById('fileInput').addEventListener('change', handleFileInput);
+
+
+async function getApikey() {
+    const apikeyRef = child(dbRef, "PARSEIT/administration/apikeys/githubtoken");
+    const snapshot = await get(apikeyRef);
+    if (snapshot.exists()) {
+        const currentData = snapshot.val().key;
+        return currentData;
+    } else {
+        return null;
+    }
+}
