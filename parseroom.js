@@ -750,6 +750,19 @@ document.getElementById("check_bulletin").addEventListener("click", (event) => {
     "fadeScaleUp 0.25s ease-in-out forwards";
 
 
+  if (user_parser_type === "teacher") {
+    const widgets = document.querySelectorAll(".widget-wrapper");
+
+    widgets.forEach((widget, index) => {
+      // Remove the "animate-close" class first
+      widget.classList.remove("animate-close");
+      setTimeout(() => {
+        widget.classList.add("animate");
+      }, index * 100);
+    });
+  }
+
+
   let startY = 0;
   let endY = 0;
   document.addEventListener("touchstart", (event) => {
@@ -762,18 +775,45 @@ document.getElementById("check_bulletin").addEventListener("click", (event) => {
         "fadeScaleDown 0.25s ease-in-out forwards";
       document.getElementById("bulletin-div").style.animation =
         "opacity_bg_rev 0.25s ease-in-out forwards";
+
+      const widgets = document.querySelectorAll(".widget-wrapper");
+      widgets.forEach((widget, index) => {
+        // Remove the "animate" class first
+        widget.classList.remove("animate");
+        setTimeout(() => {
+          widget.classList.add("animate-close");
+        }, index * 100);
+      });
     }
   });
 });
 
-document.getElementById("bulletin_assignment").addEventListener("click", (event) => {
+document.getElementById("bulletin_assignment").addEventListener("click", () => {
   showBulletinMenu("bulletin_assignment", "bulletin_announcement", "bulletin-assignment", "bulletin-announcement");
+  const widgets = document.querySelectorAll(".widget-wrapper");
 
+  widgets.forEach((widget, index) => {
+    // Remove the "animate-close" class first
+    widget.classList.remove("animate-close");
+    setTimeout(() => {
+      widget.classList.add("animate");
+    }, index * 100);
+  });
 });
 
-document.getElementById("bulletin_announcement").addEventListener("click", (event) => {
+document.getElementById("bulletin_announcement").addEventListener("click", () => {
   showBulletinMenu("bulletin_announcement", "bulletin_assignment", "bulletin-announcement", "bulletin-assignment");
+  const widgets = document.querySelectorAll(".widget-wrapper");
+
+  widgets.forEach((widget, index) => {
+    // Remove the "animate" class first
+    widget.classList.remove("animate");
+    setTimeout(() => {
+      widget.classList.add("animate-close");
+    }, index * 100);
+  });
 });
+
 
 function showBulletinMenu(selected, hidden, selecteddiv, hiddendiv) {
   document.getElementById(selected).style.borderRadius = "10px 10px 0px 0px";
@@ -784,6 +824,7 @@ function showBulletinMenu(selected, hidden, selecteddiv, hiddendiv) {
 
   document.getElementById(selecteddiv).style.display = "block";
   document.getElementById(hiddendiv).style.display = "none";
+
 }
 
 async function getAssignments() {
@@ -875,7 +916,7 @@ async function getAssignments() {
           }
         }
       } else {
-        console.log("No Assignments");
+        //console.log("No Assignments");
       }
     });
   }
@@ -919,3 +960,5 @@ function Due(date) {
     return false;
   }
 }
+
+
