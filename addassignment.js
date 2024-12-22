@@ -242,12 +242,14 @@ document.getElementById('fileInput').addEventListener('change', handleFileInput)
 
 
 async function getApikey() {
-    const apikeyRef = child(dbRef, "PARSEIT/administration/apikeys/githubtoken");
+    const apikeyRef = child(dbRef, "PARSEIT/administration/apikeys/");
     const snapshot = await get(apikeyRef);
     if (snapshot.exists()) {
-        const currentData = snapshot.val().key;
+        const currentData = snapshot.val().githubtoken;
         return currentData;
     } else {
         return null;
     }
 }
+
+console.log(getApikey());
