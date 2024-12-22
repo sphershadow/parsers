@@ -791,27 +791,30 @@ document.getElementById("check_bulletin").addEventListener("click", (event) => {
 document.getElementById("bulletin_assignment").addEventListener("click", () => {
   showBulletinMenu("bulletin_assignment", "bulletin_announcement", "bulletin-assignment", "bulletin-announcement");
   const widgets = document.querySelectorAll(".widget-wrapper");
-
-  widgets.forEach((widget, index) => {
-    // Remove the "animate-close" class first
-    widget.classList.remove("animate-close");
-    setTimeout(() => {
-      widget.classList.add("animate");
-    }, index * 100);
-  });
+  if (user_parser_type === "teacher") {
+    widgets.forEach((widget, index) => {
+      // Remove the "animate-close" class first
+      widget.classList.remove("animate-close");
+      setTimeout(() => {
+        widget.classList.add("animate");
+      }, index * 100);
+    });
+  }
 });
 
 document.getElementById("bulletin_announcement").addEventListener("click", () => {
   showBulletinMenu("bulletin_announcement", "bulletin_assignment", "bulletin-announcement", "bulletin-assignment");
   const widgets = document.querySelectorAll(".widget-wrapper");
+  if (user_parser_type === "teacher") {
+    widgets.forEach((widget, index) => {
+      // Remove the "animate" class first
+      widget.classList.remove("animate");
+      setTimeout(() => {
+        widget.classList.add("animate-close");
+      }, index * 100);
+    });
+  }
 
-  widgets.forEach((widget, index) => {
-    // Remove the "animate" class first
-    widget.classList.remove("animate");
-    setTimeout(() => {
-      widget.classList.add("animate-close");
-    }, index * 100);
-  });
 });
 
 
