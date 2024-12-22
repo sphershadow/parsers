@@ -152,6 +152,9 @@ body {
   border-radius: 4px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
     rgb(209, 213, 219) 0px 0px 0px 1px inset;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .assignment-instruction {
@@ -179,4 +182,17 @@ body {
   color: #fefefe;
   background-color: #f30505;
   font-family: Inter-Bold;
+}
+
+.missing-title {
+  font-family: Inter-Light;
+  font-size: 14px;
+  color: #f30505;
+}
+.img-type {
+  width: 20px;
+}
+.img-type-pdf {
+  width: 25px;
+  margin-left: 5px;
 }
