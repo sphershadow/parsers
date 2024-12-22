@@ -60,8 +60,40 @@
               class="createassigment-txt"
               placeholder="Deduction"
             />
+            <button id="attachfile">Attach File</button>
           </section>
-
+          <section class="duedate-wrapper" id="attachedfile-container-wrapper">
+            <section class="teacher-widget-wrapper" id="teacher-widget-wrapper">
+              <div class="widget-wrapper" id="widget-pdf-file">
+                <img
+                  src="assets/icons/file-pdf-solid.svg"
+                  alt=""
+                  class="widget-img"
+                />
+              </div>
+              <div class="widget-wrapper" id="widget-docs-file">
+                <img
+                  src="assets/icons/file-word-solid.svg"
+                  alt=""
+                  class="widget-img-word"
+                />
+              </div>
+              <div class="widget-wrapper" id="widget-image-file">
+                <img
+                  src="assets/icons/image-solid.svg"
+                  alt=""
+                  class="widget-img"
+                />
+              </div>
+              <div class="widget-wrapper" id="widget-closefile">
+                <img
+                  src="assets/icons/xmark-solid.svg"
+                  alt=""
+                  class="widget-img"
+                />
+              </div>
+            </section>
+          </section>
           <section class="duedate-wrapper">
             <button
               id="setduedate-btn"
@@ -69,18 +101,10 @@
             >
               Set Due Date
             </button>
-            <form id="datetimeForm">
-              <input
-                type="datetime-local"
-                id="datetime"
-                name="datetime"
-                placeholder="Set Due Date"
-              />
-            </form>
           </section>
           <div class="createassigment-respository">
             <input
-              type="radio"
+              type="checkbox"
               id="repository-radio"
               name="radio-group"
               value="true"
@@ -89,7 +113,16 @@
           </div>
         </section>
 
-        <section class="fillers"></section>
+        <section class="fillers">
+          <form id="datetimeForm">
+            <input
+              type="datetime-local"
+              id="datetime"
+              name="datetime"
+              placeholder="Set Due Date"
+            />
+          </form>
+        </section>
         <section class="fillers"></section>
         <section class="fillers"></section>
         <section class="fillers"></section>

@@ -90,3 +90,35 @@ function formatDateTime(datetime) {
     const formattedTime = `${hours % 12 || 12}:${minutes} ${ampm}`;
     return `${formattedDate} (${formattedTime})`;
 }
+
+function showWidget() {
+    const widgets = document.querySelectorAll(".widget-wrapper");
+    widgets.forEach((widget, index) => {
+        document.getElementById("teacher-widget-wrapper").style.display = "flex";
+        widget.classList.remove("animate-close");
+        setTimeout(() => {
+            widget.classList.add("animate");
+        }, index * 100);
+    });
+}
+function hideWidget() {
+    const widgets = document.querySelectorAll(".widget-wrapper");
+    widgets.forEach((widget, index) => {
+
+        widget.classList.remove("animate");
+        setTimeout(() => {
+            widget.classList.add("animate-close");
+            setTimeout(() => {
+                document.getElementById("teacher-widget-wrapper").style.display = "none";
+            }, 400);
+        }, index * 100);
+    });
+}
+
+document.getElementById("attachfile").addEventListener("click", () => {
+    showWidget();
+});
+
+document.getElementById("widget-closefile").addEventListener("click", () => {
+    hideWidget();
+});
