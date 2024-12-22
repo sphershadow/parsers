@@ -23,11 +23,13 @@
           <label class="header-title">Create Assignment</label>
         </section>
         <section class="chatbot-data-wrapper">
-          <button onclick="document.getElementById('datetime').click()">
-            Set Due Date
-          </button>
-
-          <section class="fillers">
+          <section class="duedate-wrapper">
+            <button
+              id="setduedate-btn"
+              onclick="document.getElementById('datetime').click()"
+            >
+              Set Due Date
+            </button>
             <form id="datetimeForm">
               <input
                 type="datetime-local"
@@ -37,10 +39,6 @@
               />
             </form>
           </section>
-
-          <section class="fillers"></section>
-          <section class="fillers"></section>
-          <section class="fillers"></section>
         </section>
 
         <section class="fillers"></section>
