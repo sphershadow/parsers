@@ -925,13 +925,7 @@ async function getAssignments() {
   }
 }
 
-// document.getElementById('datetime').setAttribute('min', getCurrentDateTime());
-// const form = document.getElementById('datetimeForm');
-// form.addEventListener('submit', function (event) {
-//   event.preventDefault();
-//   const datetimeValue = document.getElementById('datetime').value;
-//   console.log(datetimeValue);
-// });
+
 
 function getCurrentDateTime() {
   const now = new Date();
@@ -965,3 +959,18 @@ function Due(date) {
 }
 
 
+
+
+document.getElementById("widget-texteditor").addEventListener("click", () => {
+  console.log("clicked");
+  window.location.href = `addassignment.html?assignmenttype=texteditor`;
+});
+
+// function previousPage() {
+//   const data = localStorage.getItem("viewbulletin");
+//   if (data === "true") {
+//     document.getElementById("body-parseroom-div").style.transform = "translateX(-100%)";
+//     document.getElementById("details-parseroom-div").style.transform = "translateX(-100%)";
+//   }
+
+// } previousPage();

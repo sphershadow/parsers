@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Train chatbot</title>
+    <link rel="stylesheet" href="addassignment.css" />
+  </head>
+  <body>
+    <div id="loading_animation_div">
+      <img id="loading_animation_gif" src="assets/loading_animation.gif" />
+      <h1 id="parsing_lbl">Parsing...</h1>
+    </div>
+    <id id="home_trainchatbot">
+      <section class="trainchatbot-wrapper">
+        <button id="canceladdchatbot-btn">
+          <img
+            class="canceladdcluster-btn"
+            src="assets/icons/arrow-left-solid.svg"
+          />
+        </button>
+        <section class="header-title-wrapper">
+          <label class="header-title">Create Assignment</label>
+        </section>
+        <section class="chatbot-data-wrapper">
+          <section class="fillers">
+            <form id="datetimeForm">
+              <input
+                type="datetime-local"
+                id="datetime"
+                name="datetime"
+                placeholder="Set Due Date"
+              />
+            </form>
+          </section>
+
+          <section class="fillers"></section>
+          <section class="fillers"></section>
+          <section class="fillers"></section>
+        </section>
+
+        <section class="fillers"></section>
+      </section>
+    </id>
+    <script type="module" src="addassignment.js"></script>
+  </body>
+</html>
