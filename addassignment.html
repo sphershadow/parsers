@@ -24,6 +24,45 @@
         </section>
         <section class="chatbot-data-wrapper">
           <section class="duedate-wrapper">
+            <input
+              maxlength="50"
+              type="text"
+              class="createassigment-txt"
+              placeholder="Enter Header"
+            />
+          </section>
+          <section class="duedate-wrapper">
+            <textarea
+              row="0"
+              oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px';"
+              id="createassigment-instructions"
+              placeholder="Enter Instructions"
+            ></textarea>
+          </section>
+          <section class="scorring-wrapper">
+            <input
+              maxlength="50"
+              type="text"
+              class="createassigment-txt"
+              placeholder="Total Score"
+            />
+            <input
+              maxlength="50"
+              type="text"
+              class="createassigment-txt"
+              placeholder="Points On Time"
+            />
+          </section>
+          <section class="scorring-wrapper">
+            <input
+              maxlength="50"
+              type="text"
+              class="createassigment-txt"
+              placeholder="Deduction"
+            />
+          </section>
+
+          <section class="duedate-wrapper">
             <button
               id="setduedate-btn"
               onclick="document.getElementById('datetime').click()"
@@ -39,8 +78,20 @@
               />
             </form>
           </section>
+          <div class="createassigment-respository">
+            <input
+              type="radio"
+              id="repository-radio"
+              name="radio-group"
+              value="true"
+            />
+            <label for="repository-radio">Disable Respository after Due</label>
+          </div>
         </section>
 
+        <section class="fillers"></section>
+        <section class="fillers"></section>
+        <section class="fillers"></section>
         <section class="fillers"></section>
       </section>
     </id>
