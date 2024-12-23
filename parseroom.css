@@ -872,9 +872,9 @@ body {
   height: 60px;
   background-color: transparent;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  margin-bottom: 9%;
+  margin-bottom: 11%;
   gap: 15px;
 }
 
@@ -913,6 +913,12 @@ body {
 }
 
 .widget-img-word {
+  width: 15px;
+  filter: invert(37%) sepia(100%) saturate(7404%) hue-rotate(7deg)
+    brightness(91%) contrast(124%);
+}
+
+.widget-img-file {
   width: 15px;
   filter: invert(37%) sepia(100%) saturate(7404%) hue-rotate(7deg)
     brightness(91%) contrast(124%);

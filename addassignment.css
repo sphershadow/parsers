@@ -219,9 +219,9 @@ body {
 
 #attachfile {
   width: 100%;
-  background-color: #f30505;
-  color: #fefefe;
-  border: none;
+  background-color: #fefefe;
+  color: #f30505;
+  border: 0.3px solid #f30505;
   border-radius: 4px;
   font-family: Inter-Regular;
   font-size: 14px;
@@ -270,6 +270,12 @@ body {
 }
 
 .widget-img-word {
+  width: 23px;
+  filter: invert(37%) sepia(100%) saturate(7404%) hue-rotate(7deg)
+    brightness(91%) contrast(124%);
+}
+
+.widget-img-file {
   width: 15px;
   filter: invert(37%) sepia(100%) saturate(7404%) hue-rotate(7deg)
     brightness(91%) contrast(124%);
@@ -284,4 +290,83 @@ body {
   font-family: Inter-Regular;
   font-size: 14px;
   height: 45px;
+}
+
+.attachedfile-container {
+  height: 45px;
+  width: 100%;
+  background-color: transparent;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background-color: #f1f1f1;
+  transition: width 0.3s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  border-radius: 4px;
+}
+
+#assigment-attachedfile-container {
+  display: flex;
+}
+
+.progress-bar-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border: 0.3px solid #dcdcdc;
+  box-sizing: border-box;
+  border-radius: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.remove-attachedfile {
+  width: 45px;
+  height: 100%;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.remove-attachedfile-img {
+  width: 15px;
+}
+
+.sticky-attached {
+  top: 0;
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-family: Inter-Regular;
+  font-size: 14px;
+  height: 100%;
+  margin-left: 15px;
+  width: 88%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#assigment-attachedfile-container {
+  display: none;
+}
+
+#fileInput {
+  visibility: hidden;
+}
+#datetime {
+  visibility: hidden;
 }

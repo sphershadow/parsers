@@ -61,25 +61,18 @@
           </section>
           <section class="duedate-wrapper" id="attachedfile-container-wrapper">
             <section class="teacher-widget-wrapper" id="teacher-widget-wrapper">
-              <div class="widget-wrapper" id="widget-pdf-file">
+              <div class="widget-wrapper" id="widget-image-file">
                 <img
-                  src="assets/icons/file-pdf-solid.svg"
+                  src="assets/icons/file-solid.svg"
                   alt=""
-                  class="widget-img"
+                  class="widget-img-file"
                 />
               </div>
               <div class="widget-wrapper" id="widget-docs-file">
                 <img
-                  src="assets/icons/file-word-solid.svg"
+                  src="assets/icons/gamepad-solid.svg"
                   alt=""
                   class="widget-img-word"
-                />
-              </div>
-              <div class="widget-wrapper" id="widget-image-file">
-                <img
-                  src="assets/icons/image-solid.svg"
-                  alt=""
-                  class="widget-img"
                 />
               </div>
               <div class="widget-wrapper" id="widget-closefile">
@@ -90,6 +83,20 @@
                 />
               </div>
             </section>
+          </section>
+          <section
+            class="duedate-wrapper"
+            id="assigment-attachedfile-container"
+          >
+            <!-- <section class="attachedfile-container" id="attachedfile-container">
+              <section class="progress-bar-wrapper">
+                <div class="progress-bar-fill"></div>
+                <label class="sticky-attached" for="">filename.extenstion</label>
+              </section>
+              <section class="remove-attachedfile">
+                <img src="assets/icons/xmark-solid.svg" alt="" class="remove-attachedfile-img" />
+              </section>
+            </section> -->
           </section>
           <section class="duedate-wrapper">
             <button
@@ -113,7 +120,11 @@
         </section>
 
         <section class="fillers">
-          <input type="file" id="fileInput" />
+          <input
+            type="file"
+            id="fileInput"
+            accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,video/*"
+          />
 
           <form id="datetimeForm">
             <input

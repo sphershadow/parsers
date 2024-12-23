@@ -37,12 +37,13 @@ const databaseAdmin = getDatabase(appAdmin);
 const dbRefAdmin = ref(databaseAdmin);
 
 let admin_id = localStorage.getItem("user-parser");
-
+const assignmentcode = Date.now().toString();
 
 //preloads
 setScreenSize(window.innerWidth, window.innerHeight);
 window.addEventListener("load", function () {
     document.getElementById("loading_animation_div").style.display = "none";
+
 
 });
 function setScreenSize(width, height) {
@@ -92,6 +93,9 @@ function formatDateTime(datetime) {
 }
 
 function showWidget() {
+    document.getElementById("attachedfile-container-wrapper").style.display = "block";
+
+
     const widgets = document.querySelectorAll(".widget-wrapper");
     widgets.forEach((widget, index) => {
         document.getElementById("teacher-widget-wrapper").style.display = "flex";
@@ -129,7 +133,6 @@ document.getElementById("createassignment-btn").addEventListener("click", async 
     const sem = localStorage.getItem("parseroom-sem");
     const subject = localStorage.getItem("parseroom-code");
     const section = localStorage.getItem("parseroom-section");
-    const assignmentcode = Date.now().toString();
 
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -208,9 +211,8 @@ function errorElement(element) {
 
 
 
-document.getElementById("widget-pdf-file").addEventListener("click", () => {
+document.getElementById("widget-image-file").addEventListener("click", () => {
     // accept = "image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    document.getElementById("fileInput").accept = "application/pdf";
     document.getElementById("fileInput").click();
 });
 
@@ -219,6 +221,12 @@ document.getElementById("widget-pdf-file").addEventListener("click", () => {
 
 document.getElementById('fileInput').addEventListener('change', handleFileInput);
 async function handleFileInput(event) {
+    document.getElementById("attachedfile-container-wrapper").style.display = "none";
+    document.getElementById("assigment-attachedfile-container").style.display = "block";
+
+    const subject = localStorage.getItem("parseroom-code");
+    const section = localStorage.getItem("parseroom-section");
+
     const file = event.target.files[0];
     if (!file) {
         console.error("No file selected.");
@@ -231,11 +239,11 @@ async function handleFileInput(event) {
         const token = await getApikey();
         const owner = "parseitlearninghub";
         const repo = "parseitlearninghub-storage";
-        const filePath = `PARSEIT/storage/${admin_id}/${file.name}`;
+        const filePath = `PARSEIT/storage/${admin_id}/${section}/${subject}/${file.name}`;
 
-        uploadFileToGitHub(token, owner, repo, filePath, base64FileContent)
-            .then(response => console.log(response))
-            .catch(error => console.error(error));
+        uploadFileToGitHub(token, owner, repo, filePath, base64FileContent, file.name).then(async () => {
+            await addAttachment(file.type, file.name);
+        });
     };
 
     reader.onerror = () => {
@@ -245,7 +253,42 @@ async function handleFileInput(event) {
 }
 
 
-async function uploadFileToGitHub(token, owner, repo, filePath, fileContent) {
+async function uploadFileToGitHub(token, owner, repo, filePath, fileContent, filename) {
+    const attachmentid = 'file-' + Date.now().toString();
+    const container = document.createElement('section');
+    container.className = 'attachedfile-container';
+    container.id = 'attachedfile-container';
+    const progressBarWrapper = document.createElement('section');
+    progressBarWrapper.className = 'progress-bar-wrapper';
+    const progressBarFill = document.createElement('div');
+    progressBarFill.className = 'progress-bar-fill';
+    progressBarFill.id = attachmentid;
+    const label = document.createElement('label');
+    label.className = 'sticky-attached';
+    label.htmlFor = '';
+    label.textContent = filename;
+    progressBarWrapper.appendChild(progressBarFill);
+    progressBarWrapper.appendChild(label);
+    const removeSection = document.createElement('section');
+    removeSection.className = 'remove-attachedfile';
+
+    removeSection.addEventListener('click', async (event) => {
+        container.remove();
+        const fileSha = await getSha(filePath);
+        await deleteFileGitHub(token, owner, repo, filePath, fileSha);
+
+    });
+    const removeImg = document.createElement('img');
+    removeImg.src = 'assets/icons/xmark-solid.svg';
+    removeImg.alt = '';
+    removeImg.className = 'remove-attachedfile-img';
+    removeSection.appendChild(removeImg);
+    container.appendChild(progressBarWrapper);
+    container.appendChild(removeSection);
+    const parentElement = document.getElementById('assigment-attachedfile-container');
+    parentElement.appendChild(container);
+
+
     const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
 
     const data = {
@@ -265,13 +308,26 @@ async function uploadFileToGitHub(token, owner, repo, filePath, fileContent) {
 
         const responseData = await response.json();
 
-        if (!response.ok) {
-            console.error("GitHub API error:", responseData);
-            return;
-        }
+        const progressBarFill = document.getElementById(attachmentid);
+        let progress = 0;
+        const interval = setInterval(() => {
+            if (progress < 100) {
+                progress += 1;
+                progressBarFill.style.width = `${progress}%`;
+            } else {
+                clearInterval(interval);
+            }
 
-        console.log("File uploaded successfully:", responseData);
-        return responseData;
+            if (!response.ok) {
+                document.getElementById("attachedfile-container").style.display = "none";
+                return;
+            }
+            if (response.ok) {
+                progressBarFill.style.width = `100%`;
+                document.getElementById('fileInput').value = '';
+                return responseData;
+            }
+        }, 100);
     } catch (error) {
         console.error("Error uploading file:", error);
     }
@@ -287,3 +343,78 @@ async function getApikey() {
         return null;
     }
 }
+
+
+async function addAttachment(type, filename) {
+    const acadref = localStorage.getItem("parseroom-acadref");
+    const yearlvl = localStorage.getItem("parseroom-yearlvl");
+    const sem = localStorage.getItem("parseroom-sem");
+    const subject = localStorage.getItem("parseroom-code");
+    const section = localStorage.getItem("parseroom-section");
+    const attachmentcode = Date.now().toString();
+
+
+    await update(ref(database, `PARSEIT/administration/parseclass/${acadref}/${yearlvl}/${sem}/${subject}/${section}/assignment/${assignmentcode}/attachedfile/${attachmentcode}/`), {
+        type: type,
+        filename: filename,
+    });
+
+
+
+}
+
+async function deleteFileGitHub(token, owner, repo, filePath, fileSha) {
+
+
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+
+    const data = {
+        message: "delete file", // Commit message for the deletion
+        sha: fileSha, // The SHA of the file to be deleted (you need to fetch this first)
+    };
+
+    try {
+        const response = await fetch(url, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Accept": "application/vnd.github.v3+json",
+            },
+            body: JSON.stringify(data),
+        });
+
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            console.error("Error deleting file:", responseData);
+            return;
+        }
+
+        // Handle successful deletion
+        console.log("File deleted successfully:", responseData);
+
+    } catch (error) {
+        console.error("Error deleting file:", error);
+    }
+
+
+}
+
+async function getSha(filePath) {
+    const token = await getApikey();
+    const owner = "parseitlearninghub";
+    const repo = "parseitlearninghub-storage";
+
+    const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}/`;
+    console.log(fileUrl);
+    const response = await fetch(fileUrl, {
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/vnd.github.v3+json",
+        },
+    });
+
+    const fileDetails = await response.json();
+    const fileSha = fileDetails.sha;
+    return fileSha;
+} 
