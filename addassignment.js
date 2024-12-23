@@ -368,6 +368,7 @@ async function handleImage(fileUrl, animations) {
     imgElement.style.animation = animations.fadeIn.content;
 
     addTouchClose(container, imgElement, animations);
+    addAttachment(fileUrl);
 }
 async function handleDocx(fileUrl, animations) {
     const container = document.getElementById("viewattachedfile-container-docx");
@@ -387,6 +388,7 @@ async function handleDocx(fileUrl, animations) {
     }
 
     addTouchClose(container, output, animations);
+    addAttachment(fileUrl);
 }
 async function handlePdf(fileUrl, animations) {
     const container = document.getElementById("viewattachedfile-container-pdf");
@@ -408,6 +410,7 @@ async function handlePdf(fileUrl, animations) {
         console.error("Error rendering PDF file:", error);
     }
     addTouchClose(container, output, animations);
+    addAttachment(fileUrl);
 }
 function renderPdfPage(page, container) {
     const viewport = page.getViewport({ scale: 1 });
@@ -438,7 +441,7 @@ function addTouchClose(container, content, animations) {
     container.addEventListener("touchend", (event) => {
         endY = event.changedTouches[0].clientY;
         const dragDistance = endY - startY;
-        if (dragDistance > 500) {
+        if (dragDistance > 400) {
             content.style.animation = animations.fadeOut.content;
             container.style.animation = animations.fadeOut.container;
             setTimeout(() => {
@@ -459,7 +462,7 @@ async function getApikey() {
 }
 
 
-async function addAttachment(type, filename) {
+async function addAttachment(filepath) {
     const acadref = localStorage.getItem("parseroom-acadref");
     const yearlvl = localStorage.getItem("parseroom-yearlvl");
     const sem = localStorage.getItem("parseroom-sem");
@@ -469,8 +472,7 @@ async function addAttachment(type, filename) {
 
 
     await update(ref(database, `PARSEIT/administration/parseclass/${acadref}/${yearlvl}/${sem}/${subject}/${section}/assignment/${assignmentcode}/attachedfile/${attachmentcode}/`), {
-        type: type,
-        filename: filename,
+        filepath: filepath,
     });
 
 
