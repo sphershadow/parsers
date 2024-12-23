@@ -60,6 +60,27 @@ body {
   font-size: 12px;
 }
 
+.check_animation_div {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  display: none;
+}
+
+.check-animation {
+  margin-top: -45px;
+  width: 100px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+}
+
 #home_trainchatbot {
   background-color: transparent;
   width: 100%;

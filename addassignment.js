@@ -160,6 +160,11 @@ document.getElementById("createassignment-btn").addEventListener("click", async 
         return;
     }
 
+    if (parseInt(pointsontime) > parseInt(totalscore)) {
+        errorElement("createassigment-pointsontime");
+        return;
+    }
+
     if (duedate === "") {
         errorElement("setduedate-btn");
         return;
@@ -173,10 +178,24 @@ document.getElementById("createassignment-btn").addEventListener("click", async 
         repository: repository,
         duedate: duedate,
         date: date,
+    }).then(() => {
+        document.getElementById("check_animation_div").style.display = "flex";
+        setTimeout(() => {
+            document.getElementById("check_animation_div").style.display = "none";
+            window.location.reload();
+        }, 1800);
     });
-    console.log("Assignment created successfully");
 });
 
+document.getElementById("createassigment-totalscore").addEventListener("input", (event) => {
+    const value = event.target.value;
+    event.target.value = value.replace(/\D/g, "");
+});
+
+document.getElementById("createassigment-pointsontime").addEventListener("input", (event) => {
+    const value = event.target.value;
+    event.target.value = value.replace(/\D/g, "");
+});
 
 document.getElementById("createassigment-pointsontime").addEventListener("click", () => {
     if (document.getElementById("createassigment-totalscore").value === "") {
@@ -316,13 +335,10 @@ async function uploadFileToGitHub(token, owner, repo, filePath, fileContent, fil
 
             try {
                 if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
-                    await addAttachment(fileUrl);
                     await fileHandlers.image(fileUrl, animations);
                 } else if (['doc', 'docx'].includes(fileExtension)) {
-                    await addAttachment(fileUrl);
                     await fileHandlers.docx(fileUrl, animations);
                 } else if (['pdf'].includes(fileExtension)) {
-                    await addAttachment(fileUrl);
                     await fileHandlers.pdf(fileUrl, animations);
                 } else {
                     console.warn("Unsupported file type.");
@@ -333,7 +349,7 @@ async function uploadFileToGitHub(token, owner, repo, filePath, fileContent, fil
         });
         const progressBarFill = document.getElementById(attachmentid);
         let progress = 0;
-        const interval = setInterval(() => {
+        const interval = setInterval(async () => {
             if (progress < 100) {
                 progress += 1;
                 progressBarFill.style.width = `${progress}%`;
@@ -348,9 +364,12 @@ async function uploadFileToGitHub(token, owner, repo, filePath, fileContent, fil
             if (response.ok) {
                 progressBarFill.style.width = `100%`;
                 document.getElementById('fileInput').value = '';
+
                 return responseData;
             }
+
         }, 100);
+        await addAttachment(responseData.content.download_url);
     } catch (error) {
         console.error("Error uploading file:", error);
     }
@@ -472,8 +491,6 @@ async function addAttachment(filepath) {
     await update(ref(database, `PARSEIT/administration/parseclass/${acadref}/${yearlvl}/${sem}/${subject}/${section}/assignment/${assignmentcode}/attachedfile/${attachmentcode}/`), {
         filepath: filepath,
     });
-
-
 
 }
 
