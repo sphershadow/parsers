@@ -963,7 +963,7 @@ function Due(date) {
 
 document.getElementById("widget-texteditor").addEventListener("click", () => {
   console.log("clicked");
-  window.location.href = `addassignment.html?assignmenttype=texteditor`;
+  window.location.href = `addassignment.html`;
 });
 
 // function previousPage() {

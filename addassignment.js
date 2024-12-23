@@ -128,10 +128,6 @@ document.getElementById("createassignment-btn").addEventListener("click", async 
     const subject = localStorage.getItem("parseroom-code");
     const section = localStorage.getItem("parseroom-section");
 
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-
-    const assignmenttype = urlParams.get('assignmenttype');
     const header = document.getElementById("header-title").value;
     const instructions = document.getElementById("createassigment-instructions").value;
     const totalscore = document.getElementById("createassigment-totalscore").value;
@@ -170,7 +166,6 @@ document.getElementById("createassignment-btn").addEventListener("click", async 
     }
 
     await update(ref(database, `PARSEIT/administration/parseclass/${acadref}/${yearlvl}/${sem}/${subject}/${section}/assignment/${assignmentcode}/`), {
-        assignmenttype: assignmenttype,
         header: header,
         instructions: instructions,
         totalscore: totalscore,
@@ -386,9 +381,9 @@ async function handleDocx(fileUrl, animations) {
     } catch (error) {
         console.error("Error converting DOCX file:", error);
     }
-
+    await addAttachment(fileUrl);
     addTouchClose(container, output, animations);
-    addAttachment(fileUrl);
+
 }
 async function handlePdf(fileUrl, animations) {
     const container = document.getElementById("viewattachedfile-container-pdf");
@@ -409,8 +404,9 @@ async function handlePdf(fileUrl, animations) {
     } catch (error) {
         console.error("Error rendering PDF file:", error);
     }
+    await addAttachment(fileUrl);
     addTouchClose(container, output, animations);
-    addAttachment(fileUrl);
+
 }
 function renderPdfPage(page, container) {
     const viewport = page.getViewport({ scale: 1 });
