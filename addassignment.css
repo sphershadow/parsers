@@ -482,14 +482,13 @@ body {
   overflow: hidden;
 }
 .viewattachedfile-cont-pdf {
-  width: 65%;
-  height: 75%;
+  width: 90%;
+  height: 65%;
   object-fit: contain;
   border-radius: 7px;
   overflow: scroll;
   scrollbar-width: none;
   background-color: #fefefe;
-  padding: 40px;
   font-size: 12px;
   box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
     rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,

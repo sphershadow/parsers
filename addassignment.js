@@ -398,18 +398,29 @@ async function uploadFileToGitHub(token, owner, repo, filePath, fileContent, fil
 
                     pdfjsLib.getDocument(fileUrl).promise.then(function (pdf) {
                         const container = document.getElementById("output-pdffile");
-                        container.innerHTML = "";
+                        container.innerHTML = ""; // Clear previous content
+
+                        // Get the container's dimensions
+                        const containerWidth = container.offsetWidth;
+                        const containerHeight = container.offsetHeight;
 
                         for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
                             pdf.getPage(pageNumber).then(function (page) {
-                                const containerWidth = container.offsetWidth;
-                                const viewport = page.getViewport({ scale: 1 });
-                                const scale = containerWidth / viewport.width;
-                                const scaledViewport = page.getViewport({ scale: scale });
                                 const canvas = document.createElement("canvas");
                                 const context = canvas.getContext("2d");
-                                canvas.width = scaledViewport.width;
-                                canvas.height = scaledViewport.height;
+
+                                // Set canvas dimensions to match container dimensions
+                                canvas.width = containerWidth;
+                                canvas.height = containerHeight;
+
+                                const viewport = page.getViewport({ scale: 1 }); // Get the page's original dimensions
+                                const scaleX = canvas.width / viewport.width; // Scale to match container width
+                                const scaleY = canvas.height / viewport.height; // Scale to match container height
+                                const scale = Math.min(scaleX, scaleY); // Maintain aspect ratio if needed
+
+                                const scaledViewport = page.getViewport({ scale: scale });
+
+                                // Render the page onto the canvas
                                 page.render({
                                     canvasContext: context,
                                     viewport: scaledViewport,
@@ -419,6 +430,7 @@ async function uploadFileToGitHub(token, owner, repo, filePath, fileContent, fil
                             });
                         }
                     });
+
 
                     let startY = 0;
                     let endY = 0;
