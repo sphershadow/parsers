@@ -231,7 +231,7 @@ async function handleFileInput(event) {
         const token = await getApikey();
         const owner = "parseitlearninghub";
         const repo = "parseitlearninghub-storage";
-        const filePath = `PARSEIT/storage/${admin_id}/${section}/${subject}/${file.name}`;
+        const filePath = `PARSEIT/storage/${admin_id}/${section}/${subject}/${assignmentcode}/${file.name}`;
 
         await uploadFileToGitHub(token, owner, repo, filePath, base64FileContent, file.name);
     };
@@ -480,15 +480,11 @@ async function addAttachment(filepath) {
 }
 
 async function deleteFileGitHub(token, owner, repo, filePath, fileSha) {
-
-
     const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
-
     const data = {
-        message: "delete file", // Commit message for the deletion
-        sha: fileSha, // The SHA of the file to be deleted (you need to fetch this first)
+        message: "delete file",
+        sha: fileSha,
     };
-
     try {
         const response = await fetch(url, {
             method: "DELETE",
