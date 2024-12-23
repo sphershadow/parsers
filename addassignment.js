@@ -406,19 +406,27 @@ async function uploadFileToGitHub(token, owner, repo, filePath, fileContent, fil
 
                         for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
                             pdf.getPage(pageNumber).then(function (page) {
+                                const viewport = page.getViewport({ scale: 1 }); // Get the page's original dimensions
+
+                                // Calculate scaling to fit the container while maintaining the aspect ratio
+                                const scaleX = containerWidth / viewport.width;
+                                const scaleY = containerHeight / viewport.height;
+                                const scale = Math.min(scaleX, scaleY);
+
+                                const scaledViewport = page.getViewport({ scale: scale });
+
+                                // Create a canvas for rendering
                                 const canvas = document.createElement("canvas");
                                 const context = canvas.getContext("2d");
 
-                                // Set canvas dimensions to match container dimensions
-                                canvas.width = containerWidth;
-                                canvas.height = containerHeight;
+                                // Set canvas dimensions to match the scaled viewport
+                                canvas.width = scaledViewport.width * window.devicePixelRatio; // High DPI support
+                                canvas.height = scaledViewport.height * window.devicePixelRatio; // High DPI support
+                                canvas.style.width = `${scaledViewport.width}px`; // Match the container's size
+                                canvas.style.height = `${scaledViewport.height}px`; // Match the container's size
 
-                                const viewport = page.getViewport({ scale: 1 }); // Get the page's original dimensions
-                                const scaleX = canvas.width / viewport.width; // Scale to match container width
-                                const scaleY = canvas.height / viewport.height; // Scale to match container height
-                                const scale = Math.min(scaleX, scaleY); // Maintain aspect ratio if needed
-
-                                const scaledViewport = page.getViewport({ scale: scale });
+                                // Scale the canvas context for high DPI rendering
+                                context.scale(window.devicePixelRatio, window.devicePixelRatio);
 
                                 // Render the page onto the canvas
                                 page.render({
@@ -430,6 +438,7 @@ async function uploadFileToGitHub(token, owner, repo, filePath, fileContent, fil
                             });
                         }
                     });
+
 
 
                     let startY = 0;
