@@ -316,10 +316,13 @@ async function uploadFileToGitHub(token, owner, repo, filePath, fileContent, fil
 
             try {
                 if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
+                    await addAttachment(fileUrl);
                     await fileHandlers.image(fileUrl, animations);
                 } else if (['doc', 'docx'].includes(fileExtension)) {
+                    await addAttachment(fileUrl);
                     await fileHandlers.docx(fileUrl, animations);
                 } else if (['pdf'].includes(fileExtension)) {
+                    await addAttachment(fileUrl);
                     await fileHandlers.pdf(fileUrl, animations);
                 } else {
                     console.warn("Unsupported file type.");
@@ -363,7 +366,7 @@ async function handleImage(fileUrl, animations) {
     imgElement.style.animation = animations.fadeIn.content;
 
     addTouchClose(container, imgElement, animations);
-    addAttachment(fileUrl);
+
 }
 async function handleDocx(fileUrl, animations) {
     const container = document.getElementById("viewattachedfile-container-docx");
@@ -381,7 +384,7 @@ async function handleDocx(fileUrl, animations) {
     } catch (error) {
         console.error("Error converting DOCX file:", error);
     }
-    await addAttachment(fileUrl);
+
     addTouchClose(container, output, animations);
 
 }
@@ -404,7 +407,6 @@ async function handlePdf(fileUrl, animations) {
     } catch (error) {
         console.error("Error rendering PDF file:", error);
     }
-    await addAttachment(fileUrl);
     addTouchClose(container, output, animations);
 
 }
