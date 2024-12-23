@@ -385,33 +385,79 @@ body {
   overflow-y: scroll;
   padding-bottom: 40px;
 }
-
 .viewattachedfile-cont {
   width: 70%;
   height: 95%;
   object-fit: contain;
   border-radius: 15px;
 }
-
 .viewattachedfile-container-docs {
   position: fixed;
   height: 100%;
   width: 100%;
-  background-color: tomato;
+  background-color: rgba(53, 53, 53, 0.623);
   z-index: 300;
   display: none;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   overflow: hidden;
-  padding-bottom: 40px;
 }
-
 .viewattachedfile-cont-docs {
-  width: 70%;
+  width: 65%;
   height: 75%;
   object-fit: contain;
-  border-radius: 15px;
+  border-radius: 7px;
   overflow: scroll;
   scrollbar-width: none;
+  background-color: #fefefe;
+  padding: 40px;
+  font-size: 12px;
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+@keyframes fadeScaleDown {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8) translateY(50px);
+    z-index: -100;
+  }
+}
+
+@keyframes fadeScaleUp {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(50px);
+    z-index: -100;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes fadeScaleDown-bg {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    z-index: -100;
+  }
+}
+
+@keyframes fadeScaleUp-bg {
+  0% {
+    opacity: 0;
+    z-index: -100;
+  }
+  100% {
+    opacity: 1;
+  }
 }

@@ -312,27 +312,50 @@ async function uploadFileToGitHub(token, owner, repo, filePath, fileContent, fil
             const fileUrl = responseData.content.download_url;
             const fileExtension = fileUrl.split('.').pop().toLowerCase();
 
-            // Handle Image files (jpg, jpeg, png, gif)
             if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
                 const imgElement = document.getElementById('viewattachedfile-img');
                 imgElement.src = fileUrl;
                 document.getElementById('viewattachedfile-container').style.display = 'flex';
             }
 
-            // Handle DOCX files
             if (['doc', 'docx'].includes(fileExtension)) {
-                try {
-                    const response = await fetch(fileUrl);  // Fetch the file content
-                    const arrayBuffer = await response.arrayBuffer();  // Read file as ArrayBuffer
+                document.getElementById('viewattachedfile-container-docx').style.display = 'flex';
+                document.getElementById("viewattachedfile-container-docx").style.animation =
+                    "fadeScaleUp-bg 0.25s ease-in-out forwards";
 
-                    // Convert the DOCX to HTML using Mammoth.js
+                document.getElementById("output-wordfile").style.animation =
+                    "fadeScaleUp 0.25s ease-in-out forwards";
+                try {
+                    const response = await fetch(fileUrl);
+                    const arrayBuffer = await response.arrayBuffer();
+
                     mammoth.convertToHtml({ arrayBuffer: arrayBuffer }).then(function (result) {
-                        document.getElementById("output").innerHTML = result.value;
+                        document.getElementById("output-wordfile").innerHTML = result.value;
                     }).catch(function (err) {
                         console.log("Error:", err);
                     });
 
-                    document.getElementById('viewattachedfile-container-docx').style.display = 'flex';
+
+
+                    let startY = 0;
+                    let endY = 0;
+                    document.addEventListener("touchstart", (event) => {
+                        startY = event.touches[0].clientY;
+                    });
+                    document.addEventListener("touchend", (event) => {
+                        endY = event.changedTouches[0].clientY;
+                        if (endY - startY > 300) {
+
+                            document.getElementById("output-wordfile").style.animation =
+                                "fadeScaleDown 0.25s ease-in-out forwards";
+
+                            document.getElementById("viewattachedfile-container-docx").style.animation =
+                                "fadeScaleDown-bg 0.25s ease-in-out forwards";
+                            setTimeout(() => {
+                                document.getElementById('viewattachedfile-container-docx').style.display = 'none';
+                            }, 500);
+                        }
+                    });
 
                 } catch (error) {
                     console.error("Error fetching DOCX file:", error);
@@ -438,7 +461,6 @@ async function getSha(filePath) {
     const repo = "parseitlearninghub-storage";
 
     const fileUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}/`;
-    console.log(fileUrl);
     const response = await fetch(fileUrl, {
         headers: {
             "Authorization": `Bearer ${token}`,
