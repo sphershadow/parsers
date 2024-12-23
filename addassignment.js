@@ -316,6 +316,31 @@ async function uploadFileToGitHub(token, owner, repo, filePath, fileContent, fil
                 const imgElement = document.getElementById('viewattachedfile-img');
                 imgElement.src = fileUrl;
                 document.getElementById('viewattachedfile-container').style.display = 'flex';
+                document.getElementById("viewattachedfile-container").style.animation =
+                    "fadeScaleUp-bg 0.25s ease-in-out forwards";
+
+                document.getElementById("viewattachedfile-img").style.animation =
+                    "fadeScaleUp 0.25s ease-in-out forwards";
+
+                let startY = 0;
+                let endY = 0;
+                document.addEventListener("touchstart", (event) => {
+                    startY = event.touches[0].clientY;
+                });
+                document.addEventListener("touchend", (event) => {
+                    endY = event.changedTouches[0].clientY;
+                    if (endY - startY > 300) {
+
+                        document.getElementById("viewattachedfile-img").style.animation =
+                            "fadeScaleDown 0.25s ease-in-out forwards";
+
+                        document.getElementById("viewattachedfile-container").style.animation =
+                            "fadeScaleDown-bg 0.25s ease-in-out forwards";
+                        setTimeout(() => {
+                            document.getElementById('viewattachedfile-container').style.display = 'none';
+                        }, 500);
+                    }
+                });
             }
 
             if (['doc', 'docx'].includes(fileExtension)) {
@@ -353,6 +378,64 @@ async function uploadFileToGitHub(token, owner, repo, filePath, fileContent, fil
                                 "fadeScaleDown-bg 0.25s ease-in-out forwards";
                             setTimeout(() => {
                                 document.getElementById('viewattachedfile-container-docx').style.display = 'none';
+                            }, 500);
+                        }
+                    });
+
+                } catch (error) {
+                    console.error("Error fetching DOCX file:", error);
+                }
+            }
+
+            if (['pdf'].includes(fileExtension)) {
+                document.getElementById('viewattachedfile-container-pdf').style.display = 'flex';
+                document.getElementById("viewattachedfile-container-pdf").style.animation =
+                    "fadeScaleUp-bg 0.25s ease-in-out forwards";
+
+                document.getElementById("output-pdffile").style.animation =
+                    "fadeScaleUp 0.25s ease-in-out forwards";
+                try {
+
+                    pdfjsLib.getDocument(fileUrl).promise.then(function (pdf) {
+                        const container = document.getElementById("output-pdffile");
+                        container.innerHTML = "";
+
+                        for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+                            pdf.getPage(pageNumber).then(function (page) {
+                                const containerWidth = container.offsetWidth;
+                                const viewport = page.getViewport({ scale: 1 });
+                                const scale = containerWidth / viewport.width;
+                                const scaledViewport = page.getViewport({ scale: scale });
+                                const canvas = document.createElement("canvas");
+                                const context = canvas.getContext("2d");
+                                canvas.width = scaledViewport.width;
+                                canvas.height = scaledViewport.height;
+                                page.render({
+                                    canvasContext: context,
+                                    viewport: scaledViewport,
+                                }).promise.then(function () {
+                                    container.appendChild(canvas);
+                                });
+                            });
+                        }
+                    });
+
+                    let startY = 0;
+                    let endY = 0;
+                    document.addEventListener("touchstart", (event) => {
+                        startY = event.touches[0].clientY;
+                    });
+                    document.addEventListener("touchend", (event) => {
+                        endY = event.changedTouches[0].clientY;
+                        if (endY - startY > 300) {
+
+                            document.getElementById("output-pdffile").style.animation =
+                                "fadeScaleDown 0.25s ease-in-out forwards";
+
+                            document.getElementById("viewattachedfile-container-pdf").style.animation =
+                                "fadeScaleDown-bg 0.25s ease-in-out forwards";
+                            setTimeout(() => {
+                                document.getElementById('viewattachedfile-container-pdf').style.display = 'none';
                             }, 500);
                         }
                     });
