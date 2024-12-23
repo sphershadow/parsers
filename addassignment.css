@@ -217,7 +217,7 @@ body {
   margin-right: 10px;
 }
 
-#attachfile {
+.attachfile-btn {
   width: 100%;
   background-color: #fefefe;
   color: #f30505;

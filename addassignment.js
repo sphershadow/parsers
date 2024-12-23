@@ -119,13 +119,7 @@ function hideWidget() {
     });
 }
 
-document.getElementById("attachfile").addEventListener("click", () => {
-    showWidget();
-});
 
-document.getElementById("widget-closefile").addEventListener("click", () => {
-    hideWidget();
-});
 
 document.getElementById("createassignment-btn").addEventListener("click", async () => {
     const acadref = localStorage.getItem("parseroom-acadref");
@@ -211,7 +205,7 @@ function errorElement(element) {
 
 
 
-document.getElementById("widget-image-file").addEventListener("click", () => {
+document.getElementById("attach-document-btn").addEventListener("click", () => {
     // accept = "image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     document.getElementById("fileInput").click();
 });
@@ -221,7 +215,6 @@ document.getElementById("widget-image-file").addEventListener("click", () => {
 
 document.getElementById('fileInput').addEventListener('change', handleFileInput);
 async function handleFileInput(event) {
-    document.getElementById("attachedfile-container-wrapper").style.display = "none";
     document.getElementById("assigment-attachedfile-container").style.display = "block";
 
     const subject = localStorage.getItem("parseroom-code");
@@ -235,19 +228,16 @@ async function handleFileInput(event) {
     const reader = new FileReader();
     reader.onloadend = async () => {
         const base64FileContent = reader.result.split(",")[1];
-
         const token = await getApikey();
         const owner = "parseitlearninghub";
         const repo = "parseitlearninghub-storage";
         const filePath = `PARSEIT/storage/${admin_id}/${section}/${subject}/${file.name}`;
 
-        uploadFileToGitHub(token, owner, repo, filePath, base64FileContent, file.name).then(async () => {
-            await addAttachment(file.type, file.name);
-        });
+        await uploadFileToGitHub(token, owner, repo, filePath, base64FileContent, file.name);
     };
 
     reader.onerror = () => {
-        //console.error("Error reading file.");
+
     }
     reader.readAsDataURL(file);
 }
@@ -272,17 +262,18 @@ async function uploadFileToGitHub(token, owner, repo, filePath, fileContent, fil
     progressBarWrapper.appendChild(label);
     const removeSection = document.createElement('section');
     removeSection.className = 'remove-attachedfile';
-
-    removeSection.addEventListener('click', async (event) => {
-        const fileSha = await getSha(filePath);
-        await deleteFileGitHub(token, owner, repo, filePath, fileSha);
-        container.remove();
-    });
     const removeImg = document.createElement('img');
     removeImg.src = 'assets/icons/xmark-solid.svg';
     removeImg.alt = '';
     removeImg.className = 'remove-attachedfile-img';
     removeSection.appendChild(removeImg);
+
+    removeSection.addEventListener('click', async (event) => {
+        container.remove();
+        const fileSha = await getSha(filePath);
+        await deleteFileGitHub(token, owner, repo, filePath, fileSha);
+    });
+
     container.appendChild(progressBarWrapper);
     container.appendChild(removeSection);
     const parentElement = document.getElementById('assigment-attachedfile-container');
@@ -290,7 +281,6 @@ async function uploadFileToGitHub(token, owner, repo, filePath, fileContent, fil
 
 
     const url = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
-
     const data = {
         message: "assignment attachment " + admin_id,
         content: fileContent,
@@ -308,165 +298,41 @@ async function uploadFileToGitHub(token, owner, repo, filePath, fileContent, fil
 
         const responseData = await response.json();
 
-        progressBarWrapper.addEventListener('click', async (event) => {
+        progressBarWrapper.addEventListener("click", async (event) => {
             const fileUrl = responseData.content.download_url;
             const fileExtension = fileUrl.split('.').pop().toLowerCase();
 
-            if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
-                const imgElement = document.getElementById('viewattachedfile-img');
-                imgElement.src = fileUrl;
-                document.getElementById('viewattachedfile-container').style.display = 'flex';
-                document.getElementById("viewattachedfile-container").style.animation =
-                    "fadeScaleUp-bg 0.25s ease-in-out forwards";
+            const fileHandlers = {
+                image: handleImage,
+                docx: handleDocx,
+                pdf: handlePdf,
+            };
 
-                document.getElementById("viewattachedfile-img").style.animation =
-                    "fadeScaleUp 0.25s ease-in-out forwards";
+            const animations = {
+                fadeIn: {
+                    container: "fadeScaleUp-bg 0.25s ease-in-out forwards",
+                    content: "fadeScaleUp 0.25s ease-in-out forwards",
+                },
+                fadeOut: {
+                    container: "fadeScaleDown-bg 0.25s ease-in-out forwards",
+                    content: "fadeScaleDown 0.25s ease-in-out forwards",
+                },
+            };
 
-                let startY = 0;
-                let endY = 0;
-                document.addEventListener("touchstart", (event) => {
-                    startY = event.touches[0].clientY;
-                });
-                document.addEventListener("touchend", (event) => {
-                    endY = event.changedTouches[0].clientY;
-                    if (endY - startY > 300) {
-
-                        document.getElementById("viewattachedfile-img").style.animation =
-                            "fadeScaleDown 0.25s ease-in-out forwards";
-
-                        document.getElementById("viewattachedfile-container").style.animation =
-                            "fadeScaleDown-bg 0.25s ease-in-out forwards";
-                        setTimeout(() => {
-                            document.getElementById('viewattachedfile-container').style.display = 'none';
-                        }, 500);
-                    }
-                });
-            }
-
-            if (['doc', 'docx'].includes(fileExtension)) {
-                document.getElementById('viewattachedfile-container-docx').style.display = 'flex';
-                document.getElementById("viewattachedfile-container-docx").style.animation =
-                    "fadeScaleUp-bg 0.25s ease-in-out forwards";
-
-                document.getElementById("output-wordfile").style.animation =
-                    "fadeScaleUp 0.25s ease-in-out forwards";
-                try {
-                    const response = await fetch(fileUrl);
-                    const arrayBuffer = await response.arrayBuffer();
-
-                    mammoth.convertToHtml({ arrayBuffer: arrayBuffer }).then(function (result) {
-                        document.getElementById("output-wordfile").innerHTML = result.value;
-                    }).catch(function (err) {
-                        console.log("Error:", err);
-                    });
-
-
-
-                    let startY = 0;
-                    let endY = 0;
-                    document.addEventListener("touchstart", (event) => {
-                        startY = event.touches[0].clientY;
-                    });
-                    document.addEventListener("touchend", (event) => {
-                        endY = event.changedTouches[0].clientY;
-                        if (endY - startY > 300) {
-
-                            document.getElementById("output-wordfile").style.animation =
-                                "fadeScaleDown 0.25s ease-in-out forwards";
-
-                            document.getElementById("viewattachedfile-container-docx").style.animation =
-                                "fadeScaleDown-bg 0.25s ease-in-out forwards";
-                            setTimeout(() => {
-                                document.getElementById('viewattachedfile-container-docx').style.display = 'none';
-                            }, 500);
-                        }
-                    });
-
-                } catch (error) {
-                    console.error("Error fetching DOCX file:", error);
+            try {
+                if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
+                    await fileHandlers.image(fileUrl, animations);
+                } else if (['doc', 'docx'].includes(fileExtension)) {
+                    await fileHandlers.docx(fileUrl, animations);
+                } else if (['pdf'].includes(fileExtension)) {
+                    await fileHandlers.pdf(fileUrl, animations);
+                } else {
+                    console.warn("Unsupported file type.");
                 }
-            }
-
-            if (['pdf'].includes(fileExtension)) {
-                document.getElementById('viewattachedfile-container-pdf').style.display = 'flex';
-                document.getElementById("viewattachedfile-container-pdf").style.animation =
-                    "fadeScaleUp-bg 0.25s ease-in-out forwards";
-
-                document.getElementById("output-pdffile").style.animation =
-                    "fadeScaleUp 0.25s ease-in-out forwards";
-                try {
-
-                    pdfjsLib.getDocument(fileUrl).promise.then(function (pdf) {
-                        const container = document.getElementById("output-pdffile");
-                        container.innerHTML = ""; // Clear previous content
-
-                        // Get the container's dimensions
-                        const containerWidth = container.offsetWidth;
-                        const containerHeight = container.offsetHeight;
-
-                        for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
-                            pdf.getPage(pageNumber).then(function (page) {
-                                const viewport = page.getViewport({ scale: 1 }); // Get the page's original dimensions
-
-                                // Calculate scaling to fit the container while maintaining the aspect ratio
-                                const scaleX = containerWidth / viewport.width;
-                                const scaleY = containerHeight / viewport.height;
-                                const scale = Math.min(scaleX, scaleY);
-
-                                const scaledViewport = page.getViewport({ scale: scale });
-
-                                // Create a canvas for rendering
-                                const canvas = document.createElement("canvas");
-                                const context = canvas.getContext("2d");
-
-                                // Set canvas dimensions to match the scaled viewport
-                                canvas.width = scaledViewport.width * window.devicePixelRatio; // High DPI support
-                                canvas.height = scaledViewport.height * window.devicePixelRatio; // High DPI support
-                                canvas.style.width = `${scaledViewport.width}px`; // Match the container's size
-                                canvas.style.height = `${scaledViewport.height}px`; // Match the container's size
-
-                                // Scale the canvas context for high DPI rendering
-                                context.scale(window.devicePixelRatio, window.devicePixelRatio);
-
-                                // Render the page onto the canvas
-                                page.render({
-                                    canvasContext: context,
-                                    viewport: scaledViewport,
-                                }).promise.then(function () {
-                                    container.appendChild(canvas);
-                                });
-                            });
-                        }
-                    });
-
-
-
-                    let startY = 0;
-                    let endY = 0;
-                    document.addEventListener("touchstart", (event) => {
-                        startY = event.touches[0].clientY;
-                    });
-                    document.addEventListener("touchend", (event) => {
-                        endY = event.changedTouches[0].clientY;
-                        if (endY - startY > 300) {
-
-                            document.getElementById("output-pdffile").style.animation =
-                                "fadeScaleDown 0.25s ease-in-out forwards";
-
-                            document.getElementById("viewattachedfile-container-pdf").style.animation =
-                                "fadeScaleDown-bg 0.25s ease-in-out forwards";
-                            setTimeout(() => {
-                                document.getElementById('viewattachedfile-container-pdf').style.display = 'none';
-                            }, 500);
-                        }
-                    });
-
-                } catch (error) {
-                    console.error("Error fetching DOCX file:", error);
-                }
+            } catch (error) {
+                console.error("Error handling file:", error);
             }
         });
-
         const progressBarFill = document.getElementById(attachmentid);
         let progress = 0;
         const interval = setInterval(() => {
@@ -492,6 +358,95 @@ async function uploadFileToGitHub(token, owner, repo, filePath, fileContent, fil
     }
 }
 
+async function handleImage(fileUrl, animations) {
+    const imgElement = document.getElementById("viewattachedfile-img");
+    const container = document.getElementById("viewattachedfile-container");
+
+    imgElement.src = fileUrl;
+    container.style.display = "flex";
+    container.style.animation = animations.fadeIn.container;
+    imgElement.style.animation = animations.fadeIn.content;
+
+    addTouchClose(container, imgElement, animations);
+}
+async function handleDocx(fileUrl, animations) {
+    const container = document.getElementById("viewattachedfile-container-docx");
+    const output = document.getElementById("output-wordfile");
+
+    container.style.display = "flex";
+    container.style.animation = animations.fadeIn.container;
+    output.style.animation = animations.fadeIn.content;
+
+    try {
+        const response = await fetch(fileUrl);
+        const arrayBuffer = await response.arrayBuffer();
+        const result = await mammoth.convertToHtml({ arrayBuffer });
+        output.innerHTML = result.value;
+    } catch (error) {
+        console.error("Error converting DOCX file:", error);
+    }
+
+    addTouchClose(container, output, animations);
+}
+async function handlePdf(fileUrl, animations) {
+    const container = document.getElementById("viewattachedfile-container-pdf");
+    const output = document.getElementById("output-pdffile");
+
+    container.style.display = "flex";
+    container.style.animation = animations.fadeIn.container;
+    output.style.animation = animations.fadeIn.content;
+
+    try {
+        const pdf = await pdfjsLib.getDocument(fileUrl).promise;
+        output.innerHTML = ""; // Clear previous content
+
+        for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+            const page = await pdf.getPage(pageNumber);
+            renderPdfPage(page, output);
+        }
+    } catch (error) {
+        console.error("Error rendering PDF file:", error);
+    }
+    addTouchClose(container, output, animations);
+}
+function renderPdfPage(page, container) {
+    const viewport = page.getViewport({ scale: 1 });
+    const scale = Math.min(
+        container.offsetWidth / viewport.width,
+        container.offsetHeight / viewport.height
+    );
+    const scaledViewport = page.getViewport({ scale });
+
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+
+    canvas.width = scaledViewport.width * window.devicePixelRatio;
+    canvas.height = scaledViewport.height * window.devicePixelRatio;
+    canvas.style.width = `${scaledViewport.width}px`;
+    canvas.style.height = `${scaledViewport.height}px`;
+    context.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+    page.render({ canvasContext: context, viewport: scaledViewport }).promise.then(() => {
+        container.appendChild(canvas);
+    });
+}
+function addTouchClose(container, content, animations) {
+    let startY = 0, endY = 0;
+    container.addEventListener("touchstart", (event) => {
+        startY = event.touches[0].clientY;
+    });
+    container.addEventListener("touchend", (event) => {
+        endY = event.changedTouches[0].clientY;
+        const dragDistance = endY - startY;
+        if (dragDistance > 500) {
+            content.style.animation = animations.fadeOut.content;
+            container.style.animation = animations.fadeOut.container;
+            setTimeout(() => {
+                container.style.display = "none";
+            }, 500);
+        }
+    });
+}
 async function getApikey() {
     const apikeyRef = child(dbRef, "PARSEIT/administration/apikeys/");
     const snapshot = await get(apikeyRef);
