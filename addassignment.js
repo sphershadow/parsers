@@ -260,6 +260,7 @@ async function uploadFileToGitHub(token, owner, repo, filePath, fileContent, fil
     container.id = 'attachedfile-container';
     const progressBarWrapper = document.createElement('section');
     progressBarWrapper.className = 'progress-bar-wrapper';
+    progressBarWrapper.id = 'view' + attachmentid;
     const progressBarFill = document.createElement('div');
     progressBarFill.className = 'progress-bar-fill';
     progressBarFill.id = attachmentid;
@@ -273,10 +274,9 @@ async function uploadFileToGitHub(token, owner, repo, filePath, fileContent, fil
     removeSection.className = 'remove-attachedfile';
 
     removeSection.addEventListener('click', async (event) => {
-        container.remove();
         const fileSha = await getSha(filePath);
         await deleteFileGitHub(token, owner, repo, filePath, fileSha);
-
+        container.remove();
     });
     const removeImg = document.createElement('img');
     removeImg.src = 'assets/icons/xmark-solid.svg';
@@ -307,6 +307,38 @@ async function uploadFileToGitHub(token, owner, repo, filePath, fileContent, fil
         });
 
         const responseData = await response.json();
+
+        progressBarWrapper.addEventListener('click', async (event) => {
+            const fileUrl = responseData.content.download_url;
+            const fileExtension = fileUrl.split('.').pop().toLowerCase();
+
+            // Handle Image files (jpg, jpeg, png, gif)
+            if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
+                const imgElement = document.getElementById('viewattachedfile-img');
+                imgElement.src = fileUrl;
+                document.getElementById('viewattachedfile-container').style.display = 'flex';
+            }
+
+            // Handle DOCX files
+            if (['doc', 'docx'].includes(fileExtension)) {
+                try {
+                    const response = await fetch(fileUrl);  // Fetch the file content
+                    const arrayBuffer = await response.arrayBuffer();  // Read file as ArrayBuffer
+
+                    // Convert the DOCX to HTML using Mammoth.js
+                    mammoth.convertToHtml({ arrayBuffer: arrayBuffer }).then(function (result) {
+                        document.getElementById("output").innerHTML = result.value;
+                    }).catch(function (err) {
+                        console.log("Error:", err);
+                    });
+
+                    document.getElementById('viewattachedfile-container-docx').style.display = 'flex';
+
+                } catch (error) {
+                    console.error("Error fetching DOCX file:", error);
+                }
+            }
+        });
 
         const progressBarFill = document.getElementById(attachmentid);
         let progress = 0;

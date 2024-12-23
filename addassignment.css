@@ -368,5 +368,50 @@ body {
   visibility: hidden;
 }
 #datetime {
-  visibility: hidden;
+  visibility: visible;
+}
+
+.viewattachedfile-container {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: tomato;
+  z-index: 300;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+  overflow-y: scroll;
+  padding-bottom: 40px;
+}
+
+.viewattachedfile-cont {
+  width: 70%;
+  height: 95%;
+  object-fit: contain;
+  border-radius: 15px;
+}
+
+.viewattachedfile-container-docs {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: tomato;
+  z-index: 300;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+  padding-bottom: 40px;
+}
+
+.viewattachedfile-cont-docs {
+  width: 70%;
+  height: 75%;
+  object-fit: contain;
+  border-radius: 15px;
+  overflow: scroll;
+  scrollbar-width: none;
 }

@@ -11,6 +11,23 @@
       <img id="loading_animation_gif" src="assets/loading_animation.gif" />
       <h1 id="parsing_lbl">Parsing...</h1>
     </div>
+
+    <section class="viewattachedfile-container" id="viewattachedfile-container">
+      <img
+        src=""
+        alt="Image from the link"
+        id="viewattachedfile-img"
+        class="viewattachedfile-cont"
+      />
+    </section>
+
+    <section
+      class="viewattachedfile-container-docs"
+      id="viewattachedfile-container-docx"
+    >
+      <div id="output" class="viewattachedfile-cont-docs"></div>
+    </section>
+
     <id id="home_trainchatbot">
       <section class="trainchatbot-wrapper">
         <button id="canceladdchatbot-btn">
@@ -142,5 +159,7 @@
       </section>
     </id>
     <script type="module" src="addassignment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
   </body>
 </html>
