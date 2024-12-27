@@ -1,0 +1,17 @@
+{
+    "name": "parsers",
+    "version": "1.0.0",
+    "description": "A parser application",
+    "homepage": "https://sphershadow.github.io/parsers/",
+    "scripts": {
+      "start": "node index.js",
+      "build": "npm run build",
+      "deploy": "gh-pages -d build"
+    },
+    "dependencies": {
+      "react": "^17.0.2",
+      "react-dom": "^17.0.2",
+      "gh-pages": "^3.2.3"
+    }
+  }
+  
