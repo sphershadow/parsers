@@ -4,15 +4,16 @@
     "description": "A parser application",
     "homepage": "https://sphershadow.github.io/parsers/",
     "scripts": {
-  "start": "node index.js",
-  "build": "npm run build",
-  "deploy": "gh-pages -d build",
-  "test": "jest --passWithNoTests"
-},
+      "start": "node index.js",
+      "build": "npm run build",
+      "deploy": "gh-pages -d build",
+      "test": "jest --passWithNoTests"
+    },
     "dependencies": {
-      "react": "^17.0.2",
-      "react-dom": "^17.0.2",
       "gh-pages": "^3.2.3"
+    },
+    "devDependencies": {
+      "jest": "^29.0.0"
     }
   }
   
